@@ -14,13 +14,13 @@ text.split(" ")
 print(text)
 text_list = []
 string = ""
-for t in text:
-    if t != " " and t != "\n":
-        string += t
-    else:
-        text_list.append(string)
-        string = ""
-
-print text_list
-for t in text_list:
-    print t
+# for t in text:
+#     if t != " " and t != "\n":
+#         string += t
+#     else:
+#         text_list.append(string)
+#         string = ""
+#
+# print text_list
+# for t in text_list:
+#     print t
