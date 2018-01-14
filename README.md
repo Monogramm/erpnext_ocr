@@ -6,14 +6,14 @@ OCR
 
 MIT# ERPNext-OCR
 
-Sample Screenshot
+##Sample Screenshot
 ![Sample Screenshot](https://github.com/jvfiel/ERPNext-OCR/blob/master/erpnext_ocr/erpnext_ocr/Selection_046.png)
 
-File Being Read
+##File Being Read
 ![Sample Screenshot 2](https://github.com/jvfiel/ERPNext-OCR/blob/master/erpnext_ocr/erpnext_ocr/Selection_047.png)
 
 
-Pre-requisites
+#Pre-requisites
 # tesseract-python
 Examples to implement OCR(Optical Character Recognition) using tesseract using Python
 
