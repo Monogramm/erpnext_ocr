@@ -45,11 +45,12 @@ class AbbyyOnlineSdk:
 
     def ProcessImage(self, filePath, settings):
         urlParams = urllib.urlencode({
-            "language": settings.Language,
-            "exportFormat": settings.OutputFormat
+            # "language": settings.Language,
+            # "exportFormat": settings.OutputFormat
         })
-        requestUrl = self.ServerUrl + "processImage?" + urlParams
-
+        # requestUrl = self.ServerUrl + "processImage?" + urlParams
+        requestUrl = self.ServerUrl + "processReceipt?" + urlParams
+        print requestUrl
         bodyParams = {"file": open(filePath, "rb")}
         request = urllib2.Request(requestUrl, None, self.buildAuthInfo())
         response = self.getOpener().open(request, bodyParams).read()
