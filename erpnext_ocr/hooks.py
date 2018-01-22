@@ -120,3 +120,4 @@ app_license = "MIT"
 # 	"frappe.desk.doctype.event.event.get_events": "erpnext_ocr.event.get_events"
 # }
 
+fixtures = ['Custom Script']

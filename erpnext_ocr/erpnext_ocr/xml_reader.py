@@ -1,4 +1,7 @@
+import frappe
 
+
+@frappe.whitelist()
 def read():
     import xml.etree.cElementTree as ET
 
@@ -83,6 +86,7 @@ def read():
     print items
 
     return {
+        "source":source,
         "vendor_name":vendor_name,
         "vendor_address":vendor_address,
         "vendor_phone":vendor_phone,
@@ -94,4 +98,4 @@ def read():
         "items":items
     }
 
-print read()
+# print read()
