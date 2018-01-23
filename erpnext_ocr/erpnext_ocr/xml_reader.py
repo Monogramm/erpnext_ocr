@@ -1,12 +1,71 @@
 import frappe
+from process_xml import recognizeFile
+
+def test_get_xml():
+    get_xml("aaa","Picture_010")
+
+def get_xml(docname,filename):
+    filename_img = filename+".tif"
+    file_url = frappe.get_site_path()+"/private/files/" + filename_img
+
+    filename_xml = filename+".xml"
+    file_url_xml = frappe.get_site_path()+"/private/files/" + filename_xml
+
+    recognizeFile(file_url,file_url_xml,"English","xml")
+
+    attachment_doc = frappe.get_doc({
+        "doctype": "File",
+        "file_name": filename_xml,
+        "file_url": "/private/files/" + filename_xml,
+        "attached_to_name": docname,
+        "attached_to_doctype": "OCR Receipt",
+        "old_parent": "Home/Attachments",
+        "folder": "Home/Attachments",
+        "is_private": 1
+    })
+    attachment_doc.insert()
+
+    frappe.db.sql("""UPDATE `tabOCR Receipt` SET xml=%s WHERE name=%s""", ("/private/files/" + filename_xml, docname))
+
+#bench execute erpnext_ocr.erpnext_ocr.xml_reader.force_attach_file
+def force_attach_file():
+    filename = "Picture_010.tif"
+    name = "aaa"
+    force_attach_file_doc(filename,name)
+
+def force_attach_file_doc(filename,name):
+    file = "/private/files/"
+    # filename = "dimensions.xlsx"
+    # name = "bbae02708e"
+    # frappe.db.sql("""UPDATE `tabChanje BOM Import` SET attach_file=%s AND name=%s""",(file,name))
+
+    file_url = "/private/files/" + filename
+
+    attachment_doc = frappe.get_doc({
+        "doctype": "File",
+        "file_name": filename,
+        # "file_url": path,
+        "file_url": file_url,
+        "attached_to_name": name,
+        "attached_to_doctype": "OCR Receipt",
+        "old_parent": "Home/Attachments",
+        "folder": "Home/Attachments",
+        "is_private": 1
+    })
+    attachment_doc.insert()
+
+    frappe.db.sql("""UPDATE `tabOCR Receipt` SET file=%s WHERE name=%s""", (file_url, name))
+
 
 
 @frappe.whitelist()
-def read():
+def read(ocr_receipt):
     import xml.etree.cElementTree as ET
 
-    source = '/home/jvfiel/frappe-bl3ndlabs/apps/erpnext_ocr/erpnext_ocr/erpnext_ocr/test.xml'
-    tree = ET.ElementTree(file=source)
+    # source = '/home/jvfiel/frappe-bl3ndlabs/apps/erpnext_ocr/erpnext_ocr/erpnext_ocr/test.xml'
+    source = frappe.db.sql("""SELECT xml FROM `tabOCR Receipt` WHERE name=%s""", (ocr_receipt))[0][0]
+
+    tree = ET.ElementTree(file=frappe.get_site_path()+source)
     root = tree.getroot()
 
     xmlname = root.tag.split("}")
