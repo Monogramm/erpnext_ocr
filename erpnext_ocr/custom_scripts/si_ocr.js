@@ -1,3 +1,17 @@
+
+var tree_outerHTML = "";
+var tree = "";
+
+function expand_all() {
+    console.log('expand all!');
+    console.log(tree);
+				tree.expandTree();
+			}
+
+
+			function collapse_all() {
+				tree.collapseTree();
+			}
     // window.onload = addListeners();
     //
     // function addListeners(){
@@ -17,11 +31,11 @@
 
     var init_ocr = function(frm)
     {
-                console.log('OCR RECEIPT');
+                // console.log('OCR RECEIPT');
                 function copyToClipboard(id) {
-        console.log(id);
-        console.log(id);
-        console.log(id);
+        // console.log(id);
+        // console.log(id);
+        // console.log(id);
         var copyText = document.getElementById(id);
         /* Select the text field */
       copyText.select();
@@ -37,7 +51,7 @@
                                 "ocr_receipt": cur_frm.doc.ocr_receipt
                             },
                             callback: function (r, rt) {
-                                console.log(r);
+                                // console.log(r);
                                 var html = "<div id='ocr_dial'>";
                                 html += "<div class='row'><div class='col-xs-2'>" +
                                     "<b>Source: </b></div><div class='col-xs-5'>" +
@@ -77,7 +91,7 @@
                                 html_2 += "<br><br><b>Recognized Items: </b>";
                                 //ITEMS
                                 for (var i = 0; i < r.message['items'].length; i++) {
-                                    console.log(i);
+                                    // console.log(i);
 
                                      html_2 += "<br><div class='row'> <div class='col-xs-2'><b>Name: </b></div>" +
                                     "<div class='col-xs-5'> " +
@@ -145,12 +159,12 @@
                                 var ii, bb, pp;
                                 for (ii = 0; ii < r.message['items'].length; ii++) {
                                     (function () {
-                                        console.log(ii);
+                                        // console.log(ii);
                                         var j = ii;
                                         var bb = "bt7_" + (j).toString();
                                         var pp = "p7_" + (j).toString();
-                                        console.log(bb);
-                                        console.log(pp);
+                                        // console.log(bb);
+                                        // console.log(pp);
 
                                         document.getElementById(bb).addEventListener("click", function () {
                                                 copyToClipboard(pp);
@@ -182,9 +196,21 @@
     frappe.ui.form.on('Sales Invoice', 'ocr_receipt',
         function(frm){
 
-            init_ocr(frm);
-
+            // init_ocr(frm);
+            console.log(tree_outerHTML);
+            $(frm.fields_dict.window.wrapper).html(tree_outerHTML);
+            console.log('ocr picked!');
+              document.getElementById("expand_bt").addEventListener("click", function () {
+                                        expand_all();
+                                    }
+                                    , false);
         });
+
+
+    // frappe.ui.form.on("Sales Invoice","onload",function(frm){
+    //
+    //     // console.log(document.getElementById("container"));
+    // });
 
 
     frappe.ui.form.on('Sales Invoice', {
@@ -194,65 +220,31 @@
 
         refresh: function (frm) {
 
-            init_ocr(frm);
 
-    //         function menu_action(){
-    //
-    //
-    //
-    // function copyToClipboard(id) {
-    //     console.log(id);
-    //     console.log(id);
-    //     console.log(id);
-    //     var copyText = document.getElementById(id);
-    //     /* Select the text field */
-    //   copyText.select();
-    //
-    //   /* Copy the text inside the text field */
-    //   document.execCommand("Copy");
-    //
-    // }
-    //
-    //
-    //
-    //
-    //                 if (cur_frm.doc.ocr_receipt) {
-    //                     var d = new frappe.ui.Dialog({
-    //                         'no_cancel':true,
-    //                         'fields': [
-    //                             // {'fieldname': 'ocr_receipt', 'fieldtype': 'Link','options':'OCR Receipt', 'label': 'OCR Receipt', 'reqd': 1} ,
-    //                             {'fieldname': 'ht', 'fieldtype': 'HTML'},
-    //                         ],
-    //                         // cancel:function () {
-    //                         //     frappe.msgprint("hello world");
-    //                         // },
-    //                         primary_action: function(){
-    //                             // show_alert(d.get_values());
-    //                             //   frappe.msgprint("hello world");
-    //                             document.getElementById("ocr_dial").remove();
-    //                             d.hide();
-    //
-    //                         }
-    //                     });
-    //
-    //                 }
-    //                 else
-    //                 {
-    //                     frappe.msgprint("Please select OCR Receipt first.");
-    //                 }
-    //
-    //
-    //         }
-    //
-    //         cur_frm.page.add_menu_item("OCR",menu_action);
-    // // cur_frm.page.add_menu_item("OCR",menu_action);
-    // //
-    // //         cur_frm.add_custom_button(__('OCR'),
-    // //             function () {
-    // //
-    // //
-    // //             }).addClass("btn-primary")
-    //
+  tree = createTree('div_tree','white');
+
+        var node1 = tree.createNode('First node',false,'/files/star.png',null,null,null);
+        node1.createChildNode('First child node', false, '/files/blue_key.png',null,null);
+
+        tree.drawTree();
+
+
+        node1 = tree.createNode('Second node',false,'/files/star.png',null,null,null);
+        node1.createChildNode('Second child node', false, '/files/blue_key.png',null,null);
+
+             tree_outerHTML = document.getElementById("div_tree").outerHTML;
+                tree_outerHTML+="<button id='expand_bt'>Expand All Nodes</button>";
+
+//             console.log(tree);
+//     console.log(tree.innerHTML);
+// console.log(document.getElementById("div_tree").outerHTML);
+
+         // $(frm.fields_dict.window.wrapper).html(document.getElementById("div_tree").outerHTML);
+
+            // init_ocr(frm);
         }
 
     });
+
+
+
