@@ -35,7 +35,7 @@ class Task:
 
 class AbbyyOnlineSdk:
     # ServerUrl = "http://cloud.ocrsdk.com/"
-    ServerUrl = frappe.db.get_value("Abby OCR", None, "server_url   ")
+    ServerUrl = frappe.db.get_value("Abby OCR", None, "server_url")
     # To create an application and obtain a password,
     # register at http://cloud.ocrsdk.com/Account/Register
     # More info on getting your application id and password at
