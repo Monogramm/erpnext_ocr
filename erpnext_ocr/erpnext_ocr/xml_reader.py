@@ -27,6 +27,10 @@ def get_xml(docname,filename):
 
     frappe.db.sql("""UPDATE `tabOCR Receipt` SET xml=%s WHERE name=%s""", ("/private/files/" + filename_xml, docname))
 
+    frappe.publish_realtime(event='msgprint',
+                            message='Done. Please reload.',
+                            user=frappe.session.user)
+
 #bench execute erpnext_ocr.erpnext_ocr.xml_reader.force_attach_file
 def force_attach_file():
     filename = "Picture_010.tif"
