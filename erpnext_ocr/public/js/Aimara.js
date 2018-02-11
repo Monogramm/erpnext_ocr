@@ -210,7 +210,9 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 		///// Expanding all nodes inside the subtree that have parameter 'p_node' as root
 		// p_node: Subtree root;
 		expandSubtree: function(p_node) {
+			console.log(p_node);
 			this.expandNode(p_node);
+			console.log(p_node.childNodes);
 			for (var i=0; i<p_node.childNodes.length; i++) {
 				if (p_node.childNodes[i].childNodes.length>0) {
 					this.expandSubtree(p_node.childNodes[i]);
@@ -238,6 +240,9 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 		///// Expanding node
 		// p_node: Reference to the node;
 		expandNode: function(p_node) {
+			console.log('exppand node!');
+			console.log(p_node.expanded);
+			p_node.expanded = true;
 			if (p_node.childNodes.length>0 && p_node.expanded==false) {
 				if (this.nodeBeforeOpenEvent!=undefined)
 					this.nodeBeforeOpenEvent(p_node);
