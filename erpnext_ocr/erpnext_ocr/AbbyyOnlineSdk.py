@@ -13,6 +13,7 @@ import time
 import urllib2
 import urllib
 import xml.dom.minidom
+import frappe
 
 
 class ProcessingSettings:
@@ -33,13 +34,16 @@ class Task:
 
 
 class AbbyyOnlineSdk:
-    ServerUrl = "http://cloud.ocrsdk.com/"
+    # ServerUrl = "http://cloud.ocrsdk.com/"
+    ServerUrl = frappe.db.get_value("Abby OCR", None, "server_url   ")
     # To create an application and obtain a password,
     # register at http://cloud.ocrsdk.com/Account/Register
     # More info on getting your application id and password at
     # http://ocrsdk.com/documentation/faq/#faq3
-    ApplicationId = "WelaSchoolSystems"
-    Password = "lz1N0SLtcHKq5t/oQKHpNEZY"
+    # ApplicationId = "WelaSchoolSystems"
+    ApplicationId = frappe.db.get_value("Abby OCR", None, "application_id")
+    # Password = "lz1N0SLtcHKq5t/oQKHpNEZY"
+    Password = frappe.db.get_value("Abby OCR", None, "password")
     Proxy = None
     enableDebugging = 0
 
