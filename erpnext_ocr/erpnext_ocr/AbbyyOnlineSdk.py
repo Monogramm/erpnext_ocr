@@ -34,20 +34,27 @@ class Task:
 
 
 class AbbyyOnlineSdk:
-    # ServerUrl = "http://cloud.ocrsdk.com/"
-    ServerUrl = frappe.db.get_value("Abby OCR", None, "server_url")
+    ServerUrl = "http://cloud.ocrsdk.com/"
+    # ServerUrl = frappe.db.get_value("Abby OCR", None, "server_url")
+    # print ServerUrl
     # To create an application and obtain a password,
     # register at http://cloud.ocrsdk.com/Account/Register
     # More info on getting your application id and password at
     # http://ocrsdk.com/documentation/faq/#faq3
-    # ApplicationId = "WelaSchoolSystems"
-    ApplicationId = frappe.db.get_value("Abby OCR", None, "application_id")
+    ApplicationId = "WelaSchoolSystems"
+    # ApplicationId = frappe.db.get_value("Abby OCR", None, "application_id")
     # Password = "lz1N0SLtcHKq5t/oQKHpNEZY"
     Password = frappe.db.get_value("Abby OCR", None, "password")
     Proxy = None
     enableDebugging = 0
 
     def ProcessImage(self, filePath, settings):
+
+        # import sys
+        #
+        # reload(sys)
+        # sys.setdefaultencoding('utf8')
+
         urlParams = urllib.urlencode({
             # "language": settings.Language,
             # "exportFormat": settings.OutputFormat
