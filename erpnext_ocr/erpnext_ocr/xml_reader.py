@@ -82,15 +82,27 @@ def read(ocr_receipt):
     parent_ocr = []
 
     #Vendor Name
-    vendor_name = tree.findall('.//{0}vendor//{0}name//{0}recognizedValue//{0}text'.format(xmlname))[0].text
+    try:
+        vendor_name = tree.findall('.//{0}vendor//{0}name//{0}recognizedValue//{0}text'.format(xmlname))[0].text
         # print elem.tag, elem.attrib, elem.text
+    except:
+        vendor_name = ""
     parent_ocr.append({"name": "Vendor Name","expanded":True,"children":[{"name": vendor_name}]})
     #Vendor Address
-    vendor_address = tree.findall('.//{0}vendor//{0}address//{0}text'.format(xmlname))[0].text
+    try:
+        vendor_address = tree.findall('.//{0}vendor//{0}address//{0}text'.format(xmlname))[0].text
+    except:
+        vendor_address = ""
     #    print elem.tag, elem.attrib, elem.text
+
     parent_ocr.append({"name": "Vendor Address", "expanded": True, "children": [{"name": vendor_address}]})
     #Vendor Phone
-    vendor_phone = tree.findall('.//{0}vendor//{0}phone//{0}recognizedValue//{0}text'.format(xmlname))[0].text
+
+    try:
+        vendor_phone = tree.findall('.//{0}vendor//{0}phone//{0}recognizedValue//{0}text'.format(xmlname))[0].text
+    except:
+        vendor_phone = ""
+
     #    print elem.tag, elem.attrib, elem.text
     parent_ocr.append({"name": "Vendor Phone", "expanded": True, "children": [{"name": vendor_phone}]})
     # Vendor Fax
@@ -98,11 +110,22 @@ def read(ocr_receipt):
     #     print elem.tag, elem.attrib, elem.text
 
     # Vendor PurchaseType
-    vendor_purchasetype = tree.findall('.//{0}vendor//{0}purchaseType'.format(xmlname))[0].text
+    try:
+        vendor_purchasetype = tree.findall('.//{0}vendor//{0}purchaseType'.format(xmlname))[0].text
+    except:
+        vendor_purchasetype = ""
+
     #    print elem.tag, elem.attrib, elem.text
     parent_ocr.append({"name": "Purchase Type", "expanded": True, "children": [{"name": vendor_purchasetype}]})
     # Vendor Date
-    invoice_date = tree.findall('.//{0}date//{0}text'.format(xmlname))[0].text
+
+
+    try:
+        invoice_date = tree.findall('.//{0}date//{0}text'.format(xmlname))[0].text
+    except:
+        invoice_date = ""
+
+
     #    print elem.tag, elem.attrib, elem.text
     parent_ocr.append({"name": "Invoice Date", "expanded": True, "children": [{"name": invoice_date}]})
     # # Vendor Time
@@ -110,7 +133,13 @@ def read(ocr_receipt):
     #     print elem.tag, elem.attrib, elem.text
 
     # Vendor subTotal
-    vendor_subTotal = tree.findall('.//{0}subTotal//{0}text'.format(xmlname))[0].text
+
+    try:
+        vendor_subTotal = tree.findall('.//{0}subTotal//{0}text'.format(xmlname))[0].text
+    except:
+        vendor_subTotal = ""
+
+
     #    print elem.tag, elem.attrib, elem.text
     parent_ocr.append({"name": "SubTotal", "expanded": True, "children": [{"name": vendor_subTotal}]})
     # # Vendor Total
@@ -122,7 +151,11 @@ def read(ocr_receipt):
     #    print elem.tag, elem.attrib, elem.text
 
     # Vendor Payment Value
-    payment_val = tree.findall('.//{0}payment//{0}value//{0}recognizedValue//{0}text'.format(xmlname))[0].text
+    try:
+        payment_val = tree.findall('.//{0}payment//{0}value//{0}recognizedValue//{0}text'.format(xmlname))[0].text
+    except:
+        payment_val = ""
+
     #    print elem.tag, elem.attrib, elem.text
 
     items = []
@@ -150,16 +183,26 @@ def read(ocr_receipt):
         parent_item.update({"name":elem.text})
         # children.append(name)
         #TOTAL
-        elem = tree.findall('.//{0}recognizedItems//{0}item[@index="{1}"]//{0}total//{0}recognizedValue//{0}text'.format(xmlname, i))[0]
-        # print elem.tag, elem.attrib, elem.text
-        total = elem.text
+        try:
+            elem = tree.findall('.//{0}recognizedItems//{0}item[@index="{1}"]//{0}total//{0}recognizedValue//{0}text'.format(xmlname, i))[0]
+            # print elem.tag, elem.attrib, elem.text
+            total = elem.text
+        except:
+            total = ""
+
         total = {"name": "Amount", "expanded":True,"children": [{"name": total, "children": []}]}
         print total
         children.append(total)
         #COUNT
-        elem = tree.findall('.//{0}recognizedItems//{0}item[@index="{1}"]//{0}count//{0}normalizedValue'.format(xmlname, i))[0]
-        # print elem.tag, elem.attrib, elem.text
-        count = elem.text
+
+        try:
+            elem = tree.findall('.//{0}recognizedItems//{0}item[@index="{1}"]//{0}count//{0}normalizedValue'.format(xmlname, i))[0]
+            # print elem.tag, elem.attrib, elem.text
+            count = elem.text
+        except:
+            count = ""
+
+
         count = {"name": "QTY", "expanded":True,"children": [{"name": count, "children": []}]}
         print count
         children.append(count)
