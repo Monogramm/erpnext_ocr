@@ -176,11 +176,19 @@ def read(ocr_receipt):
         #     print elem.tag, elem.attrib, elem.text
 
         #NAME
-        elem = tree.findall('.//{0}recognizedItems//{0}item[@index="{1}"]//{0}name//{0}text'.format(xmlname, i))[0]
-        # print elem.tag, elem.attrib, elem.text
-        name = elem.text
+
+        try:
+            elem = tree.findall('.//{0}recognizedItems//{0}item[@index="{1}"]//{0}name//{0}text'.format(xmlname, i))[0]
+            # print elem.tag, elem.attrib, elem.text
+            name = elem.text
+        except:
+            name = ""
+
         # name = {"name": elem.text, "children": []}
-        parent_item.update({"name":elem.text})
+        parent_item.update({"name":name})
+
+
+
         # children.append(name)
         #TOTAL
         try:
