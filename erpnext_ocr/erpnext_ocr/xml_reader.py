@@ -68,7 +68,8 @@ def read(ocr_receipt):
 
     # source = '/home/jvfiel/frappe-bl3ndlabs/apps/erpnext_ocr/erpnext_ocr/erpnext_ocr/test.xml'
     source = frappe.db.sql("""SELECT xml FROM `tabOCR Receipt` WHERE name=%s""", (ocr_receipt))[0][0]
-
+    if source == "":
+        frappe.throw("No XML. Please upload file in OCR again and save to generate.")
     tree = ET.ElementTree(file=frappe.get_site_path()+source)
     root = tree.getroot()
 
