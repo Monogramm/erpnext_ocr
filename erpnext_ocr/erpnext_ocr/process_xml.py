@@ -13,19 +13,19 @@ def recognizeFile(filePath, resultFilePath, language, outputFormat):
     # Proxy settings
     if "http_proxy" in os.environ:
         proxyString = os.environ["http_proxy"]
-        print "Using proxy at %s" % proxyString
+        print("Using proxy at %s" % proxyString)
         processor.Proxy = urllib2.ProxyHandler({"http": proxyString})
 
-    print "Uploading.."
+    print("Uploading..")
     settings = ProcessingSettings()
     settings.Language = language
     settings.OutputFormat = outputFormat
     task = processor.ProcessImage(filePath, settings)
     if task == None:
-        print "Error"
+        print("Error")
         return
-    print "Id = %s" % task.Id
-    print "Status = %s" % task.Status
+    print("Id = %s" % task.Id)
+    print("Status = %s" % task.Status)
 
     # Wait for the task to be completed
     sys.stdout.write("Waiting..")
@@ -42,11 +42,11 @@ def recognizeFile(filePath, resultFilePath, language, outputFormat):
         sys.stdout.write(".")
         task = processor.GetTaskStatus(task)
 
-    print "Status = %s" % task.Status
+    print("Status = %s" % task.Status)
 
     if task.Status == "Completed":
         if task.DownloadUrl != None:
             processor.DownloadResult(task, resultFilePath)
-            print "Result was written to %s" % resultFilePath
+            print("Result was written to %s" % resultFilePath)
     else:
-        print "Error processing task"
+        print("Error processing task")

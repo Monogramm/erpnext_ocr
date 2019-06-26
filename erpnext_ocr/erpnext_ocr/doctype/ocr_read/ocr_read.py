@@ -49,7 +49,7 @@ class OCRRead(Document):
 
         # print(text)
         # for t in text:
-        #     print t
+        #     print(t)
         text.split(" ")
 
         print(text)
