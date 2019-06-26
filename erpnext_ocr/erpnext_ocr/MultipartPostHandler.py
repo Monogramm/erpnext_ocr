@@ -45,6 +45,7 @@ import urllib2
 import mimetools, mimetypes
 import os, stat
 from cStringIO import StringIO
+from six import reraise as raise_
 
 class Callable:
     def __init__(self, anycallable):
@@ -69,8 +70,8 @@ class MultipartPostHandler(urllib2.BaseHandler):
                      else:
                          v_vars.append((key, value))
             except TypeError:
-                systype, value, traceback = sys.exc_info()
-                raise TypeError("not a valid non-string sequence or mapping object").with_traceback()
+                traceback = sys.exc_info()[2]
+                raise_(TypeError, "not a valid non-string sequence or mapping object", traceback)
 
             if len(v_files) == 0:
                 data = urllib.urlencode(v_vars, doseq)
