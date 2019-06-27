@@ -58,7 +58,8 @@ class OCRRead(Document):
 
         im = Image.open(fullpath)
 
-        text = pytesseract.image_to_string(im, lang='eng')
+        lang = self.lang or 'eng'
+        text = pytesseract.image_to_string(im, lang=lang)
 
         # print(text)
         # for t in text:
