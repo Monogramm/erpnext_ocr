@@ -1,2 +1,5 @@
 frappe
 six
+pytesseract
+pillow
+wand
