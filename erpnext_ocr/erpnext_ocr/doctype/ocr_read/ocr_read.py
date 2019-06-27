@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+import os
 
 #Alternative to "File Upload Disconnected. Please try again."
 
@@ -37,10 +38,22 @@ class OCRRead(Document):
         from PIL import Image
         import pytesseract
 
-        if self.file_to_read == None:
+        path = self.file_to_read
+        if path == None:
             return None
 
-        fullpath = frappe.get_site_path('public', 'files', self.file_to_read)
+        if path.startswith('/assets/'):
+            # from public folder
+            fullpath = os.path.abspath(path)
+        elif path.startswith('/files/'):
+            # public file
+            fullpath = frappe.get_site_path() + '/public' + path
+        elif path.startswith('/private/files/'):
+            # private file
+            fullpath = frappe.get_site_path() + path
+        else:
+            fullpath = path
+
         im = Image.open(fullpath)
 
         text = pytesseract.image_to_string(im, lang='eng')
