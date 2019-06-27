@@ -42,10 +42,12 @@ class OCRRead(Document):
         from PIL import Image
         import pytesseract
 
+        lang = self.lang or 'eng'
+
         fullpath = frappe.get_site_path() + self.file_to_read
         im = Image.open(fullpath)
 
-        text = pytesseract.image_to_string(im, lang='eng')
+        text = pytesseract.image_to_string(im, lang=lang)
 
         # print(text)
         # for t in text:
