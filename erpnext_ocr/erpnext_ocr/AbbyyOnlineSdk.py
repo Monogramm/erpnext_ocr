@@ -36,7 +36,7 @@ class Task:
 class AbbyyOnlineSdk:
     ServerUrl = "http://cloud.ocrsdk.com/"
     # ServerUrl = frappe.db.get_value("Abby OCR", None, "server_url")
-    # print ServerUrl
+    # print(ServerUrl)
     # To create an application and obtain a password,
     # register at http://cloud.ocrsdk.com/Account/Register
     # More info on getting your application id and password at
@@ -61,7 +61,7 @@ class AbbyyOnlineSdk:
         })
         # requestUrl = self.ServerUrl + "processImage?" + urlParams
         requestUrl = self.ServerUrl + "processReceipt?" + urlParams
-        print requestUrl
+        print(requestUrl)
         bodyParams = {"file": open(filePath, "rb")}
         request = urllib2.Request(requestUrl, None, self.buildAuthInfo())
         response = self.getOpener().open(request, bodyParams).read()
@@ -84,7 +84,7 @@ class AbbyyOnlineSdk:
     def DownloadResult(self, task, outputPath):
         getResultUrl = task.DownloadUrl
         if getResultUrl == None:
-            print ("No download URL found")
+            print("No download URL found")
             return
         request = urllib2.Request(getResultUrl)
         fileResponse = self.getOpener().open(request).read()

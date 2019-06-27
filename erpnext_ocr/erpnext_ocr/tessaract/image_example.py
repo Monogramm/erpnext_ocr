@@ -8,7 +8,7 @@ text = pytesseract.image_to_string(im, lang = 'eng')
 
 # print(text)
 # for t in text:
-#     print t
+#     print(t)
 text.split(" ")
 
 print(text)
@@ -21,6 +21,6 @@ string = ""
 #         text_list.append(string)
 #         string = ""
 #
-# print text_list
+# print(text_list)
 # for t in text_list:
-#     print t
+#     print(t)
