@@ -15,22 +15,17 @@ def force_attach_file():
     force_attach_file_doc(filename,name)
 
 def force_attach_file_doc(filename,name):
-    # file = "/private/files/"
-
     file_url = "/private/files/" + filename
-    # file_url = "/files/" + filename
 
     attachment_doc = frappe.get_doc({
         "doctype": "File",
         "file_name": filename,
-        # "file_url": path,
         "file_url": file_url,
         "attached_to_name": name,
         "attached_to_doctype": "OCR Read",
         "old_parent": "Home/Attachments",
         "folder": "Home/Attachments",
         "is_private": 1
-        # "is_private": 0
     })
     attachment_doc.insert()
 
@@ -41,6 +36,9 @@ class OCRRead(Document):
     def read_image(self):
         from PIL import Image
         import pytesseract
+
+        if self.file_to_read == None:
+            return None
 
         fullpath = frappe.get_site_path('public', 'files', self.file_to_read)
         im = Image.open(fullpath)
