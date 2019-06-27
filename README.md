@@ -1,6 +1,6 @@
-## Erpnext Ocr
+## Erpnext OCR
 
-OCR
+OCR with [tesseract](https://github.com/tesseract-ocr/tesseract).
 
 #### License
 
@@ -22,13 +22,17 @@ Examples to implement OCR(Optical Character Recognition) using tesseract using P
   ```
   sudo apt-get install tesseract-ocr
   ```
-- Install python binding for tesseract, pytesseract, using this pip command:
+- Install python binding for tesseract, [pytesseract](https://pypi.org/project/pytesseract/), using this pip command:
   ```
   pip install pytesseract
   ```
-- Install image processing library in python, pillow using this pip command:
+- Install image processing library in python, [pillow](https://pypi.org/project/Pillow/), using this pip command:
   ```
   pip install pillow
+  ```
+- Install HTTP library in python, [requests](https://pypi.org/project/requests/) using this pip command:
+  ```
+  pip install requests
   ```
 
 **For working with pdf files:**
@@ -36,7 +40,7 @@ Examples to implement OCR(Optical Character Recognition) using tesseract using P
   ```
   sudo apt-get install imagemagick
   ```
-- Install python binding for imagemagick, wand, using this pip command:
+- Install python binding for imagemagick, [wand](https://pypi.org/project/Wand/), using this pip command:
   ```
   pip install wand
   ```
