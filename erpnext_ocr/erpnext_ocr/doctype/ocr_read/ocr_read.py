@@ -36,6 +36,7 @@ def force_attach_file_doc(filename,name):
 class OCRRead(Document):
     def read_image(self):
         from PIL import Image
+        import requests
         import pytesseract
 
         path = self.file_to_read
@@ -52,7 +53,8 @@ class OCRRead(Document):
             # private file
             fullpath = frappe.get_site_path() + path
         else:
-            fullpath = path
+            # external link
+            fullpath = requests.get(path, stream=True).raw
 
         im = Image.open(fullpath)
 
