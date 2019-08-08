@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 import os
+import io
 
 #Alternative to "File Upload Disconnected. Please try again."
 
@@ -35,7 +36,6 @@ def force_attach_file_doc(filename,name):
 
 class OCRRead(Document):
     def read_image(self):
-        from PIL import Image
         import requests
         import pytesseract
 
@@ -56,19 +56,33 @@ class OCRRead(Document):
             # external link
             fullpath = requests.get(path, stream=True).raw
 
-        im = Image.open(fullpath)
-
         lang = self.lang or 'eng'
-        text = pytesseract.image_to_string(im, lang=lang)
 
-        # print(text)
-        # for t in text:
-        #     print(t)
+        text = " "
+
+        if path.endswith('.pdf'):
+            from wand.image import Image as wi
+            pdf = wi(filename = fullpath, resolution = 300)
+            pdfImage = pdf.convert('jpeg')
+
+            for img in pdfImage.sequence:
+                imgPage = wi(image = img)
+                imageBlob = imgPage.make_blob('jpeg')
+
+                recognized_text = " "
+
+                im = Image.open(io.BytesIO(imgBlob))
+                recognized_text = pytesseract.image_to_string(im, lang)
+                text = text + recognized_text
+        else:
+            from PIL import Image
+            im = Image.open(fullpath)
+
+            text = pytesseract.image_to_string(im, lang=lang)
+
         text.split(" ")
 
-        print(text)
-        text_list = []
-        string = ""
-        # self.read_result = text
-        # self.save()
+        self.read_result = text
+        self.save()
+
         return text
