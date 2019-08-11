@@ -15,9 +15,9 @@ MIT# ERPNext-OCR
 
 ## Pre-requisites: tesseract-python and imagemagick
 
-- Install tesserct-ocr and imagemagick (to work with pdf files) using this command on Debian:
+- Install tesseract-ocr, plus imagemagick and ghostscript (to work with pdf files) using this command on Debian:
   ```
-  sudo apt-get install tesseract-ocr imagemagick libmagickwand-dev
+  sudo apt-get install tesseract-ocr imagemagick libmagickwand-dev ghostscript
   ```
 
 ## Installation
@@ -32,3 +32,20 @@ When installing Frappe app, the following python requirements will be installed:
 * image processing library in python, [pillow](https://pypi.org/project/Pillow/)
 * HTTP library in python, [requests](https://pypi.org/project/requests/)
 * python binding for imagemagick, [wand](https://pypi.org/project/Wand/)
+
+## Tesseract trained data
+
+In order to use OCR with different languages, you need to install the appropriate trained data files.
+Check tesseract Wiki for details https://github.com/tesseract-ocr/tesseract/wiki/Data-Files
+
+## Known issues
+
+* `wand.exceptions.PolicyError: not authorized '/opt/sample.pdf' @ error/constitute.c/ReadImage/412`
+    * This can happen due to security configuration in imagemagick, preventing it read PDF files.
+    * Reference:
+        * https://stackoverflow.com/questions/52699608/wand-policy-error-error-constitute-c-readimage-412
+        * https://stackoverflow.com/questions/42928765/convertnot-authorized-aaaa-error-constitute-c-readimage-453
+* `wand.exceptions.WandRuntimeError: MagickReadImage returns false, but did raise ImageMagick exception. This can occurs when a delegate is missing, or returns EXIT_SUCCESS without generating a raster.`
+    * This might happen if you're missing a dependency to convert PDF, most of the time `ghostscript`
+    * References:
+        * https://stackoverflow.com/questions/57271287/user-wand-by-python-to-convert-pdf-to-jepg-raise-wand-exceptions-wandruntimeerr
