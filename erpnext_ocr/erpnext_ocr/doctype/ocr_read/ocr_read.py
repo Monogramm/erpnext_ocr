@@ -72,7 +72,7 @@ class OCRRead(Document):
 
                 recognized_text = " "
 
-                im = Image.open(io.BytesIO(imgBlob))
+                im = Image.open(io.BytesIO(imageBlob))
                 recognized_text = pytesseract.image_to_string(im, lang)
                 text = text + recognized_text
         else:
