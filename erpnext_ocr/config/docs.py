@@ -8,7 +8,7 @@ Configuration for docs
 # sub_heading = "Yes, you got that right the first time, everything"
 
 def get_context(context):
-	context.brand_html = "Erpnext OCR"
+	context.brand_html = "ERPNext OCR"
 	context.source_link = "https://github.com/Monogramm/erpnext_ocr"
 	context.docs_base_url = "https://github.com/Monogramm/erpnext_ocr"
 	context.headline = "OCR Integration"

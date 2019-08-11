@@ -116,7 +116,7 @@
  "max_attachments": 0, 
  "modified": "2018-01-23 05:05:39.720640", 
  "modified_by": "Administrator", 
- "module": "Erpnext Ocr", 
+ "module": "ERPNext OCR", 
  "name": "OCR Receipt", 
  "name_case": "", 
  "owner": "Administrator", 

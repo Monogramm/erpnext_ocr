@@ -3,10 +3,10 @@ from __future__ import unicode_literals
 from . import __version__ as app_version
 
 app_name = "erpnext_ocr"
-app_title = "Erpnext Ocr"
+app_title = "ERPNext OCR"
 app_publisher = "John Vincent Fiel"
 app_description = "OCR"
-app_icon = "octicon octicon-file-directory"
+app_icon = "octicon octicon-eye"
 app_color = "grey"
 app_email = "johnvincentfiel@gmail.com"
 app_license = "MIT"
@@ -84,7 +84,7 @@ doctype_js = {"Sales Invoice" : "public/js/Aimara.js"}
 doc_events = {
     "Sales Invoice": {
         # "validate": "chanjeapp.hooks_datadog.SI.validate",
-        "on_submit": "erpnext_ocr.zap_hooks.SI.submit",
+        # "on_submit": "erpnext_ocr.zap_hooks.SI.submit",
         # "on_cancel": "chanjeapp.hooks_datadog.SI.amend",
         # "on_trash": "chanjeapp.hooks_datadog.SI.trash"
     },

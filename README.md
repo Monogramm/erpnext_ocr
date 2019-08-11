@@ -1,4 +1,4 @@
-## Erpnext OCR
+## ERPNext OCR
 
 OCR with [tesseract](https://github.com/tesseract-ocr/tesseract).
 

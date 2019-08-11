@@ -36,6 +36,7 @@ def force_attach_file_doc(filename,name):
 
 class OCRRead(Document):
     def read_image(self):
+        from PIL import Image
         import requests
         import pytesseract
 
@@ -75,7 +76,6 @@ class OCRRead(Document):
                 recognized_text = pytesseract.image_to_string(im, lang)
                 text = text + recognized_text
         else:
-            from PIL import Image
             im = Image.open(fullpath)
 
             text = pytesseract.image_to_string(im, lang=lang)

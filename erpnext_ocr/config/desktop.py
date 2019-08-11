@@ -5,10 +5,10 @@ from frappe import _
 def get_data():
 	return [
 		{
-			"module_name": "Erpnext OCR",
+			"module_name": "ERPNext OCR",
 			"color": "grey",
 			"icon": "octicon octicon-eye",
 			"type": "module",
-			"label": _("Erpnext OCR")
+			"label": _("ERPNext OCR")
 		}
 	]
