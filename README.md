@@ -6,6 +6,22 @@ OCR with [tesseract](https://github.com/tesseract-ocr/tesseract).
 
 MIT# ERPNext-OCR
 
+## About this project
+
+This project is a fork of [ERPNext-OCR](https://github.com/jvfiel/ERPNext-OCR) by John Vincent Fiel.
+Its aim is to fix and cleanup the original source code.
+
+**Changes**
+* See [CHANGELOG](./CHANGELOG.md)
+
+
+**Roadmap**
+* Implement [Frappe unit tests](https://frappe.io/docs/user/en/guides/automated-testing/unit-testing) using content of tesseract directory
+* Add [Travis-CI](https://travis-ci.org/) using [docker images](https://github.com/Monogramm/docker-erpnext) to setup ERPNext test environment
+* Add an `OCR Language` DocType to reference available Tesseract languages
+* Add the possibility to download new [Tesseract languages](https://github.com/tesseract-ocr/tesseract/wiki/Data-Files)
+
+
 ## Sample Screenshot
 ![Sample Screenshot](https://github.com/jvfiel/ERPNext-OCR/blob/master/erpnext_ocr/erpnext_ocr/Selection_046.png)
 
@@ -49,3 +65,6 @@ Check tesseract Wiki for details https://github.com/tesseract-ocr/tesseract/wiki
     * This might happen if you're missing a dependency to convert PDF, most of the time `ghostscript`
     * References:
         * https://stackoverflow.com/questions/57271287/user-wand-by-python-to-convert-pdf-to-jepg-raise-wand-exceptions-wandruntimeerr
+* `OSError: encoder error -2 when writing image file`
+    * This might happen when trying to open a TIFF image, but the real error is "_hidden_" and only displayed in console.
+    * If the original error in console is `Fax3SetupState: Bits/sample must be 1 for Group 3/4 encoding/decoding.` that usually happens when TIFF image compression is not valid / recognized.
