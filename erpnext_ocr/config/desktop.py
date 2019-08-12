@@ -6,7 +6,7 @@ def get_data():
 	return [
 		{
 			"module_name": "ERPNext OCR",
-			"color": "grey",
+			"color": "#00bcd4",
 			"icon": "octicon octicon-eye",
 			"type": "module",
 			"label": _("ERPNext OCR")

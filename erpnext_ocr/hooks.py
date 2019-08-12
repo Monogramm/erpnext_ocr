@@ -4,11 +4,11 @@ from . import __version__ as app_version
 
 app_name = "erpnext_ocr"
 app_title = "ERPNext OCR"
-app_publisher = "John Vincent Fiel"
+app_publisher = "Monogramm"
 app_description = "OCR"
 app_icon = "octicon octicon-eye"
-app_color = "grey"
-app_email = "johnvincentfiel@gmail.com"
+app_color = "#00bcd4"
+app_email = "opensource@monogramm.io"
 app_license = "MIT"
 
 # Includes in <head>
@@ -17,8 +17,8 @@ app_license = "MIT"
 # include js, css files in header of desk.html
 # app_include_css = "/assets/erpnext_ocr/css/Aimara.css"
 # app_include_js = "/assets/erpnext_ocr/js/Aimara.js"
-app_include_css = "/assets/erpnext_ocr/css/treeview.min.css"
-app_include_js = "/assets/erpnext_ocr/js/treeview.min.js"
+#app_include_css = "/assets/erpnext_ocr/css/treeview.min.css"
+#app_include_js = "/assets/erpnext_ocr/js/treeview.min.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/erpnext_ocr/css/treeview.min.css"
@@ -28,7 +28,7 @@ app_include_js = "/assets/erpnext_ocr/js/treeview.min.js"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Sales Invoice" : "public/js/Aimara.js"}
+#doctype_js = {"Sales Invoice" : "public/js/Aimara.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -81,14 +81,14 @@ doctype_js = {"Sales Invoice" : "public/js/Aimara.js"}
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
-    "Sales Invoice": {
-        # "validate": "chanjeapp.hooks_datadog.SI.validate",
-        # "on_submit": "erpnext_ocr.zap_hooks.SI.submit",
-        # "on_cancel": "chanjeapp.hooks_datadog.SI.amend",
-        # "on_trash": "chanjeapp.hooks_datadog.SI.trash"
-    },
-}
+#doc_events = {
+#    "Sales Invoice": {
+#        # "validate": "chanjeapp.hooks_datadog.SI.validate",
+#        # "on_submit": "erpnext_ocr.zap_hooks.SI.submit",
+#        # "on_cancel": "chanjeapp.hooks_datadog.SI.amend",
+#        # "on_trash": "chanjeapp.hooks_datadog.SI.trash"
+#    },
+#}
 
 # Scheduled Tasks
 # ---------------
@@ -124,4 +124,4 @@ doc_events = {
 # }
 
 # fixtures = ['Custom Script','Custom Field','Property Setter']
-fixtures = ['Custom Script']
+#fixtures = ['Custom Script']
