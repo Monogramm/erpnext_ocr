@@ -57,7 +57,7 @@ class OCRRead(Document):
             # external link
             fullpath = requests.get(path, stream=True).raw
 
-        lang = self.lang or 'eng'
+        lang = self.language or 'eng'
 
         text = " "
 
