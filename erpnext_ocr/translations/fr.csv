@@ -1,0 +1,9 @@
+apps/erpnext_ocr/config/desktop.py,ERPNext OCR,Reconnaissance optique de caractères
+Doctype: OCR Language,OCR Language,Langue RCO
+Doctype: OCR Language,Code,Code
+Doctype: OCR Language,Language,Langue
+Doctype: OCR Read,OCR Read,Lecture RCO
+Doctype: OCR Read,Image or PDF to Read,Image ou PDF à lire
+Doctype: OCR Read,Language,Langue
+Doctype: OCR Read,Read file,Lire le fichier
+Doctype: OCR Read,Read Result,Résultat de la lecture
