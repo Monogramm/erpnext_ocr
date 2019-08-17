@@ -1,0 +1,134 @@
+[
+ {
+  "code": "eng",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "en",
+  "modified": "2019-08-17 04:14:04.185913",
+  "name": "eng",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "fra",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "fr",
+  "modified": "2019-08-17 04:17:42.823521",
+  "name": "fra",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "deu",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "de",
+  "modified": "2019-08-17 04:18:23.461057",
+  "name": "deu",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "ita",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "it",
+  "modified": "2019-08-17 04:18:38.362360",
+  "name": "ita",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "jpn",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "ja",
+  "modified": "2019-08-17 04:18:49.492082",
+  "name": "jpn",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "kor",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "ko",
+  "modified": "2019-08-17 04:19:02.882550",
+  "name": "kor",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "nld",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "nl",
+  "modified": "2019-08-17 04:19:17.347891",
+  "name": "nld",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "por",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "pt",
+  "modified": "2019-08-17 04:19:29.550051",
+  "name": "por",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "rus",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "ru",
+  "modified": "2019-08-17 04:19:37.470620",
+  "name": "rus",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "spa",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "es",
+  "modified": "2019-08-17 04:19:53.075209",
+  "name": "spa",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "tur",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "tr",
+  "modified": "2019-08-17 04:20:12.842207",
+  "name": "tur",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ },
+ {
+  "code": "vie",
+  "docstatus": 0,
+  "doctype": "OCR Language",
+  "lang": "vi",
+  "modified": "2019-08-17 04:20:23.197252",
+  "name": "vie",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null
+ }
+]

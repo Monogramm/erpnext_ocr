@@ -124,4 +124,4 @@ app_license = "MIT"
 # }
 
 # fixtures = ['Custom Script','Custom Field','Property Setter']
-#fixtures = ['Custom Script']
+fixtures = [{'doctype': 'OCR Language'}]
