@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - PDF management in `OCR Read`
+- `OCR Language` to manage available tesseract traindata files
+- French translations
 - GitHub issue and feature templates
 - GitHub bots config ([stale](https://github.com/apps/stale) and [behaviorbot](https://github.com/behaviorbot))
 - Contributing guidelines

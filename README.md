@@ -25,8 +25,9 @@ Its aim is to fix and cleanup the original source code.
 **Roadmap**
 * Implement [Frappe unit tests](https://frappe.io/docs/user/en/guides/automated-testing/unit-testing) using content of tesseract directory
 * Add [Travis-CI](https://travis-ci.org/) using [docker images](https://github.com/Monogramm/docker-erpnext) to setup ERPNext test environment
-* Add an `OCR Language` DocType to reference available Tesseract languages
 * Add the possibility to download new [Tesseract languages](https://github.com/tesseract-ocr/tesseract/wiki/Data-Files)
+* Use a background job and display popup while reading the document
+* Add a spell checker to improve the read results
 
 
 ## Sample Screenshot
@@ -64,7 +65,7 @@ Check tesseract Wiki for details https://github.com/tesseract-ocr/tesseract/wiki
 ## Known issues
 
 * `wand.exceptions.PolicyError: not authorized '/opt/sample.pdf' @ error/constitute.c/ReadImage/412`
-    * This can happen due to security configuration in imagemagick, preventing it read PDF files.
+    * This can happen due to security configuration in imagemagick, preventing it to read PDF files.
     * Reference:
         * https://stackoverflow.com/questions/52699608/wand-policy-error-error-constitute-c-readimage-412
         * https://stackoverflow.com/questions/42928765/convertnot-authorized-aaaa-error-constitute-c-readimage-453
