@@ -1,4 +1,4 @@
-FROM monogramm/docker-erpnext${VERSION}-${VARIANT}
+FROM monogramm/docker-erpnext-ext:${VERSION}-${VARIANT}
 
 # Build environment variables
 ENV DOCKER_TAG=travis \
