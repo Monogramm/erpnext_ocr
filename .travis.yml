@@ -15,7 +15,7 @@ before_script:
 
 script:
   # Prepare base image for build version and variant
-  - sed -i -e "s/%%VERSION%%/${VERSION}/g"
+  - sed -i -e "s/%%VERSION%%/${VERSION}/g" Dockerfile.${VARIANT}
   # Test container build
   - travis_retry travis_wait 60 docker-compose -f docker-compose.${DATABASE}.yml build
   - docker images
