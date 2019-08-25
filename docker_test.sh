@@ -29,8 +29,9 @@ fi
 ## https://frappe.io/docs/user/en/testing
 ## https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
 
-# profile tests and show a report after tests execute
 bench run-tests --profile --app erpnext_ocr
+## TODO Test result of tests
 
 # Success
+echo 'Frappe docker test successful'
 exit 0
