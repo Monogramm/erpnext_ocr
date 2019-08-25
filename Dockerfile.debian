@@ -35,7 +35,7 @@ RUN set -ex; \
         && ./env/bin/pip3 install -q -e "apps/erpnext_ocr" --no-cache-dir \
         && bench build --app erpnext_ocr \
     ; \
-    mkdir -p "${FRAPPE_WD}/sites"; \
-    echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
-    echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
-    echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt";
+    sudo mkdir -p "${FRAPPE_WD}/sites"; \
+    sudo echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
+    sudo echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
+    sudo echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt";
