@@ -16,7 +16,6 @@ RUN set -ex; \
     sudo apt-get install -y --no-install-recommends \
         ghostscript \
         imagemagick \
-        imagemagick-dev \
         tesseract-ocr \
     ; \
     sudo sed -i \
