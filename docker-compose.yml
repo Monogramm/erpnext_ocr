@@ -24,6 +24,10 @@ services:
     environment:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   erpnext_app:
     build: ./
@@ -48,12 +52,11 @@ services:
       - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
       - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
       # Database setup
-      - DB_TYPE=postgres
+      - DB_TYPE=mariadb
       - DB_HOST=erpnext_db
-      - DB_PORT=5432
+      - DB_PORT=3306
       - DB_NAME=${ERPNEXT_DB_NAME}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
-      - DB_ROOT_LOGIN=${ERPNEXT_DB_ROOT_LOGIN}
       - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
       # Mail setup
       - MAIL_MUTED=true
