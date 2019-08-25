@@ -1,0 +1,74 @@
+dist: trusty
+sudo: required
+
+services: docker
+
+language: bash
+
+branches:
+  only:
+    - develop
+    - master
+
+before_script:
+  - env | sort
+
+script:
+  # Test container build
+  - travis_retry travis_wait 60 docker-compose build
+  - docker images
+  # Test container run
+  - travis_retry docker-compose up -d && sleep 60
+  - docker-compose ps
+  - docker-compose logs
+  - docker-compose ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose ps "erpnext_web" | grep "Up" || exit 1
+  - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
+  - docker-compose ps
+  - docker-compose logs
+  - docker-compose ps "erpnext_db" | grep "Up"
+  - docker-compose ps "erpnext_app" | grep "Up"
+  - docker-compose ps "erpnext_web" | grep "Up"
+  # Test container restart
+  - docker-compose down
+  - travis_retry docker-compose up -d && sleep 60
+  - docker-compose ps
+  - docker-compose logs
+  - docker-compose ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose ps "erpnext_web" | grep "Up" || exit 1
+  - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
+  - docker-compose ps
+  - docker-compose logs
+  - docker-compose ps "erpnext_db" | grep "Up"
+  - docker-compose ps "erpnext_app" | grep "Up"
+  - docker-compose ps "erpnext_web" | grep "Up"
+
+notifications:
+  email: false
+
+matrix:
+  allow_failures:
+    - env: VERSION=develop VARIANT=alpine
+    - env: VERSION=develop VARIANT=debian-slim
+    - env: VERSION=develop VARIANT=debian
+    # FIXME https://github.com/frappe/frappe/issues/7737
+    #- env: VERSION=10.x VARIANT=alpine
+    #- env: VERSION=10.x VARIANT=debian-slim
+    #- env: VERSION=10.x VARIANT=debian
+    - env: VERSION=12.0 VARIANT=alpine
+
+env: # Environments
+  - VERSION=develop VARIANT=alpine
+  - VERSION=develop VARIANT=debian-slim
+  - VERSION=develop VARIANT=debian
+  - VERSION=10.x VARIANT=alpine
+  - VERSION=10.x VARIANT=debian-slim
+  - VERSION=10.x VARIANT=debian
+  - VERSION=11.1 VARIANT=alpine
+  - VERSION=11.1 VARIANT=debian-slim
+  - VERSION=11.1 VARIANT=debian
+  - VERSION=12.0 VARIANT=alpine
+  - VERSION=12.0 VARIANT=debian-slim
+  - VERSION=12.0 VARIANT=debian
