@@ -33,6 +33,7 @@ services:
     build: ./
     image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_app
+    command: app
     #restart: always
     ports:
       - 8000:8000
@@ -41,8 +42,8 @@ services:
     links:
       - erpnext_db
     environment:
-      # Container setup
-      - NODE_TYPE=app
+      # Docker setup
+      - DOCKER_DB_ALLOWED_HOSTS=
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext erpnext_ocr
       - FRAPPE_DEFAULT_PROTOCOL=http://
@@ -59,7 +60,11 @@ services:
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
       - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
       # Mail setup
-      - MAIL_MUTED=true
+      - MAIL_HOST=${ERPNEXT_MAIL_HOST}
+      - MAIL_PORT=587
+      - MAIL_USE_SSL=tls
+      - MAIL_LOGIN=${ERPNEXT_SMTP_USER}
+      - MAIL_PASSWORD=${ERPNEXT_SMTP_PWD}
       # Redis setup
       - REDIS_CACHE_HOST=erpnext_redis_cache
       - REDIS_QUEUE_HOST=erpnext_redis_queue
@@ -108,14 +113,14 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_scheduler:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_scheduler
+    command: scheduler
     #restart: always
     depends_on:
       - erpnext_app
     environment:
-      - NODE_TYPE=scheduler
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -124,14 +129,14 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_worker_default:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_worker_default
+    command: worker-default
     #restart: always
     depends_on:
       - erpnext_app
     environment:
-      - NODE_TYPE=worker-default
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -140,14 +145,14 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_worker_long:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_worker_long
+    command: worker-long
     #restart: always
     depends_on:
       - erpnext_app
     environment:
-      - NODE_TYPE=worker-long
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -156,14 +161,14 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_worker_short:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_worker_short
+    command: worker-short
     #restart: always
     depends_on:
       - erpnext_app
     environment:
-      - NODE_TYPE=worker-short
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -172,16 +177,16 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_socketio:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_socketio
+    command: node-socketio
     #restart: always
     ports:
       - 3000:3000
     depends_on:
       - erpnext_app
     environment:
-      - NODE_TYPE=node-socketio
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
