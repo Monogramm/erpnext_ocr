@@ -6,7 +6,7 @@ ENV DOCKER_TAG=travis \
     DOCKER_BUILD_DATE=${TRAVIS_BUILD_NUMBER}
 
 # Copy the whole repository to app folder
-COPY . "/home/$FRAPPE_USER"/frappe-bench/apps/erpnext_ocr
+COPY --chown=frappe:frappe . "/home/$FRAPPE_USER"/frappe-bench/apps/erpnext_ocr
 # Add the docker test script
 ADD docker_test.sh /.docker_test.sh
 
@@ -29,6 +29,7 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
     echo "Manually installing app for CI (not needed normally)"; \
+    ls -al apps/erpnext_ocr; \
     test "$FRAPPE_BRANCH" = "v10.x.x" \
         && ./env/bin/pip install -q -e "apps/erpnext_ocr" --no-cache-dir \
     ; \
