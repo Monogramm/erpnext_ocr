@@ -53,22 +53,18 @@ matrix:
     - env: VERSION=develop VARIANT=alpine
     - env: VERSION=develop VARIANT=debian-slim
     - env: VERSION=develop VARIANT=debian
-    # FIXME https://github.com/frappe/frappe/issues/7737
-    #- env: VERSION=10.x VARIANT=alpine
-    #- env: VERSION=10.x VARIANT=debian-slim
-    #- env: VERSION=10.x VARIANT=debian
-    - env: VERSION=12.0 VARIANT=alpine
+    - env: VERSION=12 VARIANT=alpine
 
 env: # Environments
   - VERSION=develop VARIANT=alpine
   - VERSION=develop VARIANT=debian-slim
   - VERSION=develop VARIANT=debian
-  - VERSION=10.x VARIANT=alpine
-  - VERSION=10.x VARIANT=debian-slim
-  - VERSION=10.x VARIANT=debian
-  - VERSION=11.1 VARIANT=alpine
-  - VERSION=11.1 VARIANT=debian-slim
-  - VERSION=11.1 VARIANT=debian
-  - VERSION=12.0 VARIANT=alpine
-  - VERSION=12.0 VARIANT=debian-slim
-  - VERSION=12.0 VARIANT=debian
+  - VERSION=10 VARIANT=alpine
+  - VERSION=10 VARIANT=debian-slim
+  - VERSION=10 VARIANT=debian
+  - VERSION=11 VARIANT=alpine
+  - VERSION=11 VARIANT=debian-slim
+  - VERSION=11 VARIANT=debian
+  - VERSION=12 VARIANT=alpine
+  - VERSION=12 VARIANT=debian-slim
+  - VERSION=12 VARIANT=debian
