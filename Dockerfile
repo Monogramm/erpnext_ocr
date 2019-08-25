@@ -28,6 +28,11 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
-    echo "Manually installing app as a pip module"; \
-    test "$FRAPPE_BRANCH" = "v10.x.x" && ./env/bin/pip install -q -e "apps/erpnext_ocr" --no-cache-dir; \
-    test ! "$FRAPPE_BRANCH" = "v10.x.x" && ./env/bin/pip3 install -q -e "apps/erpnext_ocr" --no-cache-dir
+    echo "Manually installing app for CI (not needed normally)"; \
+    test "$FRAPPE_BRANCH" = "v10.x.x" \
+        && ./env/bin/pip install -q -e "apps/erpnext_ocr" --no-cache-dir \
+    ; \
+    test ! "$FRAPPE_BRANCH" = "v10.x.x" \
+        && ./env/bin/pip3 install -q -e "apps/erpnext_ocr" --no-cache-dir \
+        && bench build --app erpnext_ocr \
+    ;
