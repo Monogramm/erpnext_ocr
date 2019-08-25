@@ -36,6 +36,8 @@ RUN set -ex; \
         && bench build --app erpnext_ocr \
     ; \
     sudo mkdir -p "${FRAPPE_WD}/sites"; \
-    sudo echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
-    sudo echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
-    sudo echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt";
+    sudo touch "${FRAPPE_WD}/sites/apps.txt"; \
+    sudo chown $FRAPPE_USER:$FRAPPE_USER "${FRAPPE_WD}/sites/apps.txt"; \
+    echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
+    echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
+    echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt";
