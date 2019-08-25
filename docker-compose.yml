@@ -5,7 +5,8 @@ services:
   sut:
     build:
       context: ./
-      dockerfile: Dockerfile.${VARIANT}
+      dockerfile: Dockerfile
+    image: docker-erpnext-ext:test_erpnext_ocr
     command: /.docker_test.sh
     container_name: sut
     depends_on:
@@ -29,9 +30,7 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_app:
-    build:
-      context: ./
-      dockerfile: Dockerfile.${VARIANT}
+    build: ./
     image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_app
     command: app
@@ -61,7 +60,11 @@ services:
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
       - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
       # Mail setup
-      - MAIL_MUTED=true
+      - MAIL_HOST=${ERPNEXT_MAIL_HOST}
+      - MAIL_PORT=587
+      - MAIL_USE_SSL=tls
+      - MAIL_LOGIN=${ERPNEXT_SMTP_USER}
+      - MAIL_PASSWORD=${ERPNEXT_SMTP_PWD}
       # Redis setup
       - REDIS_CACHE_HOST=erpnext_redis_cache
       - REDIS_QUEUE_HOST=erpnext_redis_queue
@@ -110,8 +113,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_scheduler:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_scheduler
     command: scheduler
     #restart: always
@@ -126,8 +129,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_worker_default:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_worker_default
     command: worker-default
     #restart: always
@@ -142,8 +145,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_worker_long:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_worker_long
     command: worker-long
     #restart: always
@@ -158,8 +161,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_worker_short:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_worker_short
     command: worker-short
     #restart: always
@@ -174,8 +177,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
 
   erpnext_socketio:
-    #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    build: ./
+    #image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_socketio
     command: node-socketio
     #restart: always
