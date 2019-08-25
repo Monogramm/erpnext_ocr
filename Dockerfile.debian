@@ -1,4 +1,4 @@
-FROM monogramm/docker-erpnext-ext:%%VERSION%%-alpine
+FROM monogramm/docker-erpnext:%%VERSION%%-alpine
 
 # Build environment variables
 ENV DOCKER_TAG=travis \
@@ -40,4 +40,5 @@ RUN set -ex; \
     sudo chown $FRAPPE_USER:$FRAPPE_USER "${FRAPPE_WD}/sites/apps.txt"; \
     echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
     echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
-    echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt";
+    echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt"; \
+    ls apps/
