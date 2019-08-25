@@ -50,6 +50,8 @@ matrix:
     - env: VERSION=develop VARIANT=alpine DATABASE=postgres
     - env: VERSION=develop VARIANT=debian DATABASE=mariadb
     - env: VERSION=develop VARIANT=debian DATABASE=postgres
+    - env: VERSION=develop VARIANT=debian-slim DATABASE=mariadb
+    - env: VERSION=develop VARIANT=debian-slim DATABASE=postgres
     - env: VERSION=12 VARIANT=alpine DATABASE=mariadb
     - env: VERSION=12 VARIANT=alpine DATABASE=postgres
 
@@ -60,9 +62,13 @@ env: # Environments
   - VERSION=develop VARIANT=debian DATABASE=postgres
   - VERSION=10 VARIANT=alpine DATABASE=mariadb
   - VERSION=10 VARIANT=debian DATABASE=mariadb
+  - VERSION=10 VARIANT=debian-slim DATABASE=mariadb
   - VERSION=11 VARIANT=alpine DATABASE=mariadb
   - VERSION=11 VARIANT=debian DATABASE=mariadb
+  - VERSION=11 VARIANT=debian-slim DATABASE=mariadb
   - VERSION=12 VARIANT=alpine DATABASE=mariadb
   - VERSION=12 VARIANT=alpine DATABASE=postgres
   - VERSION=12 VARIANT=debian DATABASE=mariadb
   - VERSION=12 VARIANT=debian DATABASE=postgres
+  - VERSION=12 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=12 VARIANT=debian-slim DATABASE=postgres
