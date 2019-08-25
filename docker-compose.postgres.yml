@@ -6,7 +6,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.${VARIANT}
-    command: /.docker_test.sh
+    command: sh /docker_test.sh
     container_name: sut
     depends_on:
       - erpnext_db
