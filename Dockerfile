@@ -27,4 +27,7 @@ RUN set -ex; \
     sudo chmod 777 \
         "/home/$FRAPPE_USER"/frappe-bench/logs \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
-    ;
+    ; \
+    echo "Manually installing app as a pip module"; \
+    test "$FRAPPE_BRANCH" = "v10.x.x" && ./env/bin/pip install -q -e "apps/erpnext_ocr" --no-cache-dir; \
+    test ! "$FRAPPE_BRANCH" = "v10.x.x" && ./env/bin/pip3 install -q -e "apps/erpnext_ocr" --no-cache-dir
