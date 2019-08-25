@@ -4,6 +4,8 @@
 
 [![License: MIT][uri_license_image]][uri_license]
 [![Managed with Taiga.io](https://img.shields.io/badge/managed%20with-TAIGA.io-709f14.svg)](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ "Managed with Taiga.io")
+[![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogrammbot/erpnext_ocr.svg)](https://hub.docker.com/r/monogrammbot/erpnext_ocr/)
+
 
 ## ERPNext OCR
 
