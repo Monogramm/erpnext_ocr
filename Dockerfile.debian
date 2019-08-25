@@ -1,4 +1,4 @@
-FROM monogramm/docker-erpnext:%%VERSION%%-alpine
+FROM monogramm/docker-erpnext:%%VERSION%%-debian
 
 # Build environment variables
 ENV DOCKER_TAG=travis \
