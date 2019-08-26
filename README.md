@@ -4,8 +4,7 @@
 
 [![License: MIT][uri_license_image]][uri_license]
 [![Managed with Taiga.io](https://img.shields.io/badge/managed%20with-TAIGA.io-709f14.svg)](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ "Managed with Taiga.io")
-[![Docker Automated buid](https://img.shields.io/docker/cloud/build/monogrammbot/erpnext_ocr.svg)](https://hub.docker.com/r/monogrammbot/erpnext_ocr/)
-
+[![Build Status](https://travis-ci.org/Monogramm/erpnext_ocr.svg)](https://travis-ci.org/Monogramm/erpnext_ocr)
 
 ## ERPNext OCR
 
@@ -18,18 +17,14 @@ MIT# ERPNext-OCR
 ## About this project
 
 This project is a fork of [ERPNext-OCR](https://github.com/jvfiel/ERPNext-OCR) by John Vincent Fiel.
-Its aim is to fix and cleanup the original source code.
+Its aim is to fix and cleanup the original source code and add some new features.
 
 **Changes**
 * See [CHANGELOG](./CHANGELOG.md)
 
 
 **Roadmap**
-* Implement [Frappe unit tests](https://frappe.io/docs/user/en/guides/automated-testing/unit-testing) using content of tesseract directory
-* Add [Travis-CI](https://travis-ci.org/) using [docker images](https://github.com/Monogramm/docker-erpnext) to setup ERPNext test environment
-* Add the possibility to download new [Tesseract languages](https://github.com/tesseract-ocr/tesseract/wiki/Data-Files)
-* Use a background job and display popup while reading the document
-* Add a spell checker to improve the read results
+* See [Taiga.io](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ "Taiga.io monogrammbot-monogrammerpnext_ocr")
 
 
 ## Sample Screenshot
