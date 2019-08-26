@@ -9,8 +9,7 @@ echo "Checking content of sites directory..."
 if [ ! -f "./sites/apps.txt" ] || [ ! -f "./sites/.docker-app-init" ] || [ ! -f "./sites/currentsite.txt" ] || [ ! -f "./sites/.docker-site-init" ] || [ ! -f "./sites/.docker-init" ]; then
     echo 'Apps and site are not initalized?!'
     ls -al "./sites"
-    # FIXME We couldn't be running tests if those files did not existd... so why are they not visible?!
-    #exit 1
+    exit 1
 fi
 
 echo "Checking main containers are reachable..."
