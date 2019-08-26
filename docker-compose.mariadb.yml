@@ -1,0 +1,212 @@
+version: "2"
+
+services:
+  # https://docs.docker.com/docker-hub/builds/automated-testing/
+  sut:
+    build:
+      context: ./
+      dockerfile: Dockerfile.${VARIANT}
+    command: sh /docker_test.sh
+    container_name: sut
+    depends_on:
+      - erpnext_db
+      - erpnext_app
+      - erpnext_web
+      - erpnext_scheduler
+      - erpnext_worker_default
+      - erpnext_worker_long
+      - erpnext_worker_short
+      - erpnext_socketio
+      - erpnext_redis_cache
+      - erpnext_redis_queue
+      - erpnext_redis_socketio
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_app:
+    build:
+      context: ./
+      dockerfile: Dockerfile.${VARIANT}
+    image: docker-erpnext-ext:test_erpnext_ocr
+    container_name: erpnext_app
+    command: app
+    #restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - erpnext_db
+    links:
+      - erpnext_db
+    environment:
+      # Docker setup
+      - DOCKER_DB_ALLOWED_HOSTS=
+      - DOCKER_APPS_TIMEOUT=900
+      # Frappe setup
+      - FRAPPE_APP_INIT=erpnext erpnext_ocr
+      - FRAPPE_DEFAULT_PROTOCOL=http://
+      - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
+      - FRAPPE_LOGGING=1
+      - DEVELOPER_MODE=0
+      #- Amin user setup
+      - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
+      - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
+      # Database setup
+      - DB_TYPE=mariadb
+      - DB_HOST=erpnext_db
+      - DB_PORT=3306
+      - DB_NAME=${ERPNEXT_DB_NAME}
+      - DB_PASSWORD=${ERPNEXT_DB_PWD}
+      - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
+      # Mail setup
+      - MAIL_MUTED=true
+      # Redis setup
+      - REDIS_CACHE_HOST=erpnext_redis_cache
+      - REDIS_QUEUE_HOST=erpnext_redis_queue
+      - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_web:
+    image: nginx:alpine
+    container_name: erpnext_web
+    #restart: always
+    volumes:
+      - ./docker-nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # If you need SSL connection, you can provide your own certificates
+      # - ./certs:/etc/letsencrypt
+      # - ./certs-data:/data/letsencrypt
+    volumes_from:
+      - erpnext_app
+    depends_on:
+      - erpnext_app
+    ports:
+      - 80:80
+      # If you need SSL connection
+      # - '443:443'
+    links:
+      - erpnext_app
+      - erpnext_socketio
+
+  erpnext_db:
+    image: mariadb:10
+    container_name: erpnext_db
+    #restart: always
+    command: --character_set_client=utf8 --bind-address=0.0.0.0 --character-set-client-handshake=FALSE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-mode="ALLOW_INVALID_DATES"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
+      # Following parameters are not needed with Frappe 12 or higher since it will create DB itself
+      - MYSQL_DATABASE=${ERPNEXT_DB_NAME}
+      - MYSQL_USER=${ERPNEXT_DB_NAME}
+      - MYSQL_PASSWORD=${ERPNEXT_DB_PWD}
+    volumes:
+      - /srv/erpnext/db:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_scheduler:
+    #build: ./
+    image: docker-erpnext-ext:test_erpnext_ocr
+    container_name: erpnext_scheduler
+    command: scheduler
+    #restart: always
+    depends_on:
+      - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_worker_default:
+    #build: ./
+    image: docker-erpnext-ext:test_erpnext_ocr
+    container_name: erpnext_worker_default
+    command: worker-default
+    #restart: always
+    depends_on:
+      - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_worker_long:
+    #build: ./
+    image: docker-erpnext-ext:test_erpnext_ocr
+    container_name: erpnext_worker_long
+    command: worker-long
+    #restart: always
+    depends_on:
+      - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_worker_short:
+    #build: ./
+    image: docker-erpnext-ext:test_erpnext_ocr
+    container_name: erpnext_worker_short
+    command: worker-short
+    #restart: always
+    depends_on:
+      - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_socketio:
+    #build: ./
+    image: docker-erpnext-ext:test_erpnext_ocr
+    container_name: erpnext_socketio
+    command: node-socketio
+    #restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_redis_cache:
+    image: redis:alpine
+    container_name: erpnext_redis_cache
+    #restart: always
+    volumes:
+      - ./services/erpnext/conf/redis_cache.conf:/etc/conf.d/redis.conf:ro
+    command: ["redis-server","/etc/conf.d/redis.conf"]
+
+  erpnext_redis_queue:
+    image: redis:alpine
+    container_name: erpnext_redis_queue
+    #restart: always
+
+  erpnext_redis_socketio:
+    image: redis:alpine
+    container_name: erpnext_redis_socketio
+    #restart: always

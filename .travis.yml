@@ -1,0 +1,79 @@
+dist: trusty
+sudo: required
+
+services: docker
+
+language: bash
+
+branches:
+  only:
+    - develop
+    - master
+
+before_script:
+  - env | sort
+
+script:
+  # Prepare base image for build version and variant
+  - sed -i -e "s/%%VERSION%%/${VERSION}/g" Dockerfile.${VARIANT}
+  # Test container build
+  - travis_retry travis_wait 60 docker-compose -f docker-compose.${DATABASE}.yml build
+  - docker images
+  # Test container run
+  - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
+  - docker-compose -f docker-compose.${DATABASE}.yml ps
+  - docker-compose -f docker-compose.${DATABASE}.yml logs
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
+  - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
+  - docker-compose -f docker-compose.${DATABASE}.yml ps
+  - docker-compose -f docker-compose.${DATABASE}.yml logs
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
+  # Test container restart
+  - docker-compose -f docker-compose.${DATABASE}.yml down
+  - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
+  - docker-compose -f docker-compose.${DATABASE}.yml ps
+  - docker-compose -f docker-compose.${DATABASE}.yml logs
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
+
+notifications:
+  email: false
+
+matrix:
+  allow_failures:
+    - env: VERSION=develop VARIANT=alpine DATABASE=mariadb
+    - env: VERSION=develop VARIANT=alpine DATABASE=postgres
+    - env: VERSION=develop VARIANT=debian DATABASE=mariadb
+    - env: VERSION=develop VARIANT=debian DATABASE=postgres
+    - env: VERSION=develop VARIANT=debian-slim DATABASE=mariadb
+    - env: VERSION=develop VARIANT=debian-slim DATABASE=postgres
+    - env: VERSION=12 VARIANT=alpine DATABASE=postgres
+    - env: VERSION=12 VARIANT=debian DATABASE=postgres
+    - env: VERSION=12 VARIANT=debian-slim DATABASE=postgres
+    # FIXME For some reason, apt-get missing in base image!!
+    - env: VERSION=10 VARIANT=debian DATABASE=mariadb
+
+env: # Environments
+  - VERSION=develop VARIANT=alpine DATABASE=mariadb
+  - VERSION=develop VARIANT=alpine DATABASE=postgres
+  - VERSION=develop VARIANT=debian DATABASE=mariadb
+  - VERSION=develop VARIANT=debian DATABASE=postgres
+  - VERSION=develop VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=develop VARIANT=debian-slim DATABASE=postgres
+  - VERSION=10 VARIANT=alpine DATABASE=mariadb
+  - VERSION=10 VARIANT=debian DATABASE=mariadb
+  - VERSION=10 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=11 VARIANT=alpine DATABASE=mariadb
+  - VERSION=11 VARIANT=debian DATABASE=mariadb
+  - VERSION=11 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=12 VARIANT=alpine DATABASE=mariadb
+  - VERSION=12 VARIANT=alpine DATABASE=postgres
+  - VERSION=12 VARIANT=debian DATABASE=mariadb
+  - VERSION=12 VARIANT=debian DATABASE=postgres
+  - VERSION=12 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=12 VARIANT=debian-slim DATABASE=postgres
