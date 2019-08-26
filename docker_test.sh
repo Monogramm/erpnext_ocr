@@ -1,5 +1,8 @@
 #!/usr/bin/sh
 
+echo "Checking content of sites directory..."
+ls -al "${FRAPPE_WD}/sites/"
+
 if [ ! -f "${FRAPPE_WD}/sites/apps.txt" ] || [ ! -f "${FRAPPE_WD}/sites/.docker-app-init" ]; then
     echo 'Apps were not installed in time!'
     exit 1
@@ -10,6 +13,7 @@ if [ ! -f "${FRAPPE_WD}/sites/currentsite.txt" ] || [ ! -f "${FRAPPE_WD}/sites/.
     exit 2
 fi
 
+echo "Checking main containers are reachable..."
 if [ ! sudo ping -c 10 -q erpnext_db ]; then
     echo 'ERPNext database container is not responding!'
     exit 4
@@ -25,10 +29,9 @@ if [ ! sudo ping -c 10 -q erpnext_web ]; then
     exit 16
 fi
 
-## Unit testing:
 ## https://frappe.io/docs/user/en/testing
 ## https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
-
+echo "Executing custom app tests..."
 bench run-tests --profile --app erpnext_ocr
 ## TODO Test result of tests
 
