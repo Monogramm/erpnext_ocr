@@ -21,6 +21,29 @@ services:
       - erpnext_redis_queue
       - erpnext_redis_socketio
     environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+    volumes:
+      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+  erpnext_app:
+    build:
+      context: ./
+      dockerfile: Dockerfile.${VARIANT}
+    image: docker-erpnext-ext:test_erpnext_ocr
+    container_name: erpnext_app
+    #restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - erpnext_db
+    links:
+      - erpnext_db
+    environment:
+      # Container setup
+      - NODE_TYPE=app
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext erpnext_ocr
       - FRAPPE_DEFAULT_PROTOCOL=http://
@@ -44,28 +67,6 @@ services:
       - REDIS_CACHE_HOST=erpnext_redis_cache
       - REDIS_QUEUE_HOST=erpnext_redis_queue
       - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
-    volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-
-  erpnext_app:
-    build:
-      context: ./
-      dockerfile: Dockerfile.${VARIANT}
-    image: docker-erpnext-ext:test_erpnext_ocr
-    container_name: erpnext_app
-    #restart: always
-    ports:
-      - 8000:8000
-    depends_on:
-      - erpnext_db
-    links:
-      - erpnext_db
-    environment:
-      # Container setup
-      - NODE_TYPE=app
-      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs

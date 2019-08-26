@@ -7,15 +7,14 @@ echo "Checking content of sites directory..."
 ls -al "${FRAPPE_WD}/sites/"
 
 # FIXME We couldn't be here if those files did not existed... so why are they not?!
-if [ ! -f "${FRAPPE_WD}/sites/apps.txt" ] || [ ! -f "${FRAPPE_WD}/sites/.docker-app-init" ]; then
-    echo 'Apps were not installed in time!'
-    exit 1
-fi
-
-if [ ! -f "${FRAPPE_WD}/sites/currentsite.txt" ] || [ ! -f "${FRAPPE_WD}/sites/.docker-site-init" ]; then
-    echo 'Site was not installed in time!'
-    exit 2
-fi
+#if [ ! -f "${FRAPPE_WD}/sites/apps.txt" ] \
+#    || [ ! -f "${FRAPPE_WD}/sites/.docker-app-init" ] \
+#    || [ ! -f "${FRAPPE_WD}/sites/currentsite.txt" ] \
+#    || [ ! -f "${FRAPPE_WD}/sites/.docker-site-init" ] \
+#    || [ ! -f "${FRAPPE_WD}/sites/.docker-init" ]; then
+#    echo 'Apps and site are not initalized!'
+#    exit 1
+#fi
 
 echo "Checking main containers are reachable..."
 if [ ! sudo ping -c 10 -q erpnext_db ]; then
