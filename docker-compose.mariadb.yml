@@ -22,7 +22,29 @@ services:
       - erpnext_redis_socketio
     environment:
       # Docker setup
-      - DOCKER_APPS_TIMEOUT=900
+      - DOCKER_DB_ALLOWED_HOSTS=
+      # Frappe setup
+      - FRAPPE_APP_INIT=erpnext erpnext_ocr
+      - FRAPPE_DEFAULT_PROTOCOL=http://
+      - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
+      - FRAPPE_LOGGING=1
+      - DEVELOPER_MODE=0
+      #- Amin user setup
+      - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
+      - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
+      # Database setup
+      - DB_TYPE=mariadb
+      - DB_HOST=erpnext_db
+      - DB_PORT=3306
+      - DB_NAME=${ERPNEXT_DB_NAME}
+      - DB_PASSWORD=${ERPNEXT_DB_PWD}
+      - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
+      # Mail setup
+      - MAIL_MUTED=true
+      # Redis setup
+      - REDIS_CACHE_HOST=erpnext_redis_cache
+      - REDIS_QUEUE_HOST=erpnext_redis_queue
+      - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -44,29 +66,7 @@ services:
       - erpnext_db
     environment:
       # Docker setup
-      - DOCKER_DB_ALLOWED_HOSTS=
-      # Frappe setup
-      - FRAPPE_APP_INIT=erpnext erpnext_ocr
-      - FRAPPE_DEFAULT_PROTOCOL=http://
-      - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
-      - FRAPPE_LOGGING=1
-      - DEVELOPER_MODE=0
-      #- ADMIN_USER=Administrator
-      - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
-      - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
-      # Database setup
-      - DB_TYPE=mariadb
-      - DB_HOST=erpnext_db
-      - DB_PORT=3306
-      - DB_NAME=${ERPNEXT_DB_NAME}
-      - DB_PASSWORD=${ERPNEXT_DB_PWD}
-      - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
-      # Mail setup
-      - MAIL_MUTED=true
-      # Redis setup
-      - REDIS_CACHE_HOST=erpnext_redis_cache
-      - REDIS_QUEUE_HOST=erpnext_redis_queue
-      - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs
