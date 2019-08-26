@@ -49,12 +49,13 @@ services:
       - FRAPPE_DEFAULT_PROTOCOL=http://
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
       - FRAPPE_LOGGING=1
+      - DEVELOPER_MODE=0
       #- ADMIN_USER=Administrator
       - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
       - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
       # Database setup
       - DB_TYPE=postgres
-      - DB_HOST=frappe_db
+      - DB_HOST=erpnext_db
       - DB_PORT=5432
       - DB_NAME=${ERPNEXT_DB_NAME}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
@@ -95,7 +96,7 @@ services:
 
   erpnext_db:
     image: postgres:10-alpine
-    container_name: frappe_db
+    container_name: erpnext_db
     #restart: always
     stdin_open: true
     tty: true
