@@ -14,17 +14,17 @@ if [ ! -f "./sites/apps.txt" ] || [ ! -f "./sites/.docker-app-init" ] || [ ! -f 
 fi
 
 echo "Checking main containers are reachable..."
-if ! sudo ping -c 10 -q frappe_db ; then
+if ! sudo ping -c 10 -q erpnext_db ; then
     echo 'Database container is not responding!'
     exit 2
 fi
 
-if ! sudo ping -c 10 -q frappe_app ; then
+if ! sudo ping -c 10 -q erpnext_app ; then
     echo 'App container is not responding!'
     exit 4
 fi
 
-if ! sudo ping -c 10 -q frappe_web ; then
+if ! sudo ping -c 10 -q erpnext_web ; then
     echo 'Web container is not responding!'
     exit 8
 fi
