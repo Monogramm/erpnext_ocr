@@ -1,5 +1,8 @@
 #!/usr/bin/sh
 
+echo "Waiting to ensure everything is fully ready for the tests..."
+sleep 60
+
 echo "Checking content of sites directory..."
 ls -al "${FRAPPE_WD}/sites/"
 
