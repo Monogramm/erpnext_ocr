@@ -26,12 +26,13 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
-  - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
+  - echo 'Wait until sites and apps database installed (9-10 minutes)' && travis_wait 15 sleep 720
   - docker-compose -f docker-compose.${DATABASE}.yml ps
   - docker-compose -f docker-compose.${DATABASE}.yml logs
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
+  - echo 'Wait until test finished (1-2 minutes)' && sleep 90
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container restart
   - docker-compose -f docker-compose.${DATABASE}.yml down
