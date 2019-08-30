@@ -6,6 +6,9 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile_test
+      args:
+          - BUILD_BRANCH=${TRAVIS_BRANCH}
+          - BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
     command: sh /docker_test.sh
     # Only for travis-ci, do not name test container in dockerhub
     container_name: sut

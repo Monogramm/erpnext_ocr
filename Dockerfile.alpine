@@ -5,8 +5,12 @@ ENV DOCKER_TAG=travis \
     DOCKER_VCS_REF=${TRAVIS_COMMIT} \
     DOCKER_BUILD_DATE=${TRAVIS_BUILD_NUMBER}
 
-# Copy the whole repository to app folder
-COPY --chown=frappe:frappe . "/home/$FRAPPE_USER"/frappe-bench/apps/erpnext_ocr
+# Copy the whole repository to app folder for manual install
+#COPY --chown=frappe:frappe . "/home/$FRAPPE_USER"/frappe-bench/apps/erpnext_ocr
+
+ARG BUILD_BRANCH
+ARG BUILD_URL
+
 # Add the docker test script
 ADD docker_test.sh /docker_test.sh
 
@@ -28,15 +32,16 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
-    echo "Manually installing app for CI (not needed normally)"; \
-    ./env/bin/pip install -q -e "apps/erpnext_ocr" --no-cache-dir; \
-    test ! "$FRAPPE_BRANCH" = "v10.x.x" \
-        && ./env/bin/pip3 install -q -e "apps/erpnext_ocr" --no-cache-dir \
-        && bench build --app erpnext_ocr \
-    ; \
-    sudo mkdir -p "${FRAPPE_WD}/sites"; \
-    sudo touch "${FRAPPE_WD}/sites/apps.txt"; \
-    sudo chown $FRAPPE_USER:$FRAPPE_USER "${FRAPPE_WD}/sites/apps.txt"; \
-    echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
-    echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
-    echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt"
+    bench get-app --branch ${BUILD_BRANCH} ${BUILD_URL}
+    #echo "Manually installing app for CI (not needed normally)"; \
+    #./env/bin/pip install -q -e "apps/erpnext_ocr" --no-cache-dir; \
+    #test ! "$FRAPPE_BRANCH" = "v10.x.x" \
+    #    && ./env/bin/pip3 install -q -e "apps/erpnext_ocr" --no-cache-dir \
+    #    && bench build --app erpnext_ocr \
+    #; \
+    #sudo mkdir -p "${FRAPPE_WD}/sites"; \
+    #sudo touch "${FRAPPE_WD}/sites/apps.txt"; \
+    #sudo chown $FRAPPE_USER:$FRAPPE_USER "${FRAPPE_WD}/sites/apps.txt"; \
+    #echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
+    #echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
+    #echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt"
