@@ -63,18 +63,21 @@ class OCRRead(Document):
 
         if path.endswith('.pdf'):
             from wand.image import Image as wi
-            pdf = wi(filename = fullpath, resolution = 300)
-            pdfImage = pdf.convert('jpeg')
 
-            for img in pdfImage.sequence:
-                imgPage = wi(image = img)
-                imageBlob = imgPage.make_blob('jpeg')
+            # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
+            with wi(filename = fullpath, resolution = 300) as pdf:
+                pdfImage = pdf.convert('jpeg')
 
-                recognized_text = " "
+                for img in pdfImage.sequence:
+                    with wi(image = img) as imgPage:
+                        imageBlob = imgPage.make_blob('jpeg')
 
-                im = Image.open(io.BytesIO(imageBlob))
-                recognized_text = pytesseract.image_to_string(im, lang)
-                text = text + recognized_text
+                        recognized_text = " "
+
+                        im = Image.open(io.BytesIO(imageBlob))
+                        recognized_text = pytesseract.image_to_string(im, lang)
+                        text = text + recognized_text
+
         else:
             im = Image.open(fullpath)
 
