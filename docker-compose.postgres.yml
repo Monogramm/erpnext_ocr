@@ -6,9 +6,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile_test
-      args:
-          - BUILD_BRANCH=${TRAVIS_BRANCH}
-          - BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
     command: sh /docker_test.sh
     # Only for travis-ci, do not name test container in dockerhub
     container_name: sut
@@ -36,6 +33,9 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.${VARIANT}
+      args:
+          - BUILD_BRANCH=${TRAVIS_BRANCH}
+          - BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
     image: docker-erpnext-ext:test_erpnext_ocr
     container_name: erpnext_app
     #restart: always
