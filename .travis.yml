@@ -12,10 +12,11 @@ branches:
 
 before_script:
   - env | sort
+  - export IMAGE_NAME=docker-erpnext-ext:erpnext_ocr-travis
 
 script:
   # Prepare base image for build version and variant
-  - sed -i -e "s/%%VERSION%%/${VERSION}/g" Dockerfile.${VARIANT}
+  - sed -i -e "s/%%VERSION%%/${VERSION}/g" Dockerfile.${VARIANT} Dockerfile_test
   # Test container build
   - travis_retry travis_wait 60 docker-compose -f docker-compose.${DATABASE}.yml build
   - docker images

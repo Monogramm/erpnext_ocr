@@ -22,8 +22,12 @@ services:
       - erpnext_redis_queue
       - erpnext_redis_socketio
     environment:
+      # Container setup
+      - NODE_TYPE=test
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
+    volumes_from: 
+      - erpnext_app
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -36,7 +40,7 @@ services:
       args:
           - BUILD_BRANCH=${TRAVIS_BRANCH}
           - BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_app
     command: app
     #restart: always
@@ -117,7 +121,7 @@ services:
 
   erpnext_scheduler:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_scheduler
     command: scheduler
     #restart: always
@@ -133,7 +137,7 @@ services:
 
   erpnext_worker_default:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_worker_default
     command: worker-default
     #restart: always
@@ -149,7 +153,7 @@ services:
 
   erpnext_worker_long:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_worker_long
     command: worker-long
     #restart: always
@@ -165,7 +169,7 @@ services:
 
   erpnext_worker_short:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_worker_short
     command: worker-short
     #restart: always
@@ -181,7 +185,7 @@ services:
 
   erpnext_socketio:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_socketio
     command: node-socketio
     #restart: always

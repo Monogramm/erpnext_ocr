@@ -1,4 +1,4 @@
-FROM monogramm/docker-frappe:alpine
+FROM monogramm/docker-frappe:%%VERSION%%-alpine
 
 ADD docker_test.sh /docker_test.sh
 
