@@ -11,11 +11,7 @@ ENV DOCKER_TAG=travis \
 ARG BUILD_BRANCH
 ARG BUILD_URL
 
-# Add the docker test script
-ADD docker_test.sh /docker_test.sh
-
 RUN set -ex; \
-    sudo chmod 755 /docker_test.sh; \
     sudo apk add --update \
         ghostscript \
         imagemagick \
