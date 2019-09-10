@@ -43,6 +43,6 @@ bench run-tests --profile --app erpnext_ocr
 
 # Success
 echo 'Docker test successful'
-echo 'Check the following logs for details:'
-tail -n 100 logs/*.log
+#echo 'Check the following logs for details:'
+#tail -n 100 logs/*.log
 exit 0

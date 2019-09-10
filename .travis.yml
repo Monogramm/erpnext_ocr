@@ -47,6 +47,7 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
   - echo 'Wait until test finished (1-2 minutes)' && sleep 90
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
 
 notifications:
