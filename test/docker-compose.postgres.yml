@@ -5,7 +5,7 @@ services:
   sut:
     build:
       context: ./
-      dockerfile: Dockerfile.${VARIANT}
+      dockerfile: Dockerfile_test
     command: sh /docker_test.sh
     # Only for travis-ci, do not name test container in dockerhub
     container_name: sut
@@ -22,8 +22,12 @@ services:
       - erpnext_redis_queue
       - erpnext_redis_socketio
     environment:
+      # Container setup
+      - NODE_TYPE=test
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
+    volumes_from: 
+      - erpnext_app
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -33,7 +37,10 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.${VARIANT}
-    image: docker-erpnext-ext:test_erpnext_ocr
+      args:
+          - BUILD_BRANCH=${TRAVIS_BRANCH}
+          - BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
+    image: ${IMAGE_NAME}
     container_name: erpnext_app
     #restart: always
     ports:
@@ -112,7 +119,7 @@ services:
 
   erpnext_scheduler:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_scheduler
     #restart: always
     depends_on:
@@ -128,7 +135,7 @@ services:
 
   erpnext_worker_default:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_worker_default
     #restart: always
     depends_on:
@@ -144,7 +151,7 @@ services:
 
   erpnext_worker_long:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_worker_long
     #restart: always
     depends_on:
@@ -160,7 +167,7 @@ services:
 
   erpnext_worker_short:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_worker_short
     #restart: always
     depends_on:
@@ -176,7 +183,7 @@ services:
 
   erpnext_socketio:
     #build: ./
-    image: docker-erpnext-ext:test_erpnext_ocr
+    image: ${IMAGE_NAME}
     container_name: erpnext_socketio
     #restart: always
     ports:

@@ -12,10 +12,13 @@ branches:
 
 before_script:
   - env | sort
+  - dir="test"
+  - export IMAGE_NAME=docker-erpnext-ext:erpnext_ocr-travis
 
 script:
+  - cd "$dir"
   # Prepare base image for build version and variant
-  - sed -i -e "s/%%VERSION%%/${VERSION}/g" Dockerfile.${VARIANT}
+  - sed -i -e "s/%%VERSION%%/${VERSION}/g" Dockerfile.${VARIANT} Dockerfile_test
   # Test container build
   - travis_retry travis_wait 60 docker-compose -f docker-compose.${DATABASE}.yml build
   - docker images
@@ -26,12 +29,13 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
-  - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
+  - echo 'Wait until sites and apps database installed (9-10 minutes)' && travis_wait 15 sleep 720
   - docker-compose -f docker-compose.${DATABASE}.yml ps
   - docker-compose -f docker-compose.${DATABASE}.yml logs
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
+  - echo 'Wait until test finished (1-2 minutes)' && sleep 90
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container restart
   - docker-compose -f docker-compose.${DATABASE}.yml down
@@ -41,6 +45,7 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
+  - echo 'Wait until test finished (1-2 minutes)' && sleep 90
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
 
 notifications:
