@@ -37,8 +37,8 @@ fi
 # https://docs.docker.com/docker-hub/builds/automated-testing/
 # https://frappe.io/docs/user/en/testing
 # https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
-#echo "Executing erpnext_ocr app tests..."
-#bench run-tests --profile --app erpnext_ocr
+echo "Executing erpnext_ocr app tests..."
+bench run-tests --profile --app erpnext_ocr
 ## TODO Test result of tests
 
 # Success
