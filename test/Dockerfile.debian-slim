@@ -17,6 +17,7 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         tesseract-ocr \
+        iputils-ping \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
