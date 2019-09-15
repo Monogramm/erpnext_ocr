@@ -26,10 +26,10 @@ services:
       - NODE_TYPE=test
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
+      - DOCKER_DEBUG=1
     volumes_from: 
       - erpnext_app
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
