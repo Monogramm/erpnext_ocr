@@ -14,6 +14,8 @@ before_script:
   - env | sort
   - dir="test"
   - export IMAGE_NAME=docker-erpnext-ext:erpnext_ocr-travis
+  - export BUILD_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-${TRAVIS_BRANCH}}
+  - export BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
 
 script:
   - cd "$dir"
@@ -41,6 +43,7 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
   - echo 'Wait until test finished (1-2 minutes)' && sleep 90
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container restart
   - docker-compose -f docker-compose.${DATABASE}.yml down
