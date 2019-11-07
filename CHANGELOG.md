@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+<a name="0.9.0"></a>
+## [0.9.0] - 2019-11-06
+
+### Added
 - PDF management in `OCR Read`
 - `OCR Language` to manage available tesseract traindata files
 - French translations

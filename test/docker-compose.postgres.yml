@@ -38,8 +38,8 @@ services:
       context: ./
       dockerfile: Dockerfile.${VARIANT}
       args:
-          - BUILD_BRANCH=${TRAVIS_BRANCH}
-          - BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
+          - BUILD_BRANCH=${BUILD_BRANCH}
+          - BUILD_URL=${BUILD_URL}
     image: ${IMAGE_NAME}
     container_name: erpnext_app
     #restart: always
