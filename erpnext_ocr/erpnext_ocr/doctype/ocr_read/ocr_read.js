@@ -14,7 +14,7 @@ frappe.ui.form.on('OCR Read', {
         // });
         frappe.show_progress(__("Reading the file"), 50, 100);
         frappe.call({
-            method: "lang_is_supported",
+            method: "read_image",
             doc: cur_frm.doc,
             callback: function (r, rt) {
                 if (r.message) {
