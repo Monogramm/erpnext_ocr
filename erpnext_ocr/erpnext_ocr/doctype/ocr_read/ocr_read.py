@@ -8,15 +8,17 @@ from frappe.model.document import Document
 import os
 import io
 
-#Alternative to "File Upload Disconnected. Please try again."
 
-#erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.force_attach_file
+# Alternative to "File Upload Disconnected. Please try again."
+
+# erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.force_attach_file
 def force_attach_file():
     filename = "Picture_010.tif"
     name = "a2cbc0186c"
-    force_attach_file_doc(filename,name)
+    force_attach_file_doc(filename, name)
 
-def force_attach_file_doc(filename,name):
+
+def force_attach_file_doc(filename, name):
     file_url = "/private/files/" + filename
 
     attachment_doc = frappe.get_doc({
@@ -63,11 +65,10 @@ class OCRRead(Document):
 
         if path.endswith('.pdf'):
             from wand.image import Image as wi
-            pdf = wi(filename = fullpath, resolution = 300)
+            pdf = wi(filename=fullpath, resolution=300)
             pdfImage = pdf.convert('jpeg')
-
             for img in pdfImage.sequence:
-                imgPage = wi(image = img)
+                imgPage = wi(image=img)
                 imageBlob = imgPage.make_blob('jpeg')
 
                 recognized_text = " "
@@ -75,6 +76,7 @@ class OCRRead(Document):
                 im = Image.open(io.BytesIO(imageBlob))
                 recognized_text = pytesseract.image_to_string(im, lang)
                 text = text + recognized_text
+
         else:
             im = Image.open(fullpath)
 
@@ -84,5 +86,4 @@ class OCRRead(Document):
 
         self.read_result = text
         self.save()
-
         return text
