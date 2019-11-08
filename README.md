@@ -81,7 +81,7 @@ Check tesseract Wiki for details: https://github.com/tesseract-ocr/tesseract/wik
 ## :white_check_mark: Run tests
 
 ```sh
-bench bench run-tests --profile --app erpnext_autoinstall
+bench bench run-tests --profile --app erpnext_ocr
 ```
 
 ## :bust_in_silhouette: Authors
