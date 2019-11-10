@@ -18,9 +18,12 @@ frappe.ui.form.on('OCR Read', {
             doc: cur_frm.doc,
             callback: function (r, rt) {
                 if (r.message) {
-                    console.log(r.message);
-                    cur_frm.set_value("read_result", r.message);
-                    cur_dialog.hide()
+                    cur_dialog.hide();
+                    if (r.message === "Language doesn't imported in your system") {
+                        frappe.msgprint(r.message)
+                    } else {
+                        cur_frm.set_value("read_result", r.message);
+                    }
                 }
             }
         });

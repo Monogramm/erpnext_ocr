@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_supported
 from frappe.model.document import Document
 import os
 import io
@@ -43,6 +44,8 @@ class OCRRead(Document):
         import pytesseract
 
         path = self.file_to_read
+        if not lang_is_supported(self.language):
+            return "Language doesn't imported in your system"
         if path == None:
             return None
 
