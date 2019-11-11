@@ -23,6 +23,7 @@ RUN set -ex; \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
         /etc/ImageMagick*/policy.xml \
     ; \
+    sudo apt-get install libleptonica-dev libtesseract-dev; \
     sudo mkdir -p "/home/$FRAPPE_USER"/frappe-bench/logs; \
     sudo touch "/home/$FRAPPE_USER"/frappe-bench/logs/bench.log; \
     sudo chmod 777 \
