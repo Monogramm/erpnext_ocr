@@ -12,6 +12,7 @@ ARG BUILD_BRANCH
 ARG BUILD_URL
 
 RUN set -ex; \
+    sudo apt-get install libleptonica-dev libtesseract-dev; \
     sudo apt-get update -q; \
     sudo apt-get install -y --no-install-recommends \
         ghostscript \
