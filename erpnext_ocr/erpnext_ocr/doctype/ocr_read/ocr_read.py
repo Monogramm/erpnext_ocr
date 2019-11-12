@@ -45,7 +45,7 @@ class OCRRead(Document):
 
         path = self.file_to_read
         if not lang_is_supported(self.language):
-            return "Language doesn't imported in your system"
+            return "The selected language is not available. Please contact your administrator."
         if path == None:
             return None
 

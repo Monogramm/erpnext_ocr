@@ -19,7 +19,7 @@ frappe.ui.form.on('OCR Read', {
             callback: function (r, rt) {
                 if (r.message) {
                     cur_dialog.hide();
-                    if (r.message === "Language doesn't imported in your system") {
+                    if (r.message === "The selected language is not available. Please contact your administrator.") {
                         frappe.msgprint(r.message)
                     } else {
                         cur_frm.set_value("read_result", r.message);
