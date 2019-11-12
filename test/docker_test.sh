@@ -41,6 +41,11 @@ echo "Executing erpnext_ocr app tests..."
 bench run-tests --profile --app erpnext_ocr
 ## TODO Test result of tests
 
+# https://frappe.io/docs/user/en/guides/automated-testing/qunit-testing
+echo "Executing erpnext_ocr app UI tests..."
+bench run-ui-tests --app erpnext_ocr
+## TODO Test result of UI tests
+
 # Success
 echo 'Docker test successful'
 #echo 'Check the following logs for details:'
