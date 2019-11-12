@@ -17,8 +17,9 @@ RUN set -ex; \
         imagemagick \
         imagemagick-dev \
         tesseract-ocr \
+        tesseract-ocr-dev \
+        libleptonica \
     ; \
-    sudo apt-get install libleptonica-dev libtesseract-dev; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
         /etc/ImageMagick*/policy.xml \
