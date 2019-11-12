@@ -51,12 +51,12 @@ When installing Frappe app, the following python requirements will be installed:
 
 **Sample Screenshot**:
 
-![Sample Screenshot](./erpnext_ocr/erpnext_ocr/Selection_046.png)
+![Sample Screenshot](./erpnext_ocr/tests/Picture_010.png)
 
 
 **File Being Read**:
 
-![Sample Screenshot 2](./erpnext_ocr/erpnext_ocr/Selection_047.png)
+![Sample Screenshot 2](./erpnext_ocr/tests/Picture_010_screenshot.png)
 
 ### Tesseract trained data
 
