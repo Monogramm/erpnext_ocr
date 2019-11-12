@@ -12,7 +12,7 @@ branches:
 
 before_script:
   - env | sort
-  - dir="test"
+  - dir=".travis"
   - export IMAGE_NAME=docker-erpnext-ext:erpnext_ocr-travis
   - export BUILD_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-${TRAVIS_BRANCH}}
   - export BUILD_URL=https://github.com/${TRAVIS_PULL_REQUEST_SLUG:-${TRAVIS_REPO_SLUG}}
