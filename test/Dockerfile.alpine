@@ -12,13 +12,12 @@ ARG BUILD_BRANCH
 ARG BUILD_URL
 
 RUN set -ex; \
+    RUN set -ex; \
     sudo apk add --update \
         ghostscript \
-        pkg-config \
         imagemagick \
         imagemagick-dev \
         tesseract-ocr \
-        tesseract-ocr-dev \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
