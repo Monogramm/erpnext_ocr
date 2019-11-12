@@ -18,7 +18,6 @@ RUN set -ex; \
         imagemagick-dev \
         tesseract-ocr \
         tesseract-ocr-dev \
-        libleptonica-dev \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
