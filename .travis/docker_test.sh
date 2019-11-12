@@ -58,7 +58,7 @@ bench run-tests --profile --app ${FRAPPE_APP_TO_TEST}
 # https://frappe.io/docs/user/en/guides/automated-testing/qunit-testing
 
 echo "Executing ${FRAPPE_APP_TO_TEST} app UI tests..."
-if [ "${VERSION}" -eq 10 ] || [ "${VERSION}" -eq 11 ]; then
+if [[ "${VERSION}" = "10" ]] || [[ "${VERSION}" = "11" ]]; then
     bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
 else
     bench run-ui-tests ${FRAPPE_APP_TO_TEST}
