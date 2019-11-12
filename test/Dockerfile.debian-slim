@@ -17,6 +17,7 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         tesseract-ocr \
+        libleptonica-dev \
         iputils-ping \
     ; \
     sudo sed -i \
