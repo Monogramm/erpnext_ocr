@@ -34,17 +34,39 @@ if ! sudo ping -c 10 -q erpnext_web ; then
     exit 8
 fi
 
+FRAPPE_APP_TO_TEST=erpnext_ocr
+
+################################################################################
+# Automated Unit tests
 # https://docs.docker.com/docker-hub/builds/automated-testing/
 # https://frappe.io/docs/user/en/testing
+################################################################################
+
+################################################################################
+# Frappe Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
-echo "Executing erpnext_ocr app tests..."
-bench run-tests --profile --app erpnext_ocr
+
+echo "Executing ${FRAPPE_APP_TO_TEST} app tests..."
+bench run-tests --profile --app ${FRAPPE_APP_TO_TEST}
+
 ## TODO Test result of tests
 
+################################################################################
+
+################################################################################
+# QUnit (JS) Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/qunit-testing
-echo "Executing erpnext_ocr app UI tests..."
-bench run-ui-tests --app erpnext_ocr
+
+echo "Executing ${FRAPPE_APP_TO_TEST} app UI tests..."
+if [ "${VERSION}" -eq 10 ] || [ "${VERSION}" -eq 11 ]; then
+    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
+else
+    bench run-ui-tests ${FRAPPE_APP_TO_TEST}
+fi
+
 ## TODO Test result of UI tests
+
+################################################################################
 
 # Success
 echo 'Docker test successful'
