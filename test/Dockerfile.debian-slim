@@ -16,6 +16,7 @@ RUN set -ex; \
     sudo apt-get install -y --no-install-recommends \
         ghostscript \
         imagemagick \
+        libleptonica-dev \
         tesseract-ocr \
         iputils-ping \
     ; \
