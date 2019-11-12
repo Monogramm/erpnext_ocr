@@ -15,6 +15,7 @@ RUN set -ex; \
     sudo apt-get update -q; \
     sudo apt-get install -y --no-install-recommends \
         ghostscript \
+        pkg-config \
         imagemagick \
         libleptonica-dev \
         tesseract-ocr \
