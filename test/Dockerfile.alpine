@@ -12,8 +12,8 @@ ARG BUILD_BRANCH
 ARG BUILD_URL
 
 RUN set -ex; \
-    RUN set -ex; \
     sudo apk add --update \
+        libleptonica-dev \
         ghostscript \
         imagemagick \
         imagemagick-dev \
