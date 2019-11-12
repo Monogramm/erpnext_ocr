@@ -18,6 +18,7 @@ RUN set -ex; \
         imagemagick \
         tesseract-ocr \
         iputils-ping \
+        unzip \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
