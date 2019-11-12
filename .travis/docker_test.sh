@@ -57,12 +57,15 @@ bench run-tests --profile --app ${FRAPPE_APP_TO_TEST}
 # QUnit (JS) Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/qunit-testing
 
-echo "Executing ${FRAPPE_APP_TO_TEST} app UI tests..."
-if [[ "${VERSION}" = "10" ]] || [[ "${VERSION}" = "11" ]]; then
-    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
-else
-    bench run-ui-tests ${FRAPPE_APP_TO_TEST}
-fi
+bench run-ui-tests --help
+echo "Executing UI tests of '${FRAPPE_APP_TO_TEST}' app for ERPNext ${VERSION}..."
+bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
+
+#if [ "${VERSION}" = "10" ] || [ "${VERSION}" = "11" ]; then
+#    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
+#else
+#    bench run-ui-tests ${FRAPPE_APP_TO_TEST}
+#fi
 
 ## TODO Test result of UI tests
 
