@@ -6,11 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+<a name="0.9.0"></a>
+## [0.9.0] - 2019-11-06
+
+### Added
 - PDF management in `OCR Read`
 - `OCR Language` to manage available tesseract traindata files
 - French translations
 - GitHub issue and feature templates
 - GitHub bots config ([stale](https://github.com/apps/stale) and [behaviorbot](https://github.com/behaviorbot))
+- [Travis-CI](https://travis-ci.org/) using [docker images](https://github.com/Monogramm/docker-erpnext) to setup ERPNext test environment
 - Contributing guidelines
 - This CHANGELOG file to hopefully help to track changes done to the project.
 
