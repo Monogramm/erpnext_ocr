@@ -11,15 +11,16 @@ from PIL import Image
 import pytesseract
 from wand.image import Image as wi
 
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import read_document
+
 class TestTesseract(unittest.TestCase):
-    def test_image_jpg(self):
-        im = Image.open(os.path.join(os.path.dirname(__file__), "test_data", "sample1.jpg"))
-
-        recognized_text = pytesseract.image_to_string(im, lang = 'eng')
-
-        recognized_text.split(" ")
+    def test_read_document_image(self):
+        recognized_text = read_document(os.path.join(os.path.dirname(__file__),
+                                        "test_data", "sample1.jpg"),
+                            "eng")
 
         # print(recognized_text)
+
         self.assertTrue("The quick brown fox" in recognized_text)
         self.assertTrue("jumped over the 5" in recognized_text)
         self.assertTrue("lazy dogs!" in recognized_text)
@@ -30,25 +31,13 @@ class TestTesseract(unittest.TestCase):
 
         self.assertTrue(recognized_text == expected_text)
 
-
-    def test_pdf(self):
-        pdf = wi(filename = os.path.join(os.path.dirname(__file__), "test_data", "sample2.pdf"), resolution = 300)
-        pdfImage = pdf.convert('jpeg')
-
-        imageBlobs = []
-
-        for img in pdfImage.sequence:
-            imgPage = wi(image = img)
-            imageBlobs.append(imgPage.make_blob('jpeg'))
-
-        recognized_text = " "
-
-        for imgBlob in imageBlobs:
-            im = Image.open(io.BytesIO(imgBlob))
-            text = pytesseract.image_to_string(im, lang = 'eng')
-            recognized_text = recognized_text + text
+    def test_read_document_pdf(self):
+        recognized_text = read_document(os.path.join(os.path.dirname(__file__),
+                                        "test_data", "sample2.pdf"),
+                            "eng")
 
         # print(recognized_text)
+
         self.assertTrue("Python Basics" in recognized_text)
         self.assertFalse("Java" in recognized_text)
 
