@@ -35,12 +35,13 @@ def create_ocr_reads():
 def delete_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
         frappe.set_user("Administrator")
-        frappe.get_doc("OCR Read", os.path.join(os.path.dirname(__file__),
-                                                os.path.pardir, os.path.pardir, os.path.pardir,
-                                                "tests", "test_data", "sample1.jpg"))
-        frappe.get_doc("OCR Read", os.path.join(os.path.dirname(__file__),
-                                                os.path.pardir, os.path.pardir, os.path.pardir,
-                                                "tests", "test_data", "sample2.pdf"))
+
+        for d in frappe.get_all("OCR Read"):
+            doc = frappe.get_doc("OCR Read", d.name)
+            doc.delete()
+
+        # Delete directly in DB to avoid validation errors
+        #frappe.db.sql("""delete from `tabOCR Read`""")
 
         frappe.flags.test_ocr_reads_created = False
 
