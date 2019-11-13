@@ -50,6 +50,7 @@ FRAPPE_APP_TO_TEST=erpnext_ocr
 echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
 bench run-tests \
     --app ${FRAPPE_APP_TO_TEST} \
+    --coverage \
     --junit-xml-output "${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 
 ## TODO Check result of tests
