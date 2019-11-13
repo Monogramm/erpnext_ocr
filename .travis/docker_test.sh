@@ -53,7 +53,6 @@ bench run-tests \
     --junit-xml-output "${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 
 ## TODO Check result of tests
-ls -al
 #cat "${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 
 
