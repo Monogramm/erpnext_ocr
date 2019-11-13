@@ -18,9 +18,9 @@ RUN set -ex; \
         imagemagick \
         imagemagick-dev \
         tesseract-ocr \
-        libtesseract-dev \
+        tesseract-ocr-dev \
         pkg-config \
-        libleptonica-dev \
+        leptonica \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
