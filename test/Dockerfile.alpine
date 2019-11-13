@@ -13,11 +13,14 @@ ARG BUILD_URL
 
 RUN set -ex; \
     sudo apk add --update \
-        libleptonica-dev \
+        leptonica \
         ghostscript \
         imagemagick \
         imagemagick-dev \
         tesseract-ocr \
+        libtesseract-dev \
+        pkg-config \
+        libleptonica-dev \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
