@@ -14,8 +14,7 @@ RUN set -ex; \
     sudo rm /tmp/chromedriver_linux64.zip; \
     sudo chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver; \
     sudo ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver; \
-    export PATH="$PATH;/usr/local/bin/chromedriver"; \
-    rm -rf /var/lib/apt/lists/*
+    export PATH="$PATH;/usr/local/bin/chromedriver"
 
 # Build environment variables
 ENV DOCKER_TAG=travis \
