@@ -25,13 +25,21 @@ def create_ocr_reads():
 
     frappe.flags.test_ocr_reads_created = True
 
+def delete_ocr_reads():
+    if frappe.flags.test_ocr_reads_created:
+        frappe.set_user("Administrator")
+        frappe.get_doc("OCR Read", "sample1.jpg")
+        frappe.get_doc("OCR Read", "sample2.pdf")
+
+        frappe.flags.test_ocr_reads_created = False
+
 
 class TestOCRRead(unittest.TestCase):
     def setUp(self):
         create_ocr_reads()
 
     def tearDown(self):
-        frappe.set_user("Administrator")
+        delete_ocr_reads()
 
     def test_ocr_read_list(self):
         # frappe.set_user("test1@example.com")
