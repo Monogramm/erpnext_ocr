@@ -13,7 +13,7 @@ def create_ocr_reads():
         return
 
     frappe.set_user("Administrator")
-    doc = frappe.get_doc({
+    frappe.get_doc({
         "doctype": "OCR Read",
         "file_to_read": os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
@@ -21,7 +21,7 @@ def create_ocr_reads():
         "language": "eng"
     }).insert()
 
-    doc = frappe.get_doc({
+    frappe.get_doc({
         "doctype": "OCR Read",
         "file_to_read": os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
@@ -54,6 +54,12 @@ class TestOCRRead(unittest.TestCase):
         delete_ocr_reads()
 
     # TODO: Read content of files and check recognised text
+
+    #def test_ocr_read_image(self):
+    #    frappe.set_user("Administrator")
+
+    #def test_ocr_read_pdf(self):
+    #    frappe.set_user("Administrator")
 
     def test_ocr_read_list(self):
         # frappe.set_user("test1@example.com")
