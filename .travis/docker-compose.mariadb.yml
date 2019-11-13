@@ -27,6 +27,8 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
       - DOCKER_DEBUG=1
+      # Test setup
+      - TEST_VERSION=${VERSION}
     volumes_from: 
       - erpnext_app
     volumes:

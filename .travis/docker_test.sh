@@ -34,24 +34,24 @@ if ! sudo ping -c 10 -q erpnext_web ; then
     exit 8
 fi
 
-FRAPPE_APP_TO_TEST=erpnext_ocr
-
 ################################################################################
 # Automated Unit tests
 # https://docs.docker.com/docker-hub/builds/automated-testing/
 # https://frappe.io/docs/user/en/testing
 ################################################################################
 
+FRAPPE_APP_TO_TEST=erpnext_ocr
+
 ################################################################################
 # Frappe Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
 
+bench run-tests --help
 echo "Executing ${FRAPPE_APP_TO_TEST} app tests..."
-bench run-tests --profile --app ${FRAPPE_APP_TO_TEST}
+bench run-tests --app ${FRAPPE_APP_TO_TEST}
 
-## TODO Test result of tests
+## TODO Check result of tests
 
-################################################################################
 
 ################################################################################
 # QUnit (JS) Unit tests
@@ -59,18 +59,16 @@ bench run-tests --profile --app ${FRAPPE_APP_TO_TEST}
 
 bench run-ui-tests --help
 echo "Executing UI tests of '${FRAPPE_APP_TO_TEST}' app for ERPNext ${VERSION}..."
-bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
+if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
+    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
+else
+    bench run-ui-tests ${FRAPPE_APP_TO_TEST}
+fi
 
-#if [ "${VERSION}" = "10" ] || [ "${VERSION}" = "11" ]; then
-#    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
-#else
-#    bench run-ui-tests ${FRAPPE_APP_TO_TEST}
-#fi
+## TODO Check result of UI tests
 
-## TODO Test result of UI tests
 
 ################################################################################
-
 # Success
 echo 'Docker test successful'
 #echo 'Check the following logs for details:'
