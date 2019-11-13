@@ -17,6 +17,8 @@ RUN set -ex; \
         imagemagick \
         imagemagick-dev \
         tesseract-ocr \
+        chromium \
+        chromium-chromedriver \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \

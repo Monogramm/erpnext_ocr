@@ -17,6 +17,8 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         tesseract-ocr \
+        chromium-browser \
+        chromium-chromedriver \
     ; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
