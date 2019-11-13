@@ -15,10 +15,9 @@ RUN set -ex; \
     sudo chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver; \
     sudo ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver; \
     export PATH="$PATH;/usr/local/bin/chromedriver"; \
-    sudo curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -; \
-    sudo echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list; \
-    sudo apt-get -yqq update; \
-    sudo apt-get -yqq install google-chrome-stable; \
+    sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
+    sudo dpkg -i google-chrome-stable_current_amd64.deb; \
+    sudo apt-get -fy install; \
     rm -rf /var/lib/apt/lists/*
 
 # Build environment variables
