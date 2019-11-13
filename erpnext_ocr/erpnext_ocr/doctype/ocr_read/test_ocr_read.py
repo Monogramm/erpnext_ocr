@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 
 import frappe
-import unittest, os
+import unittest
 
 def create_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
@@ -13,13 +13,13 @@ def create_ocr_reads():
     frappe.set_user("Administrator")
     doc = frappe.get_doc({
         "doctype": "OCR Read",
-        "file_to_read":os.path.join(os.path.dirname(__file__), "test_data", "sample1.jpg"),
+        "file_to_read":"test_data/sample1.jpg",
         "language": "eng"
     }).insert()
 
     doc = frappe.get_doc({
         "doctype": "OCR Read",
-        "file_to_read":os.path.join(os.path.dirname(__file__), "test_data", "sample2.pdf"),
+        "file_to_read":"test_data/sample2.pdf",
         "language": "eng"
     }).insert()
 
@@ -28,8 +28,8 @@ def create_ocr_reads():
 def delete_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
         frappe.set_user("Administrator")
-        frappe.get_doc("OCR Read", os.path.join(os.path.dirname(__file__), "test_data", "sample1.jpg"))
-        frappe.get_doc("OCR Read", os.path.join(os.path.dirname(__file__), "test_data", "sample2.pdf"))
+        frappe.get_doc("OCR Read", "test_data/sample1.jpg")
+        frappe.get_doc("OCR Read", "test_data/sample2.pdf")
 
         frappe.flags.test_ocr_reads_created = False
 
@@ -47,6 +47,6 @@ class TestOCRRead(unittest.TestCase):
         res = frappe.get_list("OCR Read", filters=[["OCR Read", "file_to_read", "like", "sample%"]], fields=["name", "file_to_read"])
         self.assertEquals(len(res), 2)
         files_to_read = [r.file_to_read for r in res]
-        self.assertTrue("sample1.jpg" in files_to_read)
-        self.assertTrue("sample2.pdf" in files_to_read)
+        self.assertTrue("test_data/sample1.jpg" in files_to_read)
+        self.assertTrue("test_data/sample2.pdf" in files_to_read)
 
