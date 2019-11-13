@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 
 import frappe
-import unittest
+import unittest, os
 
 def create_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
@@ -13,13 +13,13 @@ def create_ocr_reads():
     frappe.set_user("Administrator")
     doc = frappe.get_doc({
         "doctype": "OCR Read",
-        "file_to_read":"sample1.jpg",
+        "file_to_read":os.path.join(os.path.dirname(__file__), "test_data", "sample1.jpg"),
         "language": "eng"
     }).insert()
 
     doc = frappe.get_doc({
         "doctype": "OCR Read",
-        "file_to_read":"sample2.pdf",
+        "file_to_read":os.path.join(os.path.dirname(__file__), "test_data", "sample2.pdf"),
         "language": "eng"
     }).insert()
 
@@ -28,8 +28,8 @@ def create_ocr_reads():
 def delete_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
         frappe.set_user("Administrator")
-        frappe.get_doc("OCR Read", "sample1.jpg")
-        frappe.get_doc("OCR Read", "sample2.pdf")
+        frappe.get_doc("OCR Read", os.path.join(os.path.dirname(__file__), "test_data", "sample1.jpg"))
+        frappe.get_doc("OCR Read", os.path.join(os.path.dirname(__file__), "test_data", "sample2.pdf"))
 
         frappe.flags.test_ocr_reads_created = False
 
