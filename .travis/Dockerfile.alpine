@@ -1,5 +1,11 @@
 FROM monogramm/docker-erpnext:%%VERSION%%-alpine
 
+RUN set -ex; \
+    sudo apk add --update \
+        chromium \
+        chromium-chromedriver \
+    ;
+
 # Build environment variables
 ENV DOCKER_TAG=travis \
     DOCKER_VCS_REF=${TRAVIS_COMMIT} \
@@ -12,10 +18,6 @@ ARG BUILD_BRANCH
 ARG BUILD_URL
 
 RUN set -ex; \
-    sudo apk add --update \
-        chromium \
-        chromium-chromedriver \
-    ; \
     sudo apk add --update \
         ghostscript \
         imagemagick \

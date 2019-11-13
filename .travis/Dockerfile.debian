@@ -1,5 +1,21 @@
 FROM monogramm/docker-erpnext:%%VERSION%%-debian
 
+# Install Google Chrome & Chrome WebDriver for UI tests
+RUN set -ex; \
+    CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`; \
+    sudo mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION; \
+    sudo curl -sS -o /tmp/chromedriver_linux64.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip; \
+    sudo unzip -qq /tmp/chromedriver_linux64.zip -d /opt/chromedriver-$CHROMEDRIVER_VERSION; \
+    sudo rm /tmp/chromedriver_linux64.zip; \
+    sudo chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver; \
+    sudo ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver; \
+    export PATH="$PATH;/usr/local/bin/chromedriver"; \
+    curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -; \
+    echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list; \
+    sudo apt-get -yqq update; \
+    sudo apt-get -yqq install google-chrome-stable; \
+    rm -rf /var/lib/apt/lists/*
+
 # Build environment variables
 ENV DOCKER_TAG=travis \
     DOCKER_VCS_REF=${TRAVIS_COMMIT} \
@@ -17,9 +33,8 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         tesseract-ocr \
-        chromium-browser \
-        chromium-chromedriver \
     ; \
+    rm -rf /var/lib/apt/lists/*; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
         /etc/ImageMagick*/policy.xml \

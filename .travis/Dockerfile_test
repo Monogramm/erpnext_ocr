@@ -8,6 +8,8 @@ ENV TEST_VERSION=${TEST_VERSION}
 RUN set -ex; \
     sudo chmod 755 /docker_test.sh
 
+EXPOSE 4444
+
 # Default Chrome configuration
 ENV DISPLAY=:20.0 \
     SCREEN_GEOMETRY="1440x900x24" \
@@ -15,7 +17,5 @@ ENV DISPLAY=:20.0 \
     CHROMEDRIVER_WHITELISTED_IPS="127.0.0.1" \
     CHROMEDRIVER_URL_BASE='' \
     CHROMEDRIVER_EXTRA_ARGS=''
-
-EXPOSE 4444
 
 CMD ["/docker_test.sh"]
