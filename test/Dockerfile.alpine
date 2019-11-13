@@ -19,7 +19,7 @@ RUN set -ex; \
         imagemagick-dev \
         tesseract-ocr \
         tesseract-ocr-dev \
-        pkg-config \
+        pkgconfig \
         leptonica \
     ; \
     sudo sed -i \
