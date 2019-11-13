@@ -2,6 +2,11 @@ FROM monogramm/docker-erpnext:%%VERSION%%-debian-slim
 
 # Install Google Chrome & Chrome WebDriver for UI tests
 RUN set -ex; \
+    sudo apt-get update -q; \
+    sudo apt-get install -y --no-install-recommends \
+        iputils-ping \
+        unzip \
+    ; \
     CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`; \
     sudo mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION; \
     sudo curl -sS -o /tmp/chromedriver_linux64.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip; \
