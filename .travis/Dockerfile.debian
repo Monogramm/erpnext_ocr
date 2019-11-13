@@ -14,9 +14,6 @@ RUN set -ex; \
     sudo chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver; \
     sudo ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver; \
     export PATH="$PATH;/usr/local/bin/chromedriver"; \
-    sudo wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
-    sudo dpkg -i google-chrome-stable_current_amd64.deb; \
-    sudo apt-get -fy install; \
     rm -rf /var/lib/apt/lists/*
 
 # Build environment variables

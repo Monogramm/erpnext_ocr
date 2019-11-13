@@ -50,11 +50,11 @@ FRAPPE_APP_TO_TEST=erpnext_ocr
 echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
 bench run-tests \
     --app ${FRAPPE_APP_TO_TEST} \
-    --profile \
-    --junit-xml-output "./${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+    --junit-xml-output "${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 
 ## TODO Check result of tests
-cat "./${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+ls -al
+#cat "${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 
 
 ################################################################################
@@ -62,11 +62,11 @@ cat "./${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 # https://frappe.io/docs/user/en/guides/automated-testing/qunit-testing
 
 #bench run-ui-tests --help
-echo "Executing UI Tests of '${FRAPPE_APP_TO_TEST}' app..."
-bench run-tests \
-    --app ${FRAPPE_APP_TO_TEST} \
-    --ui-tests \
-    --junit-xml-output "./${FRAPPE_APP_TO_TEST}_ui_tests.xml"
+#echo "Executing UI Tests of '${FRAPPE_APP_TO_TEST}' app..."
+#bench run-tests \
+#    --app ${FRAPPE_APP_TO_TEST} \
+#    --ui-tests \
+#    --junit-xml-output "${FRAPPE_APP_TO_TEST}_ui_tests.xml"
 
 #if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
 #    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
@@ -75,7 +75,7 @@ bench run-tests \
 #fi
 
 ## TODO Check result of UI tests
-cat "./${FRAPPE_APP_TO_TEST}_ui_tests.xml"
+#cat "${FRAPPE_APP_TO_TEST}_ui_tests.xml"
 
 
 ################################################################################
