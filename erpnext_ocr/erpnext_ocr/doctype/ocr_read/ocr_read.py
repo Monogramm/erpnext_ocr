@@ -4,10 +4,12 @@
 
 from __future__ import unicode_literals
 import frappe
-from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_supported
 from frappe.model.document import Document
+
 import os
 import io
+
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_supported
 
 
 class OCRRead(Document):
@@ -29,7 +31,7 @@ def read_document(path, lang='eng'):
     if path is None:
         return None
 
-    if not lang_is_supported(self.language):
+    if not lang_is_supported(lang):
         return "The selected language is not available. Please contact your administrator."
 
     if path.startswith('/assets/'):

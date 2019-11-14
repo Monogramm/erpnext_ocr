@@ -7,7 +7,9 @@ from __future__ import unicode_literals
 
 import frappe
 from frappe.model.document import Document
-from tesserocr import PyTessBaseAPI # For library should download `apt-get install libleptonica-dev libtesseract-dev`
+
+# This library requires leptonica and tesseract-dev
+from tesserocr import PyTessBaseAPI
 
 @frappe.whitelist()
 def check_language_web(lang):
