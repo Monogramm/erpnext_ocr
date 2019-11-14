@@ -52,19 +52,16 @@ def read_document(path, lang='eng'):
         # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
         with wi(filename=fullpath, resolution=300) as pdf:
             pdf_image = pdf.convert('jpeg')
+
             for img in pdf_image.sequence:
-                img_page = wi(image=img)
-                image_blob = img_page.make_blob('jpeg')
+                with wi(image=img) as img_page:
+                    image_blob = img_page.make_blob('jpeg')
 
-                for img in pdf_image.sequence:
-                    with wi(image=img) as img_page:
-                        image_blob = img_page.make_blob('jpeg')
+                    recognized_text = " "
 
-                        recognized_text = " "
-
-                        image = Image.open(io.BytesIO(image_blob))
-                        recognized_text = pytesseract.image_to_string(image, lang)
-                        text = text + recognized_text
+                    image = Image.open(io.BytesIO(image_blob))
+                    recognized_text = pytesseract.image_to_string(image, lang)
+                    text = text + recognized_text
 
     else:
         image = Image.open(fullpath)
