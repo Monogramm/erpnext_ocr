@@ -13,12 +13,10 @@ ARG BUILD_URL
 
 RUN set -ex; \
     sudo apk add --update \
-        leptonica \
         ghostscript \
         imagemagick \
         imagemagick-dev \
         tesseract-ocr \
-        tesseract-ocr-dev \
         pkgconfig \
         leptonica \
     ; \
