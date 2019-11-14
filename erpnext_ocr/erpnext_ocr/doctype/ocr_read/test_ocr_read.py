@@ -66,7 +66,7 @@ class TestOCRRead(unittest.TestCase):
         frappe.set_user("Administrator")
         res = frappe.get_list("OCR Read", filters=[
                               ["OCR Read", "file_to_read", "like", "%sample%"]], fields=["name", "file_to_read"])
-        self.assertEquals(len(res), 2)
+        self.assertEqual(len(res), 2)
         files_to_read = [r.file_to_read for r in res]
         self.assertTrue(os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
