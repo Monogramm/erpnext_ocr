@@ -6,7 +6,8 @@ ADD docker_test.sh /docker_test.sh
 ENV TEST_VERSION=${TEST_VERSION}
 
 RUN set -ex; \
-    sudo chmod 755 /docker_test.sh
+    sudo chmod 755 /docker_test.sh; \
+    sudo pip install python-coveralls
 
 EXPOSE 4444
 

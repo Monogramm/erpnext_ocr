@@ -60,15 +60,17 @@ echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
 bench run-tests \
     --app ${FRAPPE_APP_TO_TEST} -coverage
 # FIXME https://github.com/frappe/frappe/issues/8809
-#    --junit-xml-output "${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+#    --junit-xml-output "$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 
 ## TODO Check result of tests
-#if grep 'FAILED' "${FRAPPE_APP_TO_TEST}_unit_tests.xml"; then
+#if grep 'FAILED' "$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"; then
 #    echo "Unit Tests of '${FRAPPE_APP_TO_TEST}' app failed! See report for details:"
-#    cat "${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+#    cat "$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 #    exit 1
 #fi
 
+echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
+coveralls -b apps/${FRAPPE_APP_TO_TEST} -d ./sites/.coverage
 
 ################################################################################
 # TODO QUnit (JS) Unit tests
