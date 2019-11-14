@@ -46,7 +46,7 @@ class OCRRead(Document):
         path = self.file_to_read
         if not lang_is_supported(self.language):
             return "The selected language is not available. Please contact your administrator."
-        if path == None:
+        if path is None:
             return None
 
         if path.startswith('/assets/'):
