@@ -2,6 +2,9 @@
 
 set -e
 
+################################################################################
+# Testing docker containers
+
 echo "Waiting to ensure everything is fully ready for the tests..."
 sleep 60
 
@@ -38,8 +41,6 @@ fi
 ################################################################################
 # Success
 echo 'Docker tests successful'
-#echo 'Check the following logs for details:'
-#tail -n 100 logs/*.log
 
 
 ################################################################################
@@ -81,6 +82,9 @@ if [ -f "${FRAPPE_APP_UNIT_TEST_REPORT}" ]; then
         echo "Unit Tests of '${FRAPPE_APP_TO_TEST}' app failed! See report for details:"
         cat "${FRAPPE_APP_UNIT_TEST_REPORT}"
         exit 1
+    else
+        echo "Unit Tests of '${FRAPPE_APP_TO_TEST}' app successful! See report for details:"
+        cat "${FRAPPE_APP_UNIT_TEST_REPORT}"
     fi
 fi
 
@@ -88,6 +92,7 @@ if [ -f ./sites/.coverage ]; then
     echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
     coveralls -b apps/${FRAPPE_APP_TO_TEST} -d ./sites/.coverage
 fi
+
 
 ################################################################################
 # TODO QUnit (JS) Unit tests
