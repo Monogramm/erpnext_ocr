@@ -29,6 +29,8 @@ services:
       - DOCKER_DEBUG=1
       # Test setup
       - TEST_VERSION=${VERSION}
+      - TRAVIS_JOB_ID=${TRAVIS_JOB_ID}
+      - TRAVIS_BRANCH=${TRAVIS_BRANCH}
     volumes_from: 
       - erpnext_app
     volumes:
