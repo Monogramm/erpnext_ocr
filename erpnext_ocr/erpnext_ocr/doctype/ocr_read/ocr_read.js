@@ -10,7 +10,6 @@ frappe.ui.form.on('OCR Read', {
         frappe.realtime.on("ocr_progress_bar", function (data) {
             frappe.hide_msgprint(true);
             frappe.show_progress(__("Reading the file"), data.progress[0], data.progress[1]);
-            console.log("File has been downloaded");
         });
         frappe.call({
             method: "read_image",
