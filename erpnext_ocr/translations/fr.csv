@@ -7,3 +7,4 @@ Doctype: OCR Read,Image or PDF to Read,Image ou PDF à lire
 Doctype: OCR Read,Language,Langue
 Doctype: OCR Read,Read file,Lire le fichier
 Doctype: OCR Read,Read Result,Résultat de la lecture
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Reading the file,Lecture du fichier
