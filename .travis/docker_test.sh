@@ -58,7 +58,7 @@ FRAPPE_APP_TO_TEST=erpnext_ocr
 #bench run-tests --help
 echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
 bench run-tests \
-    --app ${FRAPPE_APP_TO_TEST} -coverage
+    --app ${FRAPPE_APP_TO_TEST} --coverage
 # FIXME https://github.com/frappe/frappe/issues/8809
 #    --junit-xml-output "$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 
