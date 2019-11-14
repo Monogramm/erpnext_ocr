@@ -33,7 +33,6 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         tesseract-ocr \
-        iputils-ping \
         libtesseract-dev \
         libleptonica-dev \
         pkg-config \
