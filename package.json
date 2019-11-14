@@ -1,0 +1,9 @@
+{
+  "name": "erpnext_ocr",
+  "description": "OCR",
+  "author": "Monogramm",
+  "license": "MIT",
+  "dependencies": {
+    "cypress": "^3.1.4"
+  }
+}

@@ -1,5 +1,21 @@
 FROM monogramm/docker-erpnext:%%VERSION%%-debian-slim
 
+# Install Google Chrome & Chrome WebDriver for UI tests
+RUN set -ex; \
+    sudo apt-get update -q; \
+    sudo apt-get install -y --no-install-recommends \
+        iputils-ping \
+        unzip \
+    ; \
+    CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`; \
+    sudo mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION; \
+    sudo curl -sS -o /tmp/chromedriver_linux64.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip; \
+    sudo unzip -qq /tmp/chromedriver_linux64.zip -d /opt/chromedriver-$CHROMEDRIVER_VERSION; \
+    sudo rm /tmp/chromedriver_linux64.zip; \
+    sudo chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver; \
+    sudo ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver; \
+    export PATH="$PATH;/usr/local/bin/chromedriver"
+
 # Build environment variables
 ENV DOCKER_TAG=travis \
     DOCKER_VCS_REF=${TRAVIS_COMMIT} \
@@ -17,8 +33,8 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         tesseract-ocr \
-        iputils-ping \
     ; \
+    sudo rm -rf /var/lib/apt/lists/*; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
         /etc/ImageMagick*/policy.xml \
@@ -30,15 +46,3 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
     bench get-app --branch ${BUILD_BRANCH} ${BUILD_URL}
-    #echo "Manually installing app for CI (not needed normally)"; \
-    #./env/bin/pip install -q -e "apps/erpnext_ocr" --no-cache-dir; \
-    #test ! "$FRAPPE_BRANCH" = "v10.x.x" \
-    #    && ./env/bin/pip3 install -q -e "apps/erpnext_ocr" --no-cache-dir \
-    #    && bench build --app erpnext_ocr \
-    #; \
-    #sudo mkdir -p "${FRAPPE_WD}/sites"; \
-    #sudo touch "${FRAPPE_WD}/sites/apps.txt"; \
-    #sudo chown $FRAPPE_USER:$FRAPPE_USER "${FRAPPE_WD}/sites/apps.txt"; \
-    #echo "frappe" > "${FRAPPE_WD}/sites/apps.txt"; \
-    #echo "erpnext" >> "${FRAPPE_WD}/sites/apps.txt"; \
-    #echo "erpnext_ocr" >> "${FRAPPE_WD}/sites/apps.txt"
