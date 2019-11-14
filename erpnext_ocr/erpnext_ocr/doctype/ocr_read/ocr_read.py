@@ -56,8 +56,8 @@ def read_document(path, lang='eng'):
 
             recognized_text = " "
 
-            im = Image.open(io.BytesIO(image_blob))
-            recognized_text = pytesseract.image_to_string(im, lang)
+            image = Image.open(io.BytesIO(image_blob))
+            recognized_text = pytesseract.image_to_string(image, lang)
             text = text + recognized_text
 
     else:
