@@ -8,6 +8,7 @@ from frappe.model.document import Document
 import os
 import io
 
+
 class OCRRead(Document):
     def read_image(self):
         text = read_document(self.file_to_read, self.language or 'eng')
@@ -16,13 +17,15 @@ class OCRRead(Document):
         self.save()
         return text
 
+
 @frappe.whitelist()
-def read_document(path, lang):
+def read_document(path, lang='eng'):
+    """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
     import pytesseract
 
-    if path == None:
+    if path is None:
         return None
 
     if path.startswith('/assets/'):
@@ -46,30 +49,29 @@ def read_document(path, lang):
     if path.endswith('.pdf'):
         from wand.image import Image as wi
         pdf = wi(filename=fullpath, resolution=300)
-        pdfImage = pdf.convert('jpeg')
-        for img in pdfImage.sequence:
-            imgPage = wi(image=img)
-            imageBlob = imgPage.make_blob('jpeg')
+        pdf_image = pdf.convert('jpeg')
+        for img in pdf_image.sequence:
+            img_page = wi(image=img)
+            image_blob = img_page.make_blob('jpeg')
 
             recognized_text = " "
 
-            im = Image.open(io.BytesIO(imageBlob))
+            im = Image.open(io.BytesIO(image_blob))
             recognized_text = pytesseract.image_to_string(im, lang)
             text = text + recognized_text
 
     else:
-        im = Image.open(fullpath)
+        image = Image.open(fullpath)
 
-        text = pytesseract.image_to_string(im, lang=lang)
+        text = pytesseract.image_to_string(image, lang=lang)
 
     text.split(" ")
 
     return text
 
 
-# Alternative to "File Upload Disconnected. Please try again."
-
 def force_attach_file_doc(filename, name):
+    """Alternative to 'File Upload Disconnected. Please try again.'"""
     file_url = "/private/files/" + filename
 
     attachment_doc = frappe.get_doc({
@@ -84,5 +86,5 @@ def force_attach_file_doc(filename, name):
     })
     attachment_doc.insert()
 
-    frappe.db.sql("""UPDATE `tabOCR Read` SET file_to_read=%s WHERE name=%s""", (file_url, name))
-
+    frappe.db.sql(
+        """UPDATE `tabOCR Read` SET file_to_read=%s WHERE name=%s""", (file_url, name))

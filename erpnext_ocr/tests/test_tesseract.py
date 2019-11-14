@@ -3,13 +3,7 @@
 # See license.txt
 from __future__ import unicode_literals
 
-import frappe
 import unittest, os
-
-import io
-from PIL import Image
-import pytesseract
-from wand.image import Image as wi
 
 from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import read_document
 
