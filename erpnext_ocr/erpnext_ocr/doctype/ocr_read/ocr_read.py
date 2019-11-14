@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe.desk.doctype.bulk_update.bulk_update import show_progress
 from frappe.model.document import Document
 import os
 import io
@@ -67,10 +68,12 @@ class OCRRead(Document):
             from wand.image import Image as wi
             pdf = wi(filename=fullpath, resolution=300)
             pdfImage = pdf.convert('jpeg')
+            i = 0
             for img in pdfImage.sequence:
                 imgPage = wi(image=img)
                 imageBlob = imgPage.make_blob('jpeg')
-
+                frappe.publish_realtime("ocr_progress_bar", {"progress": [i, len(pdfImage.sequence)]})
+                i += 1
                 recognized_text = " "
 
                 im = Image.open(io.BytesIO(imageBlob))
@@ -78,6 +81,7 @@ class OCRRead(Document):
                 text = text + recognized_text
 
         else:
+            frappe.publish_realtime("ocr_progress_bar", {"progress": "0"})
             im = Image.open(fullpath)
 
             text = pytesseract.image_to_string(im, lang=lang)
