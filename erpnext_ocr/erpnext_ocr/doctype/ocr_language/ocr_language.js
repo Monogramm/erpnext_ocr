@@ -2,7 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('OCR Language', "lang", function (frm) {
-        if (typeof frm.doc.lang != 'undefined') {
+        if (typeof frm.doc.lang != "undefined") {
             frappe.call({
                 args: {
                     "lang": frm.doc.lang
