@@ -56,28 +56,45 @@ echo "Preparing Frappe application '${FRAPPE_APP_TO_TEST}' tests..."
 # Frappe Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
 
+FRAPPE_APP_UNIT_TEST_REPORT="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+
 #bench run-tests --help
+
 echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
-bench run-tests \
-    --app ${FRAPPE_APP_TO_TEST} --coverage
-# FIXME https://github.com/frappe/frappe/issues/8809
-#    --junit-xml-output "$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+if [ "${TEST_VERSION}" = "10" ]; then
+    bench run-tests \
+        --app ${FRAPPE_APP_TO_TEST} \
+        --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}"
+else
+    bench run-tests \
+        --app ${FRAPPE_APP_TO_TEST} \
+        --coverage
+    # FIXME https://github.com/frappe/frappe/issues/8809
+    #    --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}"
+fi
 
-## TODO Check result of tests
-#if grep 'FAILED' "$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"; then
-#    echo "Unit Tests of '${FRAPPE_APP_TO_TEST}' app failed! See report for details:"
-#    cat "$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
-#    exit 1
-#fi
+## Check result of tests
+if [ -f "${FRAPPE_APP_UNIT_TEST_REPORT}" ]; then
+    echo "Checking Frappe application '${FRAPPE_APP_TO_TEST}' unit tests report..."
 
-echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
-coveralls -b apps/${FRAPPE_APP_TO_TEST} -d ./sites/.coverage
+    if grep 'FAILED' "${FRAPPE_APP_UNIT_TEST_REPORT}"; then
+        echo "Unit Tests of '${FRAPPE_APP_TO_TEST}' app failed! See report for details:"
+        cat "${FRAPPE_APP_UNIT_TEST_REPORT}"
+        exit 1
+    fi
+fi
+
+if [ -f ./sites/.coverage ]; then
+    echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
+    coveralls -b apps/${FRAPPE_APP_TO_TEST} -d ./sites/.coverage
+fi
 
 ################################################################################
 # TODO QUnit (JS) Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/qunit-testing
 
 #bench run-ui-tests --help
+
 #echo "Executing UI Tests of '${FRAPPE_APP_TO_TEST}' app..."
 #if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
 #    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
@@ -86,7 +103,6 @@ coveralls -b apps/${FRAPPE_APP_TO_TEST} -d ./sites/.coverage
 #fi
 
 ## TODO Check result of UI tests
-#cat "${FRAPPE_APP_TO_TEST}_ui_tests.xml"
 
 
 ################################################################################
