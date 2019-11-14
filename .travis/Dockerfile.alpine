@@ -19,7 +19,6 @@ ARG BUILD_URL
 
 RUN set -ex; \
     sudo apk add --update \
-        leptonica \
         ghostscript \
         imagemagick \
         imagemagick-dev \
