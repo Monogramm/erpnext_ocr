@@ -7,19 +7,18 @@ from __future__ import unicode_literals
 import os
 
 import frappe
+import tesserocr
 from frappe.model.document import Document
 
-# This library requires leptonica and tesseract-dev
-from tesserocr import PyTessBaseAPI
 
 
 @frappe.whitelist()
 def check_language_web(lang):
-    return "Yes" if lang_is_supported(lang) else "No"
+    return "Yes" if lang_is_support(lang) else "No"
 
 
 @frappe.whitelist()
-def lang_is_supported(lang):
+def lang_is_support(lang):
     if lang == 'en':
         lang = "eng"
     list_of_languages = tesserocr.get_languages()[1]
