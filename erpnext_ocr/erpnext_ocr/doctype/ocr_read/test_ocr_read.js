@@ -12,10 +12,10 @@ QUnit.test("test: OCR Read", function (assert) {
 		// insert a new OCR Read
 		() => frappe.tests.make('OCR Read', [
 			// values to be set
-			{key: 'value'}
+			{language: 'en'}
 		]),
 		() => {
-			assert.equal(cur_frm.doc.key, 'value');
+			assert.equal(cur_frm.doc.language, 'en');
 		},
 		() => done()
 	]);
