@@ -43,7 +43,6 @@ def read_document(path, lang='eng'):
             raise LangSupport({"message": "Your system doesn't support " + lang + " language"})
     except LangSupport as e:
         details = e.args[0]
-        print(details["message"])
         message = "The selected language is not available. Please contact your administrator."
         message_dict = {}
         message_dict['message']= message
