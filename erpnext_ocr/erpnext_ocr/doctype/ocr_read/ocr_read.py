@@ -12,17 +12,20 @@ import io
 
 
 class LangSupport(Exception):
-    def __init__(self):
+    def __init__(self, message):
         pass
 
 
 class OCRRead(Document):
     def read_image(self):
-        text = read_document(self.file_to_read, self.language or 'eng')
+        dict_message = read_document(self.file_to_read, self.language or 'eng')
 
-        self.read_result = text
-        self.save()
-        return text
+        if not dict_message['is_error']:
+            self.read_result = dict_message["message"]
+            self.save()
+            return dict_message["message"]
+        else:
+            return dict_message
 
 
 @frappe.whitelist()
@@ -37,9 +40,15 @@ def read_document(path, lang='eng'):
 
     try:
         if not lang_is_support(lang):
-            raise LangSupport()
-    except LangSupport as lang_sup:
-        lang_sup
+            raise LangSupport({"message": "Your system doesn't support " + lang + " language"})
+    except LangSupport as e:
+        details = e.args[0]
+        print(details["message"])
+        message = "The selected language is not available. Please contact your administrator."
+        message_dict = {}
+        message_dict['message']= message
+        message_dict['is_error'] = True
+        return message_dict
 
     if path.startswith('/assets/'):
         # from public folder
@@ -80,7 +89,7 @@ def read_document(path, lang='eng'):
 
     text.split(" ")
 
-    return text
+    return {"is_error": False, "message": text}
 
 
 def force_attach_file_doc(filename, name):

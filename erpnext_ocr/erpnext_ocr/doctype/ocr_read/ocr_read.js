@@ -16,15 +16,14 @@ frappe.ui.form.on('OCR Read', {
         frappe.call({
             method: "read_image",
             doc: cur_frm.doc,
-            callback: function (r, rt) {
-                if (r.message) {
+            callback: function (r) {
+                if (r.message.is_error) {
                     cur_dialog.hide();
-                    if (r.message === "The selected language is not available. Please contact your administrator.") {
-                        frappe.msgprint(r.message)
-                    } else {
-                        cur_frm.set_value("read_result", r.message);
-                    }
+                    frappe.msgprint(r.message.message);
+                } else {
+                    cur_frm.set_value("read_result", r.message);
                 }
+
             }
         });
     }
