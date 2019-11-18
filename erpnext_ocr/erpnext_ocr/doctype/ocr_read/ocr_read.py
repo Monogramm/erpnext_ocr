@@ -13,7 +13,7 @@ import io
 
 class LangSupport(Exception):
     def __init__(self, message):
-        pass
+        self.message = message
 
 
 class OCRRead(Document):
@@ -24,8 +24,7 @@ class OCRRead(Document):
             self.read_result = dict_message["message"]
             self.save()
             return dict_message["message"]
-        else:
-            return dict_message
+        return dict_message
 
 
 @frappe.whitelist()
@@ -41,12 +40,9 @@ def read_document(path, lang='eng'):
     try:
         if not lang_is_support(lang):
             raise LangSupport({"message": "Your system doesn't support " + lang + " language"})
-    except LangSupport as e:
-        details = e.args[0]
+    except LangSupport:
         message = "The selected language is not available. Please contact your administrator."
-        message_dict = {}
-        message_dict['message']= message
-        message_dict['is_error'] = True
+        message_dict = {'message': message, 'is_error': True}
         return message_dict
 
     if path.startswith('/assets/'):
