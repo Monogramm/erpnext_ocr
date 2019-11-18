@@ -65,7 +65,7 @@ def read_document(path, lang='eng'):
             i += 1
 
     else:
-        frappe.publish_realtime("ocr_progress_bar", {"progress": "0"})
+        frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
 
         image = Image.open(fullpath)
 
