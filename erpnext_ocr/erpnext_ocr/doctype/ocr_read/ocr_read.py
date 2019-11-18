@@ -50,6 +50,8 @@ def read_document(path, lang='eng'):
         from wand.image import Image as wi
         pdf = wi(filename=fullpath, resolution=300)
         pdf_image = pdf.convert('jpeg')
+        i = 0
+        size = len(pdf_image.sequence)
         for img in pdf_image.sequence:
             img_page = wi(image=img)
             image_blob = img_page.make_blob('jpeg')
@@ -60,7 +62,12 @@ def read_document(path, lang='eng'):
             recognized_text = pytesseract.image_to_string(image, lang)
             text = text + recognized_text
 
+            frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]})
+            i += 1
+
     else:
+        frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
+
         image = Image.open(fullpath)
 
         text = pytesseract.image_to_string(image, lang=lang)
