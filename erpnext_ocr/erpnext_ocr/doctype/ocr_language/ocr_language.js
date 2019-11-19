@@ -9,7 +9,6 @@ frappe.ui.form.on('OCR Language', "lang", function (frm) {
                 },
                 method: "erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language.check_language_web",
                 callback: function (r) {
-                    console.log(r.text);
                     frm.set_value("is_supported", r.message);
                 }
             });
