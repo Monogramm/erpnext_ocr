@@ -12,8 +12,10 @@ branches:
 
 before_script:
   - env | sort
-  - dir="test"
+  - dir=".travis"
   - export IMAGE_NAME=docker-erpnext-ext:erpnext_ocr-travis
+  - export BUILD_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-${TRAVIS_BRANCH}}
+  - export BUILD_URL=https://github.com/${TRAVIS_PULL_REQUEST_SLUG:-${TRAVIS_REPO_SLUG}}
 
 script:
   - cd "$dir"
@@ -26,25 +28,32 @@ script:
   # Test container run
   - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
   - docker-compose -f docker-compose.${DATABASE}.yml ps
-  - docker-compose -f docker-compose.${DATABASE}.yml logs
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until sites and apps database installed (9-10 minutes)' && travis_wait 15 sleep 720
   - docker-compose -f docker-compose.${DATABASE}.yml ps
-  - docker-compose -f docker-compose.${DATABASE}.yml logs
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
   - echo 'Wait until test finished (1-2 minutes)' && sleep 90
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container restart
   - docker-compose -f docker-compose.${DATABASE}.yml down
   - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
   - docker-compose -f docker-compose.${DATABASE}.yml ps
-  - docker-compose -f docker-compose.${DATABASE}.yml logs
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
   - echo 'Wait until test finished (1-2 minutes)' && sleep 90
   - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"

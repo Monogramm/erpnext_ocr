@@ -27,6 +27,19 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
       - DOCKER_DEBUG=1
+      # Test setup
+      - TEST_VERSION=${VERSION}
+      - TRAVIS_BUILD_ID=${TRAVIS_BUILD_ID}
+      - TRAVIS_BUILD_NUMBER=${TRAVIS_BUILD_NUMBER}
+      - TRAVIS_BUILD_WEB_URL=${TRAVIS_BUILD_WEB_URL}
+      - TRAVIS_COMMIT=${TRAVIS_COMMIT}
+      - TRAVIS_COMMIT_MESSAGE=${TRAVIS_COMMIT_MESSAGE}
+      - TRAVIS_COMMIT_RANGE=${TRAVIS_COMMIT_RANGE}
+      - TRAVIS_JOB_ID=${TRAVIS_JOB_ID}
+      - TRAVIS_JOB_NAME=${TRAVIS_JOB_NAME}
+      - TRAVIS_JOB_NUMBER=${TRAVIS_JOB_NUMBER}
+      - TRAVIS_JOB_WEB_URL=${TRAVIS_JOB_WEB_URL}
+      - TRAVIS_BRANCH=${TRAVIS_BRANCH}
     volumes_from: 
       - erpnext_app
     volumes:
@@ -38,11 +51,10 @@ services:
       context: ./
       dockerfile: Dockerfile.${VARIANT}
       args:
-          - BUILD_BRANCH=${TRAVIS_BRANCH}
-          - BUILD_URL=https://github.com/${TRAVIS_REPO_SLUG}
+          - BUILD_BRANCH=${BUILD_BRANCH}
+          - BUILD_URL=${BUILD_URL}
     image: ${IMAGE_NAME}
     container_name: erpnext_app
-    command: app
     #restart: always
     ports:
       - 8000:8000
@@ -51,9 +63,8 @@ services:
     links:
       - erpnext_db
     environment:
-      # Docker setup
-      - DOCKER_DB_ALLOWED_HOSTS=
-      - DOCKER_APPS_TIMEOUT=900
+      # Container setup
+      - NODE_TYPE=app
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext erpnext_ocr
       - FRAPPE_DEFAULT_PROTOCOL=http://
@@ -64,11 +75,12 @@ services:
       - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
       - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
       # Database setup
-      - DB_TYPE=mariadb
+      - DB_TYPE=postgres
       - DB_HOST=erpnext_db
-      - DB_PORT=3306
+      - DB_PORT=5432
       - DB_NAME=${ERPNEXT_DB_NAME}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
+      - DB_ROOT_LOGIN=${ERPNEXT_DB_ROOT_LOGIN}
       - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
       # Mail setup
       - MAIL_MUTED=true
@@ -104,18 +116,17 @@ services:
       - erpnext_socketio
 
   erpnext_db:
-    image: mariadb:10
+    image: postgres:10-alpine
     container_name: erpnext_db
     #restart: always
-    command: --character_set_client=utf8 --bind-address=0.0.0.0 --character-set-client-handshake=FALSE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-mode="ALLOW_INVALID_DATES"
+    stdin_open: true
+    tty: true
+    command: postgres -c 'max_connections=500'
     environment:
-      - MYSQL_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
-      # Following parameters are not needed with Frappe 12 or higher since it will create DB itself
-      - MYSQL_DATABASE=${ERPNEXT_DB_NAME}
-      - MYSQL_USER=${ERPNEXT_DB_NAME}
-      - MYSQL_PASSWORD=${ERPNEXT_DB_PWD}
+      - POSTGRES_USER=${ERPNEXT_DB_ROOT_LOGIN}
+      - POSTGRES_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
     volumes:
-      - /srv/erpnext/db:/var/lib/mysql
+      - /srv/erpnext/db/data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -123,11 +134,11 @@ services:
     #build: ./
     image: ${IMAGE_NAME}
     container_name: erpnext_scheduler
-    command: scheduler
     #restart: always
     depends_on:
       - erpnext_app
     environment:
+      - NODE_TYPE=scheduler
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -139,11 +150,11 @@ services:
     #build: ./
     image: ${IMAGE_NAME}
     container_name: erpnext_worker_default
-    command: worker-default
     #restart: always
     depends_on:
       - erpnext_app
     environment:
+      - NODE_TYPE=worker-default
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -155,11 +166,11 @@ services:
     #build: ./
     image: ${IMAGE_NAME}
     container_name: erpnext_worker_long
-    command: worker-long
     #restart: always
     depends_on:
       - erpnext_app
     environment:
+      - NODE_TYPE=worker-long
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -171,11 +182,11 @@ services:
     #build: ./
     image: ${IMAGE_NAME}
     container_name: erpnext_worker_short
-    command: worker-short
     #restart: always
     depends_on:
       - erpnext_app
     environment:
+      - NODE_TYPE=worker-short
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
@@ -187,13 +198,13 @@ services:
     #build: ./
     image: ${IMAGE_NAME}
     container_name: erpnext_socketio
-    command: node-socketio
     #restart: always
     ports:
       - 3000:3000
     depends_on:
       - erpnext_app
     environment:
+      - NODE_TYPE=node-socketio
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
