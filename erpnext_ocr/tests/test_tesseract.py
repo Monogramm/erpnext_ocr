@@ -17,6 +17,7 @@ class TestTesseract(unittest.TestCase):
 
         # print(recognized_text)
 
+        print("Recognized text is: " + recognized_text)
         self.assertTrue("The quick brown fox" in recognized_text)
         self.assertTrue("jumped over the 5" in recognized_text)
         self.assertTrue("lazy dogs!" in recognized_text)
@@ -34,7 +35,7 @@ class TestTesseract(unittest.TestCase):
                             "eng")
 
         # print(recognized_text)
-
+        print("Recognized text is: "+recognized_text)
         self.assertTrue("Python Basics" in recognized_text)
         self.assertFalse("Java" in recognized_text)
 
