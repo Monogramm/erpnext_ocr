@@ -23,7 +23,7 @@ class TestTesseract(unittest.TestCase):
         file = open(os.path.join(os.path.dirname(__file__), "test_data", "sample1_output.txt"), "r")
         expected_text = file.read()
 
-        self.assertTrue(recognized_text == expected_text)
+        self.assertEqual(recognized_text, expected_text)
 
     def test_read_document_pdf(self):
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
