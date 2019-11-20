@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018, John Vincent Fiel and contributors
+# Copyright (c) 2019, Monogramm and Contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+
 import frappe
-from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_support
 from frappe.model.document import Document
+
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available
 
 import os
 import io
@@ -30,7 +33,7 @@ def read_document(path, lang='eng'):
     if path is None:
         return None
 
-    if not lang_is_support(lang):
+    if not lang_available(lang):
         frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
                         raise_exception=True)
 
