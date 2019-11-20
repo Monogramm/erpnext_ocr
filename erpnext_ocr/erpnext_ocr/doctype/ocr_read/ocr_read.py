@@ -4,18 +4,20 @@
 
 from __future__ import unicode_literals
 import frappe
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_support
 from frappe.model.document import Document
+
 import os
 import io
 
 
 class OCRRead(Document):
     def read_image(self):
-        text = read_document(self.file_to_read, self.language or 'eng')
+        message = read_document(self.file_to_read, self.language or 'eng')
 
-        self.read_result = text
+        self.read_result = message
         self.save()
-        return text
+        return message
 
 
 @frappe.whitelist()
@@ -27,6 +29,10 @@ def read_document(path, lang='eng'):
 
     if path is None:
         return None
+
+    if not lang_is_support(lang):
+        frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
+                        raise_exception=True)
 
     if path.startswith('/assets/'):
         # from public folder
@@ -52,6 +58,8 @@ def read_document(path, lang='eng'):
         # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
         with wi(filename=fullpath, resolution=300) as pdf:
             pdf_image = pdf.convert('jpeg')
+            i = 0
+            size = len(pdf_image.sequence)
 
             for img in pdf_image.sequence:
                 with wi(image=img) as img_page:
@@ -63,7 +71,12 @@ def read_document(path, lang='eng'):
                     recognized_text = pytesseract.image_to_string(image, lang)
                     text = text + recognized_text
 
+                    frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]})
+                    i += 1
+
     else:
+        frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
+
         image = Image.open(fullpath)
 
         text = pytesseract.image_to_string(image, lang=lang)
