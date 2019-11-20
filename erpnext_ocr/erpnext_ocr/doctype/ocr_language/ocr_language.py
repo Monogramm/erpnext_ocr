@@ -24,4 +24,7 @@ def lang_available(lang):
 
 
 class OCRLanguage(Document):
-    pass
+    def __init__(self):
+        super().__init__()
+        if self.code:
+            self.is_supported = lang_available(self.code)
