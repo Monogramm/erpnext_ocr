@@ -2,7 +2,6 @@
 # Copyright (c) 2019, Monogramm and Contributors
 # See license.txt
 from __future__ import unicode_literals
-import unicodedata
 
 import locale
 import unittest, os
