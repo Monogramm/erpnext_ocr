@@ -35,7 +35,6 @@ class TestTesseract(unittest.TestCase):
                             "eng")['message']
 
         # print(recognized_text)
-        print("Recognized text is: " + str(recognized_text))
-        self.assertTrue("Python Basics" in str(recognized_text))
-        self.assertFalse("Java" in str(recognized_text))
-
+        print("Recognized text is: " + recognized_text['message'].encode('utf-8'))
+        self.assertTrue("Python Basics" in recognized_text['message'].encode('utf-8'))
+        self.assertFalse("Java" in recognized_text['message'].encode('utf-8'))
