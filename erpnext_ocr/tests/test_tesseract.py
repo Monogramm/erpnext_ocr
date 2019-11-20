@@ -4,16 +4,24 @@
 from __future__ import unicode_literals
 
 import locale
-import unittest, os
+import unittest
+import os
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import read_document
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import LangNotSupportedException, read_document
+
 
 class TestTesseract(unittest.TestCase):
+    def test_read_document_lang_not_supported(self):
+        locale.setlocale(locale.LC_ALL, 'C')
+        self.assertRaises(LangNotSupportedException, read_document(os.path.join(os.path.dirname(__file__),
+                                                                                "test_data", "sample1.jpg"),
+                                                                   "xxx"))
+
     def test_read_document_image(self):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
-                                        "test_data", "sample1.jpg"),
-                            "eng")
+                                                     "test_data", "sample1.jpg"),
+                                        "eng")
 
         # print(recognized_text)
 
@@ -22,7 +30,8 @@ class TestTesseract(unittest.TestCase):
         self.assertTrue("lazy dogs!" in recognized_text)
         self.assertFalse("And an elephant!" in recognized_text)
 
-        file = open(os.path.join(os.path.dirname(__file__), "test_data", "sample1_output.txt"), "r")
+        file = open(os.path.join(os.path.dirname(__file__),
+                                 "test_data", "sample1_output.txt"), "r")
         expected_text = file.read()
 
         self.assertEqual(recognized_text, expected_text)
@@ -30,8 +39,8 @@ class TestTesseract(unittest.TestCase):
     def test_read_document_pdf(self):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
-                                        "test_data", "sample2.pdf"),
-                            "eng")
+                                                     "test_data", "sample2.pdf"),
+                                        "eng")
 
         # print(recognized_text)
 
