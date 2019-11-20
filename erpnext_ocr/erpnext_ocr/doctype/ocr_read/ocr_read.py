@@ -4,8 +4,9 @@
 
 from __future__ import unicode_literals
 import frappe
-from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_support
 from frappe.model.document import Document
+
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_support
 
 import os
 import io

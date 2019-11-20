@@ -5,9 +5,9 @@
 from __future__ import unicode_literals
 
 import frappe
-import tesserocr
 from frappe.model.document import Document
 
+import tesserocr
 
 
 @frappe.whitelist()
