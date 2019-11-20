@@ -15,7 +15,7 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import read_document
 class TestTesseract(unittest.TestCase):
     def test_read_document_lang_not_supported(self):
         locale.setlocale(locale.LC_ALL, 'C')
-        self.assertRaises(frappe.ValidationError, read_document, 
+        self.assertRaises(frappe.ValidationError, read_document,
                           os.path.join(os.path.dirname(__file__),"test_data", "sample1.jpg"),
                           "xxx")
 
