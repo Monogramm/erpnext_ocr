@@ -26,7 +26,7 @@ class TestTesseract(unittest.TestCase):
         file = open(os.path.join(os.path.dirname(__file__), "test_data", "sample1_output.txt"), "r")
         expected_text = file.read()
 
-        self.assertTrue(str(recognized_text) in expected_text)
+        self.assertTrue(recognized_text == expected_text)
 
     def test_read_document_pdf(self):
         locale.setlocale(locale.LC_ALL, 'C')

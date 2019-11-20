@@ -16,4 +16,4 @@ class TestOCRLanguage(unittest.TestCase):
 
     def test_check_language_web(self):
         decision = check_language_web("en")
-        self.assertTrue(decision == "Yes")
+        self.assertEqual(decision, "Yes")

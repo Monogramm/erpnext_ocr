@@ -9,7 +9,7 @@ RUN set -ex; \
 # Build environment variables
 ENV DOCKER_TAG=travis \
     DOCKER_VCS_REF=${TRAVIS_COMMIT} \
-    DOCKER_BUILD_DATE=${TRAVIS_BUILD_NUMBER}
+    DOCKER_BUILD_DATE=${TRAVIS_BUILD_NUMBER} \
     LC_ALL=C
 
 # Copy the whole repository to app folder for manual install
