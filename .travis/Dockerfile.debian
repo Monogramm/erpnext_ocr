@@ -32,6 +32,9 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         tesseract-ocr \
+        libtesseract-dev \
+        libleptonica-dev \
+        pkg-config \
     ; \
     sudo rm -rf /var/lib/apt/lists/*; \
     sudo sed -i \

@@ -11,12 +11,10 @@ frappe.ui.form.on('OCR Read', {
         frappe.call({
             method: "read_image",
             doc: cur_frm.doc,
-            callback: function (r, rt) {
-                if (r.message) {
-                    console.log(r.message);
-                    cur_frm.set_value("read_result", r.message);
-                    cur_dialog.hide()
-                }
+            callback: function (r) {
+                cur_dialog.hide();
+                frappe.msgprint(r.message.message);
+                cur_frm.set_value("read_result", r.message);
             }
         });
     }
