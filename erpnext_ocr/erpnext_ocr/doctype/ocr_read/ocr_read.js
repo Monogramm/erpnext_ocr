@@ -17,13 +17,9 @@ frappe.ui.form.on('OCR Read', {
             method: "read_image",
             doc: cur_frm.doc,
             callback: function (r) {
-                if (r.message.is_error) {
-                    cur_dialog.hide();
-                    frappe.msgprint(r.message.message);
-                } else {
-                    cur_frm.set_value("read_result", r.message);
-                }
-
+                cur_dialog.hide();
+                frappe.msgprint(r.message.message);
+                cur_frm.set_value("read_result", r.message);
             }
         });
     }
