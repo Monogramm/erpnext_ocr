@@ -11,12 +11,6 @@ import os
 import io
 
 
-class LangNotSupportedException(Exception):
-    def __init__(self, message):
-        super().__init__()
-        self.message = message
-
-
 class OCRRead(Document):
     def read_image(self):
         message = read_document(self.file_to_read, self.language or 'eng')
@@ -36,10 +30,7 @@ def read_document(path, lang='eng'):
     if path is None:
         return None
 
-    try:
-        if not lang_is_support(lang):
-            raise LangNotSupportedException({"message": "Your system doesn't support " + lang + " language"})
-    except LangNotSupportedException:
+    if not lang_is_support(lang):
         frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
                         raise_exception=True)
 
