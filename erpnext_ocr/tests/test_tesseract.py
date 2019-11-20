@@ -13,7 +13,7 @@ class TestTesseract(unittest.TestCase):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
                                         "test_data", "sample1.jpg"),
-                            "eng")
+                            "eng")['message']
 
         # print(recognized_text)
 
@@ -32,10 +32,10 @@ class TestTesseract(unittest.TestCase):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
                                         "test_data", "sample2.pdf"),
-                            "eng")
+                            "eng")['message']
 
         # print(recognized_text)
-        print("Recognized text is: "+ str(recognized_text))
+        print("Recognized text is: " + str(recognized_text))
         self.assertTrue("Python Basics" in str(recognized_text))
         self.assertFalse("Java" in str(recognized_text))
 
