@@ -13,7 +13,7 @@ class TestTesseract(unittest.TestCase):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
                                         "test_data", "sample1.jpg"),
-                            "eng")['message']
+                            "eng")
 
         # print(recognized_text)
 
@@ -32,7 +32,7 @@ class TestTesseract(unittest.TestCase):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
                                         "test_data", "sample2.pdf"),
-                            "eng")['message']
+                            "eng")
 
         # print(recognized_text)
         try:
