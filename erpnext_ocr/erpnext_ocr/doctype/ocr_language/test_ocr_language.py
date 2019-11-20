@@ -7,12 +7,12 @@ from __future__ import unicode_literals
 import frappe
 import unittest
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_is_support, check_language_web
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available, check_language_web
 
 
 class TestOCRLanguage(unittest.TestCase):
     def test_english_language(self):
-        decision = lang_is_support("en")
+        decision = lang_available("en")
         self.assertTrue(decision)
 
     def test_check_language_web(self):
