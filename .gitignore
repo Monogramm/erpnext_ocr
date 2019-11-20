@@ -6,3 +6,4 @@ tags
 erpnext_ocr/docs/current
 *.iml
 *.xml
+*.prof
