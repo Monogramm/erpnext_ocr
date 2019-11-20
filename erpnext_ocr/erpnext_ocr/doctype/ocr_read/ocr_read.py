@@ -28,7 +28,7 @@ def read_document(path, lang='eng'):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
-    import pytesseract
+    import tesserocr
 
     if path is None:
         return None
@@ -71,7 +71,7 @@ def read_document(path, lang='eng'):
                     recognized_text = " "
 
                     image = Image.open(io.BytesIO(image_blob))
-                    recognized_text = pytesseract.image_to_string(image, lang)
+                    recognized_text = tesserocr.image_to_text(image, lang)
                     text = text + recognized_text
 
                     frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]})
@@ -82,7 +82,7 @@ def read_document(path, lang='eng'):
 
         image = Image.open(fullpath)
 
-        text = pytesseract.image_to_string(image, lang=lang)
+        text = tesserocr.image_to_text(image, lang=lang)
 
     text.split(" ")
 
