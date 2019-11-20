@@ -11,7 +11,7 @@ import os
 import io
 
 
-class LangSupport(Exception):
+class LangNotSupportedException(Exception):
     def __init__(self, message):
         super().__init__()
         self.message = message
@@ -38,8 +38,8 @@ def read_document(path, lang='eng'):
 
     try:
         if not lang_is_support(lang):
-            raise LangSupport({"message": "Your system doesn't support " + lang + " language"})
-    except LangSupport:
+            raise LangNotSupportedException({"message": "Your system doesn't support " + lang + " language"})
+    except LangNotSupportedException:
         frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
                         raise_exception=True)
 
