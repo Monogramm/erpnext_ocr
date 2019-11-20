@@ -7,7 +7,6 @@ language: bash
 
 branches:
   only:
-    - perf/read
     - develop
     - master
 
