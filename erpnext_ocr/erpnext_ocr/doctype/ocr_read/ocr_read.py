@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018, John Vincent Fiel and contributors
+# Copyright (c) 2019, Monogramm and Contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+
 import frappe
 from frappe.model.document import Document
+
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available
+
 import os
 import io
 
 
 class OCRRead(Document):
     def read_image(self):
-        text = read_document(self.file_to_read, self.language or 'eng')
+        message = read_document(self.file_to_read, self.language or 'eng')
 
-        self.read_result = text
+        self.read_result = message
         self.save()
-        return text
+        return message
 
 
 @frappe.whitelist()
@@ -23,10 +28,14 @@ def read_document(path, lang='eng'):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
-    import pytesseract
+    import tesserocr
 
     if path is None:
         return None
+
+    if not lang_available(lang):
+        frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
+                        raise_exception=True)
 
     if path.startswith('/assets/'):
         # from public folder
@@ -52,6 +61,8 @@ def read_document(path, lang='eng'):
         # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
         with wi(filename=fullpath, resolution=300) as pdf:
             pdf_image = pdf.convert('jpeg')
+            i = 0
+            size = len(pdf_image.sequence)
 
             for img in pdf_image.sequence:
                 with wi(image=img) as img_page:
@@ -60,13 +71,18 @@ def read_document(path, lang='eng'):
                     recognized_text = " "
 
                     image = Image.open(io.BytesIO(image_blob))
-                    recognized_text = pytesseract.image_to_string(image, lang)
+                    recognized_text = tesserocr.image_to_text(image, lang)
                     text = text + recognized_text
 
+                    frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]})
+                    i += 1
+
     else:
+        frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
+
         image = Image.open(fullpath)
 
-        text = pytesseract.image_to_string(image, lang=lang)
+        text = tesserocr.image_to_text(image, lang=lang)
 
     text.split(" ")
 
