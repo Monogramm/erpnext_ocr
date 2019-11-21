@@ -54,35 +54,37 @@ def read_document(path, lang='eng'):
         fullpath = requests.get(path, stream=True).raw
 
     text = " "
+    with tesserocr.PyTessBaseAPI(lang=lang) as api:
 
-    if path.endswith('.pdf'):
-        from wand.image import Image as wi
+        if path.endswith('.pdf'):
+            from wand.image import Image as wi
 
-        # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
-        with wi(filename=fullpath, resolution=300) as pdf:
-            pdf_image = pdf.convert('jpeg')
-            i = 0
-            size = len(pdf_image.sequence)
+            # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
+            with wi(filename=fullpath, resolution=300) as pdf:
+                pdf_image = pdf.convert('jpeg')
+                i = 0
+                size = len(pdf_image.sequence)
 
-            for img in pdf_image.sequence:
-                with wi(image=img) as img_page:
-                    image_blob = img_page.make_blob('jpeg')
+                for img in pdf_image.sequence:
+                    with wi(image=img) as img_page:
+                        image_blob = img_page.make_blob('jpeg')
 
-                    recognized_text = " "
+                        recognized_text = " "
 
-                    image = Image.open(io.BytesIO(image_blob))
-                    recognized_text = tesserocr.image_to_text(image, lang)
-                    text = text + recognized_text
+                        image = Image.open(io.BytesIO(image_blob))
+                        api.SetImage(image)
+                        recognized_text = api.GetUTF8Text()
+                        text = text + recognized_text
 
-                    frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]})
-                    i += 1
+                        frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]})
+                        i += 1
 
-    else:
-        frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
+        else:
+            frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
 
-        image = Image.open(fullpath)
+            image = Image.open(fullpath)
 
-        text = tesserocr.image_to_text(image, lang=lang)
+            text = tesserocr.image_to_text(image, lang=lang)
 
     text.split(" ")
 
