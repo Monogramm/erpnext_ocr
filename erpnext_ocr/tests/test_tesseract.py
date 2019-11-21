@@ -37,7 +37,8 @@ class TestTesseract(unittest.TestCase):
                                  "test_data", "sample1_output.txt"), "r")
         expected_text = file.read()
 
-        self.assertEqual(recognized_text, expected_text)
+        # Trailing spaces or EOL are acceptable
+        self.assertTrue(expected_text in recognized_text)
 
     def test_read_document_pdf(self):
         locale.setlocale(locale.LC_ALL, 'C')
