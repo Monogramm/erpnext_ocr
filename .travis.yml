@@ -12,6 +12,7 @@ branches:
 
 before_script:
   - env | sort
+  - home=$(pwd)
   - dir=".travis"
   - export IMAGE_NAME=docker-erpnext-ext:erpnext_ocr-travis
   - export BUILD_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-${TRAVIS_BRANCH}}
@@ -60,8 +61,9 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
 
 after_script:
+  - cd "$home"
   - sudo pip install python-coveralls
-  - coveralls -b erpnext_ocr -d /srv/erpnext/frappe/sites/.coverage
+  - coveralls -b . -d /srv/erpnext/frappe/sites/.coverage
 
 notifications:
   email: false
