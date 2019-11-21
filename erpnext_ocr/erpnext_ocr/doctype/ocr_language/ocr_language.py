@@ -11,7 +11,7 @@ import tesserocr
 
 
 @frappe.whitelist()
-def check_language_web(lang):
+def check_language(lang):
     return frappe._("Yes") if lang_available(lang) else frappe._("No")
 
 
@@ -27,4 +27,4 @@ class OCRLanguage(Document):
     def __init__(self, *args, **kwargs):
         super(OCRLanguage, self).__init__(*args, **kwargs)
         if self.code:
-            self.is_supported = check_language_web(self.code)
+            self.is_supported = check_language(self.code)

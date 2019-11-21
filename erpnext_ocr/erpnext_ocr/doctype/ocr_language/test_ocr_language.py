@@ -7,14 +7,36 @@ from __future__ import unicode_literals
 import frappe
 import unittest
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available, check_language_web
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available, check_language
 
 
 class TestOCRLanguage(unittest.TestCase):
-    def test_english_language(self):
-        decision = lang_available("en")
-        self.assertTrue(decision)
+    def test_en_lang_available(self):
+        self.assertTrue(lang_available("en"))
 
-    def test_check_language_web(self):
-        decision = check_language_web("en")
-        self.assertEqual(decision, "Yes")
+    def test_eng_lang_available(self):
+        self.assertTrue(lang_available("eng"))
+
+    def test_osd_lang_available(self):
+        self.assertTrue(lang_available("osd"))
+
+    def test_equ_lang_available(self):
+        self.assertTrue(lang_available("equ"))
+
+    def test_666_lang_available(self):
+        self.assertFalse(lang_available("666"))
+
+    def test_en_check_language(self):
+        self.assertEqual(check_language("en"), "Yes")
+
+    def test_eng_check_language(self):
+        self.assertEqual(check_language("eng"), "Yes")
+
+    def test_osd_check_language(self):
+        self.assertEqual(check_language("osd"), "Yes")
+
+    def test_equ_check_language(self):
+        self.assertEqual(check_language("equ"), "Yes")
+
+    def test_666_check_language(self):
+        self.assertEqual(check_language("666"), "No")
