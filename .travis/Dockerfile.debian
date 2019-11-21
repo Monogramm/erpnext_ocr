@@ -31,6 +31,7 @@ RUN set -ex; \
     sudo apt-get install -y --no-install-recommends \
         ghostscript \
         imagemagick \
+        libmagickwand-dev \
         tesseract-ocr \
         libtesseract-dev \
         libleptonica-dev \
