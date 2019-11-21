@@ -11,12 +11,14 @@ import tesserocr
 
 
 @frappe.whitelist()
-def check_language_web(lang):
-    return "Yes" if lang_available(lang) else "No"
+def check_language(lang):
+    """Check a language availability. Returns a user friendly text."""
+    return frappe._("Yes") if lang_available(lang) else frappe._("No")
 
 
 @frappe.whitelist()
 def lang_available(lang):
+    """Call Tesseract OCR to verify language is available."""
     if lang == 'en':
         lang = "eng"
     list_of_languages = tesserocr.get_languages()[1]
@@ -24,4 +26,7 @@ def lang_available(lang):
 
 
 class OCRLanguage(Document):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(OCRLanguage, self).__init__(*args, **kwargs)
+        if self.code:
+            self.is_supported = check_language(self.code)
