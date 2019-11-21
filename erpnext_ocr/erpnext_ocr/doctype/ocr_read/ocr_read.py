@@ -86,9 +86,10 @@ def read_document(path, lang='eng'):
 
         else:
             image = Image.open(fullpath)
+            api.SetImage(image)
             frappe.publish_realtime("ocr_progress_bar", {"progress": [33, 100]}, user=frappe.session.user)
 
-            text = tesserocr.image_to_text(image, lang=lang)
+            text = api.GetUTF8Text()
             frappe.publish_realtime("ocr_progress_bar", {"progress": [66, 100]}, user=frappe.session.user)
 
     text.split(" ")
