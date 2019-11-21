@@ -27,16 +27,16 @@ class TestOCRLanguage(unittest.TestCase):
         self.assertFalse(lang_available("666"))
 
     def test_en_check_language(self):
-        self.assertEqual(check_language("en"), "Yes")
+        self.assertEqual(check_language("en"), frappe._("Yes"))
 
     def test_eng_check_language(self):
-        self.assertEqual(check_language("eng"), "Yes")
+        self.assertEqual(check_language("eng"), frappe._("Yes"))
 
     def test_osd_check_language(self):
-        self.assertEqual(check_language("osd"), "Yes")
+        self.assertEqual(check_language("osd"), frappe._("Yes"))
 
     def test_equ_check_language(self):
-        self.assertEqual(check_language("equ"), "Yes")
+        self.assertEqual(check_language("equ"), frappe._("Yes"))
 
     def test_666_check_language(self):
-        self.assertEqual(check_language("666"), "No")
+        self.assertEqual(check_language("666"), frappe._("No"))
