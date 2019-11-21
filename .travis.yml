@@ -60,7 +60,7 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
 
 after_script:
-  - pip install python-coveralls
+  - sudo pip install python-coveralls
   - coveralls -b erpnext_ocr -d /srv/erpnext/frappe/sites/.coverage
 
 notifications:
