@@ -53,6 +53,7 @@ def read_document(path, lang='eng'):
         # external link
         fullpath = requests.get(path, stream=True).raw
 
+    frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
     text = " "
 
     if path.endswith('.pdf'):
@@ -60,28 +61,32 @@ def read_document(path, lang='eng'):
         pdf = wi(filename=fullpath, resolution=300)
         pdf_image = pdf.convert('jpeg')
         i = 0
-        size = len(pdf_image.sequence)
+        size = len(pdf_image.sequence) * 3
         for img in pdf_image.sequence:
             img_page = wi(image=img)
             image_blob = img_page.make_blob('jpeg')
+            frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]}, user=frappe.session.user)
+            i += 1
 
             recognized_text = " "
-
             image = Image.open(io.BytesIO(image_blob))
+            frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]}, user=frappe.session.user)
+            i += 1
+
             recognized_text = pytesseract.image_to_string(image, lang)
             text = text + recognized_text
-
-            frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]})
+            frappe.publish_realtime("ocr_progress_bar", {"progress": [i, size]}, user=frappe.session.user)
             i += 1
 
     else:
-        frappe.publish_realtime("ocr_progress_bar", {"progress": "0"}, user=frappe.session.user)
-
         image = Image.open(fullpath)
+        frappe.publish_realtime("ocr_progress_bar", {"progress": [33, 100]}, user=frappe.session.user)
 
         text = pytesseract.image_to_string(image, lang=lang)
+        frappe.publish_realtime("ocr_progress_bar", {"progress": [66, 100]}, user=frappe.session.user)
 
     text.split(" ")
+    frappe.publish_realtime("ocr_progress_bar", {"progress": [100, 100]}, user=frappe.session.user)
 
     return text
 
