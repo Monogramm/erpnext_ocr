@@ -26,7 +26,7 @@ class TestTesseract(unittest.TestCase):
                           os.path.join(os.path.dirname(__file__),"test_data", "sample1.jpg"),
                           "xxx")
 
-    def test_read_document_image(self):
+    def test_read_document_image_jpg(self):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
                                                      "test_data", "sample1.jpg"),
@@ -44,6 +44,17 @@ class TestTesseract(unittest.TestCase):
         expected_text = file.read()
 
         self.assertEqual(recognized_text, expected_text)
+
+    def test_read_document_image_png(self):
+        locale.setlocale(locale.LC_ALL, 'C')
+        recognized_text = read_document(os.path.join(os.path.dirname(__file__),
+                                                     "test_data", "Picture_010.png"),
+                                        "eng")
+
+        # print(recognized_text)
+
+        self.assertTrue("D. Brawn Manufacture" in recognized_text)
+        self.assertFalse("And an elephant!" in recognized_text)
 
     def test_read_document_pdf(self):
         locale.setlocale(locale.LC_ALL, 'C')

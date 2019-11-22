@@ -9,6 +9,8 @@ import frappe
 import unittest
 import os
 
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
+
 
 def create_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
@@ -20,6 +22,14 @@ def create_ocr_reads():
         "file_to_read": os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
                                      "tests", "test_data", "sample1.jpg"),
+        "language": "eng"
+    }).insert()
+
+    frappe.get_doc({
+        "doctype": "OCR Read",
+        "file_to_read": os.path.join(os.path.dirname(__file__),
+                                     os.path.pardir, os.path.pardir, os.path.pardir,
+                                     "tests", "test_data", "Picture_010.png"),
         "language": "eng"
     }).insert()
 
@@ -90,6 +100,27 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertTrue("Python Basics" in recognized_text)
         self.assertFalse("Java" in recognized_text)
+
+
+    def test_force_attach_file_doc(self):
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                        os.path.pardir, os.path.pardir, os.path.pardir,
+                                        "tests", "test_data", "Picture_010.png"),
+            "language": "eng"
+        })
+
+        force_attach_file_doc('test.tif', doc.name)
+
+        forced_doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "name": doc.name,
+            "language": "eng"
+        })
+
+        self.assertEqual(forced_doc.name, doc.name)
+        self.assertTrue('/private/files/test.tif' in doc.file_to_read)
 
 
     def test_ocr_read_list(self):
