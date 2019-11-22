@@ -14,6 +14,12 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import read_document
 
 
 class TestTesseract(unittest.TestCase):
+    def test_read_document_path_none(self):
+        locale.setlocale(locale.LC_ALL, 'C')
+        recognized_text = read_document(None)
+
+        self.assertIsNone(recognized_text)
+
     def test_read_document_lang_not_supported(self):
         locale.setlocale(locale.LC_ALL, 'C')
         self.assertRaises(frappe.ValidationError, read_document,
