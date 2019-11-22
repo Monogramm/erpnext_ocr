@@ -34,10 +34,10 @@ class TestTesseract(unittest.TestCase):
 
         # print(recognized_text)
 
-        self.assertTrue("The quick brown fox" in recognized_text)
-        self.assertTrue("jumped over the 5" in recognized_text)
-        self.assertTrue("lazy dogs!" in recognized_text)
-        self.assertFalse("And an elephant!" in recognized_text)
+        self.assertIn("The quick brown fox", recognized_text)
+        self.assertIn("jumped over the 5", recognized_text)
+        self.assertIn("lazy dogs!", recognized_text)
+        self.assertNotIn("And an elephant!", recognized_text)
 
         file = open(os.path.join(os.path.dirname(__file__),
                                  "test_data", "sample1_output.txt"), "r")
@@ -53,8 +53,8 @@ class TestTesseract(unittest.TestCase):
 
         # print(recognized_text)
 
-        self.assertTrue("D. Brawn Manufacture" in recognized_text)
-        self.assertFalse("And an elephant!" in recognized_text)
+        self.assertIn("Brawn Manufacture", recognized_text)
+        self.assertNotIn("And an elephant!", recognized_text)
 
     def test_read_document_pdf(self):
         locale.setlocale(locale.LC_ALL, 'C')
@@ -64,5 +64,5 @@ class TestTesseract(unittest.TestCase):
 
         # print(recognized_text)
 
-        self.assertTrue("Python Basics" in recognized_text)
-        self.assertFalse("Java" in recognized_text)
+        self.assertIn("Python Basics", recognized_text)
+        self.assertNotIn("Java", recognized_text)
