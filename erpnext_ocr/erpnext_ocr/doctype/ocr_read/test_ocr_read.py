@@ -143,15 +143,13 @@ class TestOCRRead(unittest.TestCase):
 
         forced_doc = frappe.get_doc({
             "doctype": "OCR Read",
-            "name": doc.name,
+            #"name": doc.name,
+            "file_to_read": "/private/files/test.tif",
             "language": "eng"
         })
-
+        self.assertIsNotNone(forced_doc)
         self.assertEqual(forced_doc.name, doc.name)
-
-        # FIXME force_attach_file_doc does not work ?
-        # print(doc.file_to_read)
-        # self.assertTrue('/private/files/test.tif' in doc.file_to_read)
+        self.assertEqual('/private/files/test.tif', forced_doc.file_to_read)
 
 
     def test_ocr_read_list(self):
