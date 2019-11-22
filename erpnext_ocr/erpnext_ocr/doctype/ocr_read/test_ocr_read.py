@@ -11,6 +11,31 @@ import os
 
 from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
 
+# TODO Frappe default test records creation
+#def _make_test_records(verbose):
+#	from frappe.test_runner import make_test_objects
+#
+#	docs = [
+#		# [file_to_read, language]
+#		[os.path.join(os.path.dirname(__file__),
+#                      os.path.pardir, os.path.pardir, os.path.pardir,
+#                      "tests", "test_data", "sample1.jpg"), "eng"],
+#		[os.path.join(os.path.dirname(__file__),
+#                      os.path.pardir, os.path.pardir, os.path.pardir,
+#                      "tests", "test_data", "Picture_010.png"), "eng"],
+#		[os.path.join(os.path.dirname(__file__),
+#                      os.path.pardir, os.path.pardir, os.path.pardir,
+#                      "tests", "test_data", "sample2.pdf"), "eng"],
+#	]
+#
+#    test_objects = make_test_objects("OCR Read", [{
+#            "doctype": "OCR Read",
+#            "file_to_read": file_to_read,
+#            "language": language
+#        } for file_to_read, language in docs])
+#
+#	return test_objects
+
 
 def create_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
@@ -98,7 +123,8 @@ class TestOCRRead(unittest.TestCase):
         recognized_text = doc.read_image()
 
         # FIXME values are not equal on Alpine ??!
-        # self.assertEqual(recognized_text, doc.read_result)
+        #self.maxDiff = None
+        #self.assertEqual(recognized_text, doc.read_result)
 
         self.assertIn("Python Basics", recognized_text)
         self.assertNotIn("Java", recognized_text)
