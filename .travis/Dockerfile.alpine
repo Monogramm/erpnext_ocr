@@ -40,7 +40,12 @@ RUN set -ex; \
         libtool \
         pkgconfig \
         cmake \
-        ninja\
+        ninja \
+        leptonica-dev \
+        openjpeg-dev tiff-dev libpng-dev zlib-dev \
+        mupdf-dev jbig2dec-dev \
+        freetype-dev openblas-dev ffmpeg-dev jasper-dev \
+        enchant-dev aspell-dev aspell-en \
     ; \
     sudo apk add --no-cache --virtual .dev-testing-deps \
         -X http://dl-3.alpinelinux.org/alpine/edge/testing \
