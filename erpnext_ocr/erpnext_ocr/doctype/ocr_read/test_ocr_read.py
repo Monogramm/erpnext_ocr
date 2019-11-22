@@ -55,13 +55,42 @@ class TestOCRRead(unittest.TestCase):
     def tearDown(self):
         delete_ocr_reads()
 
-    # TODO: Read content of files and check recognised text
 
-    #def test_ocr_read_image(self):
-    #    frappe.set_user("Administrator")
+    def test_ocr_read_image(self):
+        frappe.set_user("Administrator")
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                        os.path.pardir, os.path.pardir, os.path.pardir,
+                                        "tests", "test_data", "sample1.jpg"),
+            "language": "eng"
+        })
 
-    #def test_ocr_read_pdf(self):
-    #    frappe.set_user("Administrator")
+        recognized_text = doc.read_image()
+        self.assertEqual(recognized_text, doc.read_result)
+
+        self.assertTrue("The quick brown fox" in recognized_text)
+        self.assertTrue("jumped over the 5" in recognized_text)
+        self.assertTrue("lazy dogs!" in recognized_text)
+        self.assertFalse("And an elephant!" in recognized_text)
+
+
+    def test_ocr_read_pdf(self):
+        frappe.set_user("Administrator")
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                        os.path.pardir, os.path.pardir, os.path.pardir,
+                                        "tests", "test_data", "sample2.pdf"),
+            "language": "eng"
+        })
+
+        recognized_text = doc.read_image()
+        self.assertEqual(recognized_text, doc.read_result)
+
+        self.assertTrue("Python Basics" in recognized_text)
+        self.assertFalse("Java" in recognized_text)
+
 
     def test_ocr_read_list(self):
         # frappe.set_user("test1@example.com")
