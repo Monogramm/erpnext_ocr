@@ -46,7 +46,7 @@ RUN set -ex; \
         -X http://dl-3.alpinelinux.org/alpine/edge/testing \
         autoconf-archive \
     ; \
-    ln -s /usr/include/locale.h /usr/include/xlocale.h; \
+    sudo ln -s /usr/include/locale.h /usr/include/xlocale.h; \
     mkdir -p ./tesseract-ocr; \
     cd tesseract-ocr; \
     git clone --depth 1 --branch ${TESSERACT_VERSION} https://github.com/tesseract-ocr/tesseract.git; \
