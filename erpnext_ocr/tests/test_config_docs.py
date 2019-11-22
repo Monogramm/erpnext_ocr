@@ -4,11 +4,7 @@
 
 from __future__ import unicode_literals
 
-import locale
 import unittest
-import os
-
-import frappe
 
 from erpnext_ocr.config.docs import get_context
 

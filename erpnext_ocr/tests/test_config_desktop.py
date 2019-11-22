@@ -6,8 +6,6 @@ from __future__ import unicode_literals
 
 import unittest
 
-import frappe
-
 from erpnext_ocr.config.desktop import get_data
 
 
