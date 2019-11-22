@@ -16,11 +16,12 @@ import io
 
 class OCRRead(Document):
     def read_image(self):
-        message = read_document(self.file_to_read, self.language or 'eng')
+        text = read_document(self.file_to_read, self.language or 'eng')
 
-        self.read_result = message
+        self.read_result = text
         self.save()
-        return message
+
+        return text
 
 
 @frappe.whitelist()
@@ -65,27 +66,33 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
         for img in pdf_image.sequence:
             img_page = wi(image=img)
             image_blob = img_page.make_blob('jpeg')
-            frappe.publish_realtime(event, {"progress": [i, size]}, user=frappe.session.user)
+            frappe.publish_realtime(
+                event, {"progress": [i, size]}, user=frappe.session.user)
             i += 1
 
             recognized_text = " "
             image = Image.open(io.BytesIO(image_blob))
-            frappe.publish_realtime(event, {"progress": [i, size]}, user=frappe.session.user)
+            frappe.publish_realtime(
+                event, {"progress": [i, size]}, user=frappe.session.user)
             i += 1
 
             recognized_text = pytesseract.image_to_string(image, lang)
             text = text + recognized_text
-            frappe.publish_realtime(event, {"progress": [i, size]}, user=frappe.session.user)
+            frappe.publish_realtime(
+                event, {"progress": [i, size]}, user=frappe.session.user)
             i += 1
 
     else:
         image = Image.open(fullpath)
-        frappe.publish_realtime(event, {"progress": [33, 100]}, user=frappe.session.user)
+        frappe.publish_realtime(
+            event, {"progress": [33, 100]}, user=frappe.session.user)
 
         text = pytesseract.image_to_string(image, lang=lang)
-        frappe.publish_realtime(event, {"progress": [66, 100]}, user=frappe.session.user)
+        frappe.publish_realtime(
+            event, {"progress": [66, 100]}, user=frappe.session.user)
 
-    frappe.publish_realtime(event, {"progress": [100, 100]}, user=frappe.session.user)
+    frappe.publish_realtime(
+        event, {"progress": [100, 100]}, user=frappe.session.user)
 
     return text
 
