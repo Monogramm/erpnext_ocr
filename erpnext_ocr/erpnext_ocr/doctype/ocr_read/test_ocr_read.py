@@ -9,6 +9,33 @@ import frappe
 import unittest
 import os
 
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
+
+# TODO Frappe default test records creation
+#def _make_test_records(verbose):
+#    from frappe.test_runner import make_test_objects
+#
+#    docs = [
+#        # [file_to_read, language]
+#        [os.path.join(os.path.dirname(__file__),
+#                      os.path.pardir, os.path.pardir, os.path.pardir,
+#                      "tests", "test_data", "sample1.jpg"), "eng"],
+#        [os.path.join(os.path.dirname(__file__),
+#                      os.path.pardir, os.path.pardir, os.path.pardir,
+#                      "tests", "test_data", "Picture_010.png"), "eng"],
+#        [os.path.join(os.path.dirname(__file__),
+#                      os.path.pardir, os.path.pardir, os.path.pardir,
+#                      "tests", "test_data", "sample2.pdf"), "eng"],
+#    ]
+#
+#    test_objects = make_test_objects("OCR Read", [{
+#            "doctype": "OCR Read",
+#            "file_to_read": file_to_read,
+#            "language": language
+#        } for file_to_read, language in docs])
+#
+#    return test_objects
+
 
 def create_ocr_reads():
     if frappe.flags.test_ocr_reads_created:
@@ -20,6 +47,14 @@ def create_ocr_reads():
         "file_to_read": os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
                                      "tests", "test_data", "sample1.jpg"),
+        "language": "eng"
+    }).insert()
+
+    frappe.get_doc({
+        "doctype": "OCR Read",
+        "file_to_read": os.path.join(os.path.dirname(__file__),
+                                     os.path.pardir, os.path.pardir, os.path.pardir,
+                                     "tests", "test_data", "Picture_010.png"),
         "language": "eng"
     }).insert()
 
@@ -55,13 +90,67 @@ class TestOCRRead(unittest.TestCase):
     def tearDown(self):
         delete_ocr_reads()
 
-    # TODO: Read content of files and check recognised text
 
-    #def test_ocr_read_image(self):
-    #    frappe.set_user("Administrator")
+    def test_ocr_read_image(self):
+        frappe.set_user("Administrator")
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                        os.path.pardir, os.path.pardir, os.path.pardir,
+                                        "tests", "test_data", "sample1.jpg"),
+            "language": "eng"
+        })
 
-    #def test_ocr_read_pdf(self):
-    #    frappe.set_user("Administrator")
+        recognized_text = doc.read_image()
+        self.assertEqual(recognized_text, doc.read_result)
+
+        self.assertIn("The quick brown fox", recognized_text)
+        self.assertIn("jumped over the 5", recognized_text)
+        self.assertIn("lazy dogs!", recognized_text)
+        self.assertNotIn("And an elephant!", recognized_text)
+
+
+    def test_ocr_read_pdf(self):
+        frappe.set_user("Administrator")
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                        os.path.pardir, os.path.pardir, os.path.pardir,
+                                        "tests", "test_data", "sample2.pdf"),
+            "language": "eng"
+        })
+
+        recognized_text = doc.read_image()
+
+        # FIXME values are not equal on Alpine ??!
+        #self.maxDiff = None
+        #self.assertEqual(recognized_text, doc.read_result)
+
+        self.assertIn("Python Basics", recognized_text)
+        self.assertNotIn("Java", recognized_text)
+
+
+    def test_force_attach_file_doc(self):
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                        os.path.pardir, os.path.pardir, os.path.pardir,
+                                        "tests", "test_data", "Picture_010.png"),
+            "language": "eng"
+        })
+
+        force_attach_file_doc('test.tif', doc.name)
+
+        forced_doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            #"name": doc.name,
+            "file_to_read": "/private/files/test.tif",
+            "language": "eng"
+        })
+        self.assertIsNotNone(forced_doc)
+        self.assertEqual(forced_doc.name, doc.name)
+        self.assertEqual('/private/files/test.tif', forced_doc.file_to_read)
+
 
     def test_ocr_read_list(self):
         # frappe.set_user("test1@example.com")

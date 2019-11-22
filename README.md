@@ -31,7 +31,7 @@ See [Taiga.io](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ 
 **Pre-requisites: tesseract-python and imagemagick**
 
 Install tesseract-ocr, plus imagemagick and ghostscript (to work with pdf files) using this command on Debian:
-  ```
+  ```sh
   sudo apt-get install tesseract-ocr imagemagick libmagickwand-dev ghostscript
   ```
 
@@ -50,14 +50,14 @@ When installing Frappe app, the following python requirements will be installed:
 
 ## :rocket: Usage
 
-**Sample Screenshot**:
-
-![Sample Screenshot](./erpnext_ocr/tests/test_data/Picture_010.png)
-
-
 **File Being Read**:
 
-![Sample Screenshot 2](./erpnext_ocr/tests/test_data/Picture_010_screenshot.png)
+![File Being Read](./erpnext_ocr/tests/test_data/Picture_010.png)
+
+**Sample Screenshot**:
+
+![Sample Screenshot](./erpnext_ocr/tests/test_data/Picture_010_screenshot.png)
+
 
 ### Tesseract trained data
 
