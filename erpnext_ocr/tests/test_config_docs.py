@@ -11,7 +11,7 @@ from erpnext_ocr.config.docs import get_context
 
 class TestDocs(unittest.TestCase):
     def test_get_context(self):
-        context = type('obj', (object,), {'brand_html' : None, 
+        context = type('obj', (object,), {'brand_html' : None,
                                           'source_link' : None,
                                           'docs_base_url' : None,
                                           'headline' : None,
