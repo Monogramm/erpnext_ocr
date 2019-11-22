@@ -123,8 +123,8 @@ class TestOCRRead(unittest.TestCase):
         recognized_text = doc.read_image()
 
         # FIXME values are not equal on Alpine ??!
-        #self.maxDiff = None
-        #self.assertEqual(recognized_text, doc.read_result)
+        self.maxDiff = None
+        self.assertEqual(recognized_text, doc.read_result)
 
         self.assertIn("Python Basics", recognized_text)
         self.assertNotIn("Java", recognized_text)
