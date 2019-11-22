@@ -3,7 +3,8 @@ Configuration for docs
 """
 
 source_link = "https://github.com/Monogramm/erpnext_ocr"
-docs_base_url = ""
+docs_base_url = "/docs"
+# docs_base_url = "https://Monogramm.github.io/erpnext_ocr"
 headline = "ERPNext OCR Integration"
 sub_heading = "Optical Character Recognition using tesseract within ERPNext"
 
