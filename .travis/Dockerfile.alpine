@@ -10,7 +10,11 @@ RUN set -ex; \
 ENV DOCKER_TAG=travis \
     DOCKER_VCS_REF=${TRAVIS_COMMIT} \
     DOCKER_BUILD_DATE=${TRAVIS_BUILD_NUMBER} \
-    LC_ALL=C
+    CC=/usr/bin/clang \
+    CXX=/usr/bin/clang++ \
+    LANG=C.UTF-8 \
+    LC_ALL=C \ 
+    TESSERACT_VERSION=4.1.0
 
 # Copy the whole repository to app folder for manual install
 #COPY --chown=frappe:frappe . "/home/$FRAPPE_USER"/frappe-bench/apps/erpnext_ocr
@@ -23,11 +27,40 @@ RUN set -ex; \
         ghostscript \
         imagemagick \
         imagemagick-dev \
-        tesseract-ocr \
-        tesseract-ocr-dev \
         leptonica \
         pkgconfig \
     ; \
+    sudo apk add --no-cache --virtual .dev-deps \
+        clang \
+        clang-dev \
+        g++ \
+        make \
+        automake \
+        autoconf \
+        libtool \
+        pkgconfig \
+        cmake \
+        ninja\
+    ; \
+    sudo apk add --no-cache --virtual .dev-testing-deps \
+        -X http://dl-3.alpinelinux.org/alpine/edge/testing \
+        autoconf-archive \
+    ; \
+    ln -s /usr/include/locale.h /usr/include/xlocale.h; \
+    mkdir -p ./tesseract-ocr; \
+    cd tesseract-ocr; \
+    git clone --depth 1 --branch ${TESSERACT_VERSION} https://github.com/tesseract-ocr/tesseract.git; \
+    cd tesseract; \
+    ./autogen.sh; \
+    ./configure \
+        --build=x86_64-alpine-linux-musl \
+        --host=x86_64-alpine-linux-musl\
+    ; \
+    make; \
+    make install; \
+    cd ../..; \
+	sudo apk --purge del .build-deps; \
+	sudo apk --purge del .dev-testing-deps; \
     sudo sed -i \
         -e 's/rights="none" pattern="PDF"/rights="read" pattern="PDF"/g' \
         /etc/ImageMagick*/policy.xml \
