@@ -16,11 +16,12 @@ import io
 
 class OCRRead(Document):
     def read_image(self):
-        message = read_document(self.file_to_read, self.language or 'eng')
+        text = read_document(self.file_to_read, self.language or 'eng')
 
-        self.read_result = message
+        self.read_result = text
         self.save()
-        return message
+
+        return text
 
 
 @frappe.whitelist()
