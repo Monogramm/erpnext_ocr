@@ -38,7 +38,6 @@ RUN set -ex; \
         automake \
         autoconf \
         libtool \
-        pkgconfig \
         cmake \
         ninja \
         leptonica-dev \
@@ -54,7 +53,7 @@ RUN set -ex; \
     sudo ln -s /usr/include/locale.h /usr/include/xlocale.h; \
     mkdir -p ./tesseract-ocr; \
     cd tesseract-ocr; \
-    git clone --depth 1 --branch ${TESSERACT_VERSION} https://github.com/tesseract-ocr/tesseract.git; \
+    git clone --depth 1 https://github.com/tesseract-ocr/tesseract.git --branch ${TESSERACT_VERSION} --single-branch; \
     cd tesseract; \
     ./autogen.sh; \
     ./configure \
@@ -62,7 +61,8 @@ RUN set -ex; \
         --host=x86_64-alpine-linux-musl\
     ; \
     make; \
-    make install; \
+    sudo make install; \
+    sudo ldconfig; \
     cd ../..; \
 	sudo apk --purge del .build-deps; \
 	sudo apk --purge del .dev-testing-deps; \
