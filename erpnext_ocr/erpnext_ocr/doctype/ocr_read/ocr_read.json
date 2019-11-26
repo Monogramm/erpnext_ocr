@@ -10,7 +10,7 @@
  "custom": 0,
  "docstatus": 0,
  "doctype": "DocType",
- "document_type": "",
+ "document_type": "Document",
  "editable_grid": 1,
  "engine": "InnoDB",
  "fields": [
@@ -159,7 +159,7 @@
  "issingle": 0,
  "istable": 0,
  "max_attachments": 0,
- "modified": "2019-08-17 00:52:41.003953",
+ "modified": "2019-11-27 00:49:27.451948",
  "modified_by": "Administrator",
  "module": "ERPNext OCR",
  "name": "OCR Read",
