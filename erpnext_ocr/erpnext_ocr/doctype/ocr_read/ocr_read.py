@@ -38,6 +38,8 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
         frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
                         raise_exception=True)
 
+    frappe.publish_realtime(event, {"progress": "0"}, user=frappe.session.user)
+
     if path.startswith('/assets/'):
         # from public folder
         fullpath = os.path.abspath(path)
@@ -54,7 +56,6 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
         # external link
         fullpath = requests.get(path, stream=True).raw
 
-    frappe.publish_realtime(event, {"progress": "0"}, user=frappe.session.user)
     text = " "
 
     if path.endswith('.pdf'):
