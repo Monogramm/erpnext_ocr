@@ -99,8 +99,8 @@ fi
 if [ -f "${FRAPPE_APP_UNIT_TEST_PROFILE}" ]; then
     echo "Checking Frappe application '${FRAPPE_APP_TO_TEST}' unit tests profile..."
 
-    # XXX Is there any online services that could receive and display profiles?
-    cat "${FRAPPE_APP_UNIT_TEST_PROFILE}"
+    # XXX Are there any online services that could receive and display profiles?
+    #cat "${FRAPPE_APP_UNIT_TEST_PROFILE}"
 fi
 
 
