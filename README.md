@@ -85,7 +85,6 @@ Check tesseract Wiki for details: <https://github.com/tesseract-ocr/tesseract/wi
 -   `OSError: encoder error -2 when writing image file`
 
     -   This might happen when trying to open a TIFF image, but the real error is "_hidden_" and only displayed in console.
-
     -   If the original error in console is `Fax3SetupState: Bits/sample must be 1 for Group 3/4 encoding/decoding.` that usually happens when TIFF image compression is not valid / recognized.
 
 ## :white_check_mark: Run tests
