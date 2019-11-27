@@ -26,6 +26,24 @@ class TestTesseract(unittest.TestCase):
                           os.path.join(os.path.dirname(__file__),"test_data", "sample1.jpg"),
                           "xxx")
 
+    def test_read_document_image_http(self):
+        locale.setlocale(locale.LC_ALL, 'C')
+        recognized_text = read_document("https://github.com/Monogramm/erpnext_ocr/raw/develop/erpnext_ocr/tests/test_data/sample1.jpg",
+                                        "eng")
+
+        # print(recognized_text)
+
+        self.assertIn("The quick brown fox", recognized_text)
+        self.assertIn("jumped over the 5", recognized_text)
+        self.assertIn("lazy dogs!", recognized_text)
+        self.assertNotIn("And an elephant!", recognized_text)
+
+        file = open(os.path.join(os.path.dirname(__file__),
+                                 "test_data", "sample1_output.txt"), "r")
+        expected_text = file.read()
+
+        self.assertEqual(recognized_text, expected_text)
+
     def test_read_document_image_jpg(self):
         locale.setlocale(locale.LC_ALL, 'C')
         recognized_text = read_document(os.path.join(os.path.dirname(__file__),
