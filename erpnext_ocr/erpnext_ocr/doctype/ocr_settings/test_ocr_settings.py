@@ -6,6 +6,7 @@ from __future__ import unicode_literals
 import frappe
 import unittest
 
+
 class TestOCRSettings(unittest.TestCase):
     def test_validate(self):
         ocr = frappe.get_doc("OCR Settings")
