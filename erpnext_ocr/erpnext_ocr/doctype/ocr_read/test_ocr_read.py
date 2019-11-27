@@ -13,20 +13,20 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_
 
 # TODO Frappe default test records creation
 #def _make_test_records(verbose):
-#	from frappe.test_runner import make_test_objects
+#    from frappe.test_runner import make_test_objects
 #
-#	docs = [
-#		# [file_to_read, language]
-#		[os.path.join(os.path.dirname(__file__),
+#    docs = [
+#        # [file_to_read, language]
+#        [os.path.join(os.path.dirname(__file__),
 #                      os.path.pardir, os.path.pardir, os.path.pardir,
 #                      "tests", "test_data", "sample1.jpg"), "eng"],
-#		[os.path.join(os.path.dirname(__file__),
+#        [os.path.join(os.path.dirname(__file__),
 #                      os.path.pardir, os.path.pardir, os.path.pardir,
 #                      "tests", "test_data", "Picture_010.png"), "eng"],
-#		[os.path.join(os.path.dirname(__file__),
+#        [os.path.join(os.path.dirname(__file__),
 #                      os.path.pardir, os.path.pardir, os.path.pardir,
 #                      "tests", "test_data", "sample2.pdf"), "eng"],
-#	]
+#    ]
 #
 #    test_objects = make_test_objects("OCR Read", [{
 #            "doctype": "OCR Read",
@@ -34,7 +34,7 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_
 #            "language": language
 #        } for file_to_read, language in docs])
 #
-#	return test_objects
+#    return test_objects
 
 
 def create_ocr_reads():
@@ -143,15 +143,13 @@ class TestOCRRead(unittest.TestCase):
 
         forced_doc = frappe.get_doc({
             "doctype": "OCR Read",
-            "name": doc.name,
+            #"name": doc.name,
+            "file_to_read": "/private/files/test.tif",
             "language": "eng"
         })
-
+        self.assertIsNotNone(forced_doc)
         self.assertEqual(forced_doc.name, doc.name)
-
-        # FIXME force_attach_file_doc does not work ?
-        # print(doc.file_to_read)
-        # self.assertTrue('/private/files/test.tif' in doc.file_to_read)
+        self.assertEqual('/private/files/test.tif', forced_doc.file_to_read)
 
 
     def test_ocr_read_list(self):
