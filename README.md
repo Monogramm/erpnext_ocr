@@ -68,16 +68,24 @@ Check tesseract Wiki for details: <https://github.com/tesseract-ocr/tesseract/wi
 ### Known issues
 
 -   `wand.exceptions.PolicyError: not authorized '/opt/sample.pdf' @ error/constitute.c/ReadImage/412`
-    -   This can happen due to security configuration in imagemagick, preventing it to read PDF files.
+
+    -   This can happen due to security configuration in imagemagick preventing it to read PDF files.
+
     -   Reference:
         -   <https://stackoverflow.com/questions/52699608/wand-policy-error-error-constitute-c-readimage-412>
         -   <https://stackoverflow.com/questions/42928765/convertnot-authorized-aaaa-error-constitute-c-readimage-453>
+
 -   `wand.exceptions.WandRuntimeError: MagickReadImage returns false, but did raise ImageMagick exception. This can occurs when a delegate is missing, or returns EXIT_SUCCESS without generating a raster.`
+
     -   This might happen if you're missing a dependency to convert PDF, most of the time `ghostscript`
+
     -   References:
         -   <https://stackoverflow.com/questions/57271287/user-wand-by-python-to-convert-pdf-to-jepg-raise-wand-exceptions-wandruntimeerr>
+
 -   `OSError: encoder error -2 when writing image file`
+
     -   This might happen when trying to open a TIFF image, but the real error is "_hidden_" and only displayed in console.
+
     -   If the original error in console is `Fax3SetupState: Bits/sample must be 1 for Group 3/4 encoding/decoding.` that usually happens when TIFF image compression is not valid / recognized.
 
 ## :white_check_mark: Run tests
