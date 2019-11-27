@@ -43,7 +43,7 @@ bench install-app erpnext_ocr
 ```
 
 When installing Frappe app, the following python requirements will be installed:
-* python binding for tesseract, [pytesseract](https://pypi.org/project/pytesseract/)
+* python binding for tesseract, [tesserocr](https://pypi.org/project/tesserocr/)
 * image processing library in python, [pillow](https://pypi.org/project/Pillow/)
 * HTTP library in python, [requests](https://pypi.org/project/requests/)
 * python binding for imagemagick, [wand](https://pypi.org/project/Wand/)

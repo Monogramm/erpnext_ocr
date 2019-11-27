@@ -29,7 +29,7 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
-    import pytesseract
+    import tesserocr
 
     if path is None:
         return None
@@ -56,41 +56,50 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
         # external link
         fullpath = requests.get(path, stream=True).raw
 
+    ocr = frappe.get_doc("OCR Settings")
+
     text = " "
+    with tesserocr.PyTessBaseAPI(lang=lang) as api:
 
-    if path.endswith('.pdf'):
-        from wand.image import Image as wi
-        pdf = wi(filename=fullpath, resolution=300)
-        pdf_image = pdf.convert('jpeg')
-        i = 0
-        size = len(pdf_image.sequence) * 3
-        for img in pdf_image.sequence:
-            img_page = wi(image=img)
-            image_blob = img_page.make_blob('jpeg')
+        if path.endswith('.pdf'):
+            from wand.image import Image as wi
+
+            # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
+            with wi(filename=fullpath, resolution=ocr.pdf_resolution) as pdf:
+                pdf_image = pdf.convert('jpeg')
+                i = 0
+                size = len(pdf_image.sequence) * 3
+
+                for img in pdf_image.sequence:
+                    with wi(image=img) as img_page:
+                        image_blob = img_page.make_blob('jpeg')
+                        frappe.publish_realtime(
+                            event, {"progress": [i, size]}, user=frappe.session.user)
+                        i += 1
+
+                        recognized_text = " "
+
+                        image = Image.open(io.BytesIO(image_blob))
+                        api.SetImage(image)
+                        frappe.publish_realtime(
+                            event, {"progress": [i, size]}, user=frappe.session.user)
+                        i += 1
+
+                        recognized_text = api.GetUTF8Text()
+                        text = text + recognized_text
+                        frappe.publish_realtime(
+                            event, {"progress": [i, size]}, user=frappe.session.user)
+                        i += 1
+
+        else:
+            image = Image.open(fullpath)
+            api.SetImage(image)
             frappe.publish_realtime(
-                event, {"progress": [i, size]}, user=frappe.session.user)
-            i += 1
+                event, {"progress": [33, 100]}, user=frappe.session.user)
 
-            recognized_text = " "
-            image = Image.open(io.BytesIO(image_blob))
+            text = api.GetUTF8Text()
             frappe.publish_realtime(
-                event, {"progress": [i, size]}, user=frappe.session.user)
-            i += 1
-
-            recognized_text = pytesseract.image_to_string(image, lang)
-            text = text + recognized_text
-            frappe.publish_realtime(
-                event, {"progress": [i, size]}, user=frappe.session.user)
-            i += 1
-
-    else:
-        image = Image.open(fullpath)
-        frappe.publish_realtime(
-            event, {"progress": [33, 100]}, user=frappe.session.user)
-
-        text = pytesseract.image_to_string(image, lang=lang)
-        frappe.publish_realtime(
-            event, {"progress": [66, 100]}, user=frappe.session.user)
+                event, {"progress": [66, 100]}, user=frappe.session.user)
 
     frappe.publish_realtime(
         event, {"progress": [100, 100]}, user=frappe.session.user)

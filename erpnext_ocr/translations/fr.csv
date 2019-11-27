@@ -12,3 +12,5 @@ Doctype: OCR Read,Read file,Lire le fichier
 Doctype: OCR Read,Read Result,Résultat de la lecture
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Reading the file,Lecture du fichier
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,The selected language is not available. Please contact your administrator.,La langue sélectionnée n'est pas disponible. Veuillez contacter votre administrateur.
+Doctype: OCR Settings,PDF Resolution,Résolution PDF
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_settings/ocr_settings.py,PDF Resolution must be a positive integer, eg 300 (high) or 200 (normal).,La résolution PDF doit être un entier positif, comme 300 (haute) ou 200 (normale).

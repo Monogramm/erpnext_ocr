@@ -6,9 +6,9 @@ Examples to implement OCR(Optical Character Recognition) using tesseract using P
   ```
   sudo apt-get install tesseract-ocr
   ```
-- Install python binding for tesseract, pytesseract, using this pip command:
+- Install python binding for tesseract, tesserocr, using this pip command:
   ```
-  pip install pytesseract
+  pip install tesserocr
   ```
 - Install image processing library in python, pillow using this pip command:
   ```
