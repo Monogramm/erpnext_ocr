@@ -32,7 +32,7 @@ class TestTesseract(unittest.TestCase):
                                                      "test_data", "sample1.jpg"),
                                         "eng")
 
-        print("recognized_text=" + recognized_text)
+        # print("recognized_text=" + recognized_text)
 
         self.assertIn("The quick brown fox", recognized_text)
         self.assertIn("jumped over the 5", recognized_text)
@@ -52,7 +52,7 @@ class TestTesseract(unittest.TestCase):
                                                      "test_data", "Picture_010.png"),
                                         "eng")
 
-        # print(recognized_text)
+        # print("recognized_text=" + recognized_text)
 
         self.assertIn("Brawn Manufacture", recognized_text)
         self.assertNotIn("And an elephant!", recognized_text)
@@ -63,7 +63,7 @@ class TestTesseract(unittest.TestCase):
                                                      "test_data", "sample2.pdf"),
                                         "eng")
 
-        print("recognized_text=" + recognized_text)
+        # print("recognized_text=" + recognized_text)
 
         self.assertIn("Python Basics", recognized_text)
         self.assertNotIn("Java", recognized_text)

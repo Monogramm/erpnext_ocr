@@ -56,6 +56,8 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
         # external link
         fullpath = requests.get(path, stream=True).raw
 
+    ocr = frappe.get_doc("OCR Settings")
+
     text = " "
     with tesserocr.PyTessBaseAPI(lang=lang) as api:
 
@@ -63,7 +65,7 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
             from wand.image import Image as wi
 
             # https://stackoverflow.com/questions/43072050/pyocr-with-tesseract-runs-out-of-memory
-            with wi(filename=fullpath, resolution=300) as pdf:
+            with wi(filename=fullpath, resolution=ocr.pdf_resolution) as pdf:
                 pdf_image = pdf.convert('jpeg')
                 i = 0
                 size = len(pdf_image.sequence) * 3
