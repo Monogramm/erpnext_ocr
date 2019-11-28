@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## 1.0.0 - 2019-11-27
 
-Differences with previous release: [1.0.0...0.9.0](https://github.com/Monogramm/erpnext_ocr/compare/1.0.0...0.9.0)
+Differences with previous release: [0.9.0...1.0.0](https://github.com/Monogramm/erpnext_ocr/compare/0.9.0...1.0.0)
 
 ### Added
 
