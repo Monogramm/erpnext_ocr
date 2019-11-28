@@ -2,8 +2,15 @@ apps/erpnext_ocr/config/desktop.py,ERPNext OCR,Reconnaissance optique de caract�
 Doctype: OCR Language,OCR Language,Langue RCO
 Doctype: OCR Language,Code,Code
 Doctype: OCR Language,Language,Langue
+Doctype: OCR Language,Is supported,Est supporté
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,Yes,Oui
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,No,Non
 Doctype: OCR Read,OCR Read,Lecture RCO
 Doctype: OCR Read,Image or PDF to Read,Image ou PDF à lire
 Doctype: OCR Read,Language,Langue
 Doctype: OCR Read,Read file,Lire le fichier
 Doctype: OCR Read,Read Result,Résultat de la lecture
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Reading the file,Lecture du fichier
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,The selected language is not available. Please contact your administrator.,La langue sélectionnée n'est pas disponible. Veuillez contacter votre administrateur.
+Doctype: OCR Settings,PDF Resolution,Résolution PDF
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_settings/ocr_settings.py,PDF Resolution must be a positive integer, eg 300 (high) or 200 (normal).,La résolution PDF doit être un entier positif, comme 300 (haute) ou 200 (normale).

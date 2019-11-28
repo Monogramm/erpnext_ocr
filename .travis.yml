@@ -12,7 +12,8 @@ branches:
 
 before_script:
   - env | sort
-  - dir="test"
+  - home=$(pwd)
+  - dir=".travis"
   - export IMAGE_NAME=docker-erpnext-ext:erpnext_ocr-travis
   - export BUILD_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-${TRAVIS_BRANCH}}
   - export BUILD_URL=https://github.com/${TRAVIS_PULL_REQUEST_SLUG:-${TRAVIS_REPO_SLUG}}
@@ -42,7 +43,7 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
-  - echo 'Wait until test finished (1-2 minutes)' && sleep 90
+  - echo 'Wait until test finished (3 minutes)' && sleep 180
   - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container restart
@@ -55,9 +56,14 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
-  - echo 'Wait until test finished (1-2 minutes)' && sleep 90
+  - echo 'Wait until test finished (3 minutes)' && sleep 180
   - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
+
+#after_script:
+#  - cd "$home"
+#  - sudo pip install python-coveralls
+#  - coveralls -b "$home" -d /srv/erpnext/frappe/sites/.coverage
 
 notifications:
   email: false

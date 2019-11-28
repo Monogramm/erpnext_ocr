@@ -1,6 +1,6 @@
 frappe
 six
 requests
-pytesseract
 pillow
 wand
+tesserocr
