@@ -14,6 +14,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
+<a name="1.0.1"></a>
+
+## 1.0.1 - 2019-11-29
+
+Differences with previous release: [1.0.0...1.0.1](https://github.com/Monogramm/erpnext_ocr/compare/1.0.0...1.0.1)
+
+### Fixed
+
+-   :globe_with_meridians: Fix FR translation for PDF resolution
+
 <a name="1.0.0"></a>
 
 ## 1.0.0 - 2019-11-27

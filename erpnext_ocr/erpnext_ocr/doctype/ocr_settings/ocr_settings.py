@@ -12,6 +12,6 @@ class OCRSettings(Document):
     def validate(self):
         if not self.pdf_resolution > 0:
             frappe.throw(
-                _("PDF Resolution must be a positive integer, eg 300 (high) or 200 (normal)."))
+                _("PDF Resolution must be a positive integer eg 300 (high) or 200 (normal)."))
 
         return
