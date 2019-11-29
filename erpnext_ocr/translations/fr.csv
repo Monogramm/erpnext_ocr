@@ -1,4 +1,4 @@
-apps/erpnext_ocr/config/desktop.py,ERPNext OCR,Reconnaissance optique de caractères
+apps/erpnext_ocr/config/desktop.py,ERPNext OCR,ERPNext ROC
 Doctype: OCR Language,OCR Language,Langue ROC
 Doctype: OCR Language,Code,Code
 Doctype: OCR Language,Language,Langue
