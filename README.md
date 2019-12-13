@@ -90,7 +90,7 @@ Check tesseract Wiki for details: <https://github.com/tesseract-ocr/tesseract/wi
 ## :white_check_mark: Run tests
 
 ```sh
-bench bench run-tests --profile --app erpnext_ocr
+bench run-tests --app erpnext_ocr
 ```
 
 ## :bust_in_silhouette: Authors
