@@ -122,6 +122,22 @@ fi
 ## TODO Check result of UI tests
 
 
+
+################################################################################
+# TODO Generate docs
+
+bench build-docs --help
+
+#echo "Generating docs for '${FRAPPE_APP_TO_TEST}' app..."
+#if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
+#    bench build-docs --target $(pwd)/apps/${FRAPPE_APP_TO_TEST}/docs ${FRAPPE_APP_TO_TEST}
+#else
+#    bench build-docs --target $(pwd)/apps/${FRAPPE_APP_TO_TEST}/docs ${FRAPPE_APP_TO_TEST}
+#fi
+
+## TODO Check docs generated properly
+
+
 ################################################################################
 # Success
 echo 'Frappe app '${FRAPPE_APP_TO_TEST}' tests finished'
