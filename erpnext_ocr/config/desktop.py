@@ -10,5 +10,13 @@ def get_data():
 			"icon": "octicon octicon-eye",
 			"type": "module",
 			"label": _("ERPNext OCR")
+		},
+		{
+			"module_name": "ERPNext SAFER",
+			"_doctype": "OCR Read",
+			"color": "#00bcd4",
+			"icon": "fa fa-eye",
+			"type": "link",
+			"link": "List/OCR Read"
 		}
 	]
