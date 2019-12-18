@@ -131,7 +131,10 @@ fi
 echo "Generating docs for '${FRAPPE_APP_TO_TEST}' app..."
 if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
     set +e
-    bench build-docs --target ${FRAPPE_APP_TO_TEST} ${FRAPPE_APP_TO_TEST}
+    bench build-docs \
+        --target ${FRAPPE_APP_TO_TEST} \
+        --docs-version ${FRAPPE_APP_TO_TEST} \
+        ${FRAPPE_APP_TO_TEST}
     set -e
 else
     echo "Building docs is not available for this version of Frappe (${TEST_VERSION})"
