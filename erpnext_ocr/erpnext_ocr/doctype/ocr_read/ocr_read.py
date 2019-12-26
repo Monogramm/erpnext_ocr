@@ -15,6 +15,10 @@ import io
 
 
 class OCRRead(Document):
+    def get_current_language(self):
+        language = frappe.get_doc("System Settings").language
+        return "eng" if language == "en" else language
+
     def read_image(self):
         text = read_document(self.file_to_read, self.language or 'eng')
 
