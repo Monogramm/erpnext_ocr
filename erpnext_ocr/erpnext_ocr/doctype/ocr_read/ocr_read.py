@@ -13,15 +13,35 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_avail
 import os
 import io
 
+from spellchecker import SpellChecker
+
+
+def get_words_from_text(message):
+    message = message.replace(".", "").replace(",", "").replace("!", "").replace("\n", "")
+    word_list = list(filter(None, message.split()))
+    return word_list
+
+
+def analyze_text(message, lang='eng'):
+    spell_checker = SpellChecker()
+    only_words = get_words_from_text(message)
+    misspelled = spell_checker.unknown(only_words)
+    for word in misspelled:
+        corrected_word = spell_checker.correction(word)
+        print(word+ "instead of " + corrected_word)
+        message = message.replace(word, corrected_word)
+    return message
+
 
 class OCRRead(Document):
-    def read_image(self):
-        text = read_document(self.file_to_read, self.language or 'eng')
-
-        self.read_result = text
+    def read_image(self, spell_checker):
+        message = read_document(self.file_to_read, self.language or 'en')
+        self.read_result = message
+        if self.spell_checker:
+            print("Spell checker has been enabled")
+            self.read_result = analyze_text(message, self.language or 'eng')
         self.save()
-
-        return text
+        return message
 
 
 @frappe.whitelist()
