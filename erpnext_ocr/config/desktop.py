@@ -12,7 +12,7 @@ def get_data():
 			"label": _("ERPNext OCR")
 		},
 		{
-			"module_name": "ERPNext SAFER",
+			"module_name": "ERPNext OCR",
 			"_doctype": "OCR Read",
 			"color": "#00bcd4",
 			"icon": "fa fa-eye",
