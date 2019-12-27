@@ -23,7 +23,7 @@ def get_words_from_text(message):
     return word_list
 
 
-def get_spellchecked_text(message, lang='eng'):
+def get_spellchecked_text(message):
     spell_checker = SpellChecker()
     only_words = get_words_from_text(message)
     misspelled = spell_checker.unknown(only_words)
@@ -34,7 +34,7 @@ def get_spellchecked_text(message, lang='eng'):
 
 
 class OCRRead(Document):
-    def read_image(self, spell_checker):
+    def read_image(self):
         message = read_document(self.file_to_read, self.language or 'en')
         self.read_result = message
         if self.spell_checker:
