@@ -34,11 +34,15 @@ def get_spellchecked_text(message):
 
 
 class OCRRead(Document):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.language = None
+
     def read_image(self):
         message = read_document(self.file_to_read, self.language or 'en')
         self.read_result = message
         if self.spell_checker:
-            self.read_result = get_spellchecked_text(message, self.language or 'eng')
+            self.read_result = get_spellchecked_text(message)
         self.save()
         return message
 
