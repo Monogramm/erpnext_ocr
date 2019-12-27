@@ -5,6 +5,8 @@
 
 from __future__ import unicode_literals
 
+import re
+
 import frappe
 from frappe.model.document import Document
 
@@ -15,20 +17,18 @@ import io
 
 from spellchecker import SpellChecker
 
-
 def get_words_from_text(message):
-    message = message.replace(".", "").replace(",", "").replace("!", "").replace("\n", "")
+    message = re.sub(r'\W+', " ", message)
     word_list = list(filter(None, message.split()))
     return word_list
 
 
-def analyze_text(message, lang='eng'):
+def get_spellchecked_text(message, lang='eng'):
     spell_checker = SpellChecker()
     only_words = get_words_from_text(message)
     misspelled = spell_checker.unknown(only_words)
     for word in misspelled:
         corrected_word = spell_checker.correction(word)
-        print(word+ "instead of " + corrected_word)
         message = message.replace(word, corrected_word)
     return message
 
@@ -38,8 +38,7 @@ class OCRRead(Document):
         message = read_document(self.file_to_read, self.language or 'en')
         self.read_result = message
         if self.spell_checker:
-            print("Spell checker has been enabled")
-            self.read_result = analyze_text(message, self.language or 'eng')
+            self.read_result = get_spellchecked_text(message, self.language or 'eng')
         self.save()
         return message
 

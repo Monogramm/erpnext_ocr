@@ -4,5 +4,4 @@ requests
 pillow
 wand
 tesserocr
-spellchecker
 pyspellchecker

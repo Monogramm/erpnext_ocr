@@ -101,7 +101,7 @@ class TestOCRRead(unittest.TestCase):
             "language": "eng"
         })
 
-        recognized_text = doc.read_image()
+        recognized_text = doc.read_image(0)
         self.assertEqual(recognized_text, doc.read_result)
 
         self.assertIn("The quick brown fox", recognized_text)
@@ -120,7 +120,7 @@ class TestOCRRead(unittest.TestCase):
             "language": "eng"
         })
 
-        recognized_text = doc.read_image()
+        recognized_text = doc.read_image(0)
 
         # FIXME values are not equal on Alpine ??!
         #self.maxDiff = None
