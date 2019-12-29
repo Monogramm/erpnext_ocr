@@ -23,8 +23,9 @@ def get_words_from_text(message):
     return word_list
 
 
-def get_spellchecked_text(message):
-    spell_checker = SpellChecker()
+def get_spellchecked_text(message, language):
+    language = frappe.get_doc("OCR Language", language).lang
+    spell_checker = SpellChecker(language)
     only_words = get_words_from_text(message)
     misspelled = spell_checker.unknown(only_words)
     for word in misspelled:
@@ -36,19 +37,18 @@ def get_spellchecked_text(message):
 class OCRRead(Document):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.language = None
 
     def read_image(self):
-        message = read_document(self.file_to_read, self.language or 'en')
+        message = read_document(self.file_to_read, self.language or 'eng')
         self.read_result = message
         if self.spell_checker:
-            self.read_result = get_spellchecked_text(message)
+            self.read_result = get_spellchecked_text(message, self.language)
         self.save()
         return message
 
 
 @frappe.whitelist()
-def read_document(path, lang='eng', event="ocr_progress_bar"):
+def read_document(path, lang, event="ocr_progress_bar"):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests

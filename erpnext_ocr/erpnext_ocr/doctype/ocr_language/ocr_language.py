@@ -19,8 +19,7 @@ def check_language(lang):
 @frappe.whitelist()
 def lang_available(lang):
     """Call Tesseract OCR to verify language is available."""
-    if lang == 'en':
-        lang = "eng"
+    lang = "eng"
     list_of_languages = tesserocr.get_languages()[1]
     return lang in list_of_languages
 
