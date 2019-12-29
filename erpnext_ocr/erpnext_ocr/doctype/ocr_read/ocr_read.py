@@ -35,20 +35,17 @@ def get_spellchecked_text(message, language):
 
 
 class OCRRead(Document):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def read_image(self):
         message = read_document(self.file_to_read, self.language or 'eng')
         self.read_result = message
         if self.spell_checker:
             self.read_result = get_spellchecked_text(message, self.language)
         self.save()
-        return message
+        return self.read_result
 
 
 @frappe.whitelist()
-def read_document(path, lang, event="ocr_progress_bar"):
+def read_document(path, lang='eng', event="ocr_progress_bar"):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
