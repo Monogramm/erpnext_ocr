@@ -5,11 +5,7 @@ ADD docker_test.sh /docker_test.sh
 RUN set -ex; \
     sudo chmod 755 /docker_test.sh; \
     sudo pip install coverage==4.5.4; \
-    sudo pip install python-coveralls; \
-    echo 'Ugly, but, force coverage debug...'; \
-    sed -i \
-        -e 's|if self._debug and self._debug.should('dataio'):|if True:|g' \
-        /usr/local/lib/python3.7/site-packages/coverage/data.py
+    sudo pip install python-coveralls
 
 EXPOSE 4444
 
