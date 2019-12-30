@@ -92,7 +92,10 @@ if [ -f "${FRAPPE_APP_UNIT_TEST_REPORT}" ]; then
 fi
 
 if [ -f ./sites/.coverage ]; then
-    echo "Dump the raw Unit Tests coverage data of '${FRAPPE_APP_TO_TEST}'..."
+    echo "Display the raw Unit Tests coverage data of '${FRAPPE_APP_TO_TEST}'..."
+    cat "$(pwd)/sites/.coverage"
+
+    echo "Display the pretty JSON Unit Tests coverage data of '${FRAPPE_APP_TO_TEST}'..."
     set +e
     python -m coverage.data "$(pwd)/sites/.coverage"
     set -e
