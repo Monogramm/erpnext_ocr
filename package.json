@@ -4,6 +4,15 @@
   "author": "Monogramm",
   "license": "MIT",
   "dependencies": {
-    "cypress": "^3.1.4"
+    "cypress": "^3.1.4",
+    "remark-cli": "^7.0.1",
+    "remark-lint": "^6.0.5",
+    "remark-preset-lint-recommended": "^3.0.3"
+  },
+  "scripts": {
+    "lint-md": "remark ."
+  },
+  "remarkConfig": {
+    "plugins": ["remark-preset-lint-recommended"]
   }
 }

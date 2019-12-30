@@ -5,7 +5,7 @@ from . import __version__ as app_version
 app_name = "erpnext_ocr"
 app_title = "ERPNext OCR"
 app_publisher = "Monogramm"
-app_description = "OCR"
+app_description = "Optical Character Recognition using tesseract within ERPNext"
 app_icon = "octicon octicon-eye"
 app_color = "#00bcd4"
 app_email = "opensource@monogramm.io"

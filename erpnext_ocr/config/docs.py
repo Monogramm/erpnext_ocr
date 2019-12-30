@@ -1,10 +1,12 @@
+# -*- coding: utf-8 -*-
 """
 Configuration for docs
 """
 
+from __future__ import unicode_literals
+
 source_link = "https://github.com/Monogramm/erpnext_ocr"
-docs_base_url = "/docs"
-# docs_base_url = "https://Monogramm.github.io/erpnext_ocr"
+docs_base_url = "https://monogramm.github.io/erpnext_ocr"
 headline = "ERPNext OCR Integration"
 sub_heading = "Optical Character Recognition using tesseract within ERPNext"
 
