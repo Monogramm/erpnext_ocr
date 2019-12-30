@@ -8,8 +8,8 @@ RUN set -ex; \
     sudo pip install python-coveralls; \
     echo 'Ugly, but, force coverage debug...'; \
     sudo sed -i \
-        -e 's|if self._debug and self._debug.should('dataio'):|if True:|g' \
-        /usr/local/lib/python3.7/site-packages/coverage/data.py
+        -e 's|self._debug.write|print|g' \
+        /usr/local/lib/python*/site-packages/coverage/data.py
 
 EXPOSE 4444
 

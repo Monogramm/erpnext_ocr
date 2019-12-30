@@ -92,6 +92,11 @@ if [ -f "${FRAPPE_APP_UNIT_TEST_REPORT}" ]; then
 fi
 
 if [ -f ./sites/.coverage ]; then
+    echo "Dump the raw Unit Tests coverage data of '${FRAPPE_APP_TO_TEST}'..."
+    set +e
+    python -m coverage.data "$(pwd)/sites/.coverage"
+    set -e
+
     echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
     set +e
     coveralls -b "$(pwd)/apps/${FRAPPE_APP_TO_TEST}" -d "$(pwd)/sites/.coverage"
