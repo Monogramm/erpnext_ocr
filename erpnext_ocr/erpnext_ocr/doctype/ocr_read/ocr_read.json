@@ -55,7 +55,7 @@
    "bold": 0,
    "collapsible": 0,
    "columns": 0,
-   "depends_on": "eval:parent.language",
+   "depends_on": "",
    "fetch_if_empty": 0,
    "fieldname": "file_to_read",
    "fieldtype": "Attach",
