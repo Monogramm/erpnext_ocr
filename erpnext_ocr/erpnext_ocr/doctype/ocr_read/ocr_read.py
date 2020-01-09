@@ -119,8 +119,8 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
             frappe.publish_realtime(
                 event, {"progress": [66, 100]}, user=frappe.session.user)
 
-    if self.spellcheck:
-        text = get_spellchecked_text(message, lang)
+    if spellcheck:
+        text = get_spellchecked_text(text, lang)
 
     frappe.publish_realtime(
         event, {"progress": [100, 100]}, user=frappe.session.user)
