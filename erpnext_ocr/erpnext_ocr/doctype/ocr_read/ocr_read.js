@@ -1,8 +1,7 @@
 frappe.ui.form.on('OCR Read', {
     setup: function (frm) {
         frappe.call({
-            doc: cur_frm.doc,
-            method: "get_current_language",
+            method: "erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language.get_current_language",
             args: {
                 'user': frappe.user['name']
             },
