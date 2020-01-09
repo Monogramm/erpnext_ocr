@@ -27,16 +27,17 @@ def lang_available(lang):
 
 @frappe.whitelist()
 def get_current_language(user):
-    language = frappe.get_doc("User", user).language
-    if language:
-        lang_code = frappe.get_doc("OCR Language", {"lang": language}).name
-        return lang_code
-    language = frappe.get_doc("System Settings")
+    language = frappe.get_doc("User", user)
     if language:
         lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
         return lang_code
     else:
-        return "eng"
+        language = frappe.get_doc("System Settings")
+        if language:
+            lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
+            return lang_code
+        else:
+            return "eng"
 
 class OCRLanguage(Document):
     def __init__(self, *args, **kwargs):
