@@ -24,8 +24,8 @@ def get_words_from_text(message):
 
 
 def get_spellchecked_text(message, language):
-    language = frappe.get_doc("OCR Language", language).lang
-    spell_checker = SpellChecker(language)
+    lang = frappe.get_doc("OCR Language", language).lang
+    spell_checker = SpellChecker(lang)
     only_words = get_words_from_text(message)
     misspelled = spell_checker.unknown(only_words)
     for word in misspelled:
@@ -36,16 +36,14 @@ def get_spellchecked_text(message, language):
 
 class OCRRead(Document):
     def read_image(self):
-        message = read_document(self.file_to_read, self.language or 'eng')
-        self.read_result = message
-        if self.spell_checker:
-            self.read_result = get_spellchecked_text(message, self.language)
+        text = read_document(self.file_to_read, self.language or 'eng', self.spell_checker)
+        self.read_result = text
         self.save()
-        return self.read_result
+        return text
 
 
 @frappe.whitelist()
-def read_document(path, lang='eng', event="ocr_progress_bar"):
+def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
@@ -120,6 +118,9 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
             text = api.GetUTF8Text()
             frappe.publish_realtime(
                 event, {"progress": [66, 100]}, user=frappe.session.user)
+
+    if self.spellcheck:
+        text = get_spellchecked_text(message, lang)
 
     frappe.publish_realtime(
         event, {"progress": [100, 100]}, user=frappe.session.user)
