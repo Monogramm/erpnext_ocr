@@ -62,6 +62,7 @@ script:
 
 #after_script:
 #  - cd "$home"
+#  - sudo pip install coverage==4.5.4
 #  - sudo pip install python-coveralls
 #  - coveralls -b "$home" -d /srv/erpnext/frappe/sites/.coverage
 
