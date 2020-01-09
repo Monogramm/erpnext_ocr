@@ -31,13 +31,13 @@ def get_current_language(user):
     if language:
         lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
         return lang_code
+    language = frappe.get_doc("System Settings")
+    if language:
+        lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
+        return lang_code
     else:
-        language = frappe.get_doc("System Settings")
-        if language:
-            lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
-            return lang_code
-        else:
-            return "eng"
+        return "eng"
+
 
 class OCRLanguage(Document):
     def __init__(self, *args, **kwargs):
