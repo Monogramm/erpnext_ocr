@@ -1,6 +1,15 @@
 frappe.ui.form.on('OCR Read', {
-    refresh: function (frm) {
-
+    setup: function (frm) {
+        frappe.call({
+            doc: cur_frm.doc,
+            method: "get_current_language",
+            args: {
+                'user': frappe.user['name']
+            },
+            callback: function (r) {
+                cur_frm.set_value("language", r.message);
+            }
+        })
     },
     read_image: function (frm) {
         frappe.hide_msgprint(true);
@@ -17,14 +26,5 @@ frappe.ui.form.on('OCR Read', {
                 cur_frm.set_value("read_result", r.message);
             }
         });
-    },
-    onload: function (frm) {
-        frappe.call({
-            method: "get_current_language",
-            doc: frm.doc,
-            callback: function (r) {
-                frm.set_value("language",r.message);
-            }
-        })
     }
 });
