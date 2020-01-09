@@ -14,7 +14,6 @@ import os
 import io
 
 
-
 class OCRRead(Document):
     def read_image(self):
         text = read_document(self.file_to_read, self.language or 'eng')
