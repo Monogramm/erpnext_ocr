@@ -32,11 +32,8 @@ def get_current_language(user):
         lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
         return lang_code
     language = frappe.get_doc("System Settings")
-    if language:
-        lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
-        return lang_code
-    else:
-        return "eng"
+    lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
+    return lang_code if lang_code is not None else "eng"
 
 
 class OCRLanguage(Document):
