@@ -27,12 +27,11 @@ def lang_available(lang):
 
 @frappe.whitelist()
 def get_current_language(user):
-    language = frappe.get_doc("User", user)
-    if language:
-        lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
-        return lang_code
-    language = frappe.get_doc("System Settings")
-    lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
+    settings = frappe.get_doc("User", user)
+    if not settings:
+        settings = frappe.get_doc("System Settings")
+
+    lang_code = frappe.get_doc("OCR Language", {"lang": settings.language}).name
     return lang_code if lang_code is not None else "eng"
 
 
