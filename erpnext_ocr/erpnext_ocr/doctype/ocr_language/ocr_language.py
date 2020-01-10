@@ -19,11 +19,22 @@ def check_language(lang):
 @frappe.whitelist()
 def lang_available(lang):
     """Call Tesseract OCR to verify language is available."""
+    if lang == 'en':
+        lang = "eng"
     list_of_languages = tesserocr.get_languages()[1]
-    if len(lang) == 3:
-        return lang in list_of_languages
-    if len(lang) == 2:
-        return frappe.get_doc("OCR Language", {"lang": lang}).name in tesserocr.get_languages()[1]
+    return lang in list_of_languages
+
+
+@frappe.whitelist()
+def get_current_language(user):
+    language = frappe.get_doc("User", user)
+    if language.language:
+        lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
+        return lang_code
+    language = frappe.get_doc("System Settings")
+    lang_code = frappe.get_doc("OCR Language", {"lang": language.language}).name
+    return lang_code if lang_code is not None else "eng"
+
 
 class OCRLanguage(Document):
     def __init__(self, *args, **kwargs):

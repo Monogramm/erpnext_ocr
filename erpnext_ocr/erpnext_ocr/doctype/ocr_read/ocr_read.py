@@ -5,7 +5,7 @@
 
 from __future__ import unicode_literals
 
-import re
+import time
 
 import frappe
 from frappe.model.document import Document
@@ -15,35 +15,21 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_avail
 import os
 import io
 
-from spellchecker import SpellChecker
-
-def get_words_from_text(message):
-    message = re.sub(r'\W+', " ", message)
-    word_list = list(filter(None, message.split()))
-    return word_list
-
-
-def get_spellchecked_text(message, language):
-    lang = frappe.get_doc("OCR Language", language).lang
-    spell_checker = SpellChecker(lang)
-    only_words = get_words_from_text(message)
-    misspelled = spell_checker.unknown(only_words)
-    for word in misspelled:
-        corrected_word = spell_checker.correction(word)
-        message = message.replace(word, corrected_word)
-    return message
-
 
 class OCRRead(Document):
     def read_image(self):
-        text = read_document(self.file_to_read, self.language or 'eng', self.spell_checker)
+        start_time = time.time()
+        text = read_document(self.file_to_read, self.language or 'eng')
+        delta_time = time.time() - start_time
+        self.time_read = str(delta_time)
         self.read_result = text
         self.save()
-        return text
+
+        return text, delta_time
 
 
 @frappe.whitelist()
-def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
+def read_document(path, lang='eng', event="ocr_progress_bar"):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
@@ -118,9 +104,6 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
             text = api.GetUTF8Text()
             frappe.publish_realtime(
                 event, {"progress": [66, 100]}, user=frappe.session.user)
-
-    if spellcheck:
-        text = get_spellchecked_text(text, lang)
 
     frappe.publish_realtime(
         event, {"progress": [100, 100]}, user=frappe.session.user)
