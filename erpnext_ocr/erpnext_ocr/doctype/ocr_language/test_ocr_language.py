@@ -7,7 +7,8 @@ from __future__ import unicode_literals
 import frappe
 import unittest
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available, check_language
+from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available, check_language, \
+    get_current_language
 
 
 class TestOCRLanguage(unittest.TestCase):
@@ -40,3 +41,18 @@ class TestOCRLanguage(unittest.TestCase):
 
     def test_666_check_language(self):
         self.assertEqual(check_language("666"), frappe._("No"))
+
+    def test_get_current_language(self):
+        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")
+        frappe.db.sql("""delete from `tabEmail Queue`""")
+        frappe.db.sql("""delete from `tabEmail Queue Recipient`""")
+        test_user = frappe.new_doc("User")
+        test_user.name = 'test_user'
+        test_user.first_name = 'test_user'
+        test_user.email = 'test_user@example.com'
+        test_user.language = "en"
+        test_user.insert(ignore_permissions=True)
+        self.assertEqual("eng", get_current_language('test_user@example.com'))
+        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")
+        frappe.db.sql("""delete from `tabEmail Queue`""")
+        frappe.db.sql("""delete from `tabEmail Queue Recipient`""")
