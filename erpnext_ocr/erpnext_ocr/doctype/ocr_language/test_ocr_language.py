@@ -11,7 +11,22 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_avail
     get_current_language
 
 
+def delete_test_data():
+    if frappe.db.exists("User", "test_user@example.com"):
+        #test_user = frappe.get_doc('User', "test_user@example.com")
+        #test_user.remove_roles("System Manager")
+        #test_user.delete()
+        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""") # ValidationError without SQL
+        email_queue = frappe.get_all("Email Queue")
+        for d in email_queue:
+            doc = frappe.get_doc("Email Queue", d.name)
+            doc.delete()
+
+
 class TestOCRLanguage(unittest.TestCase):
+    def setUp(self):
+        delete_test_data()
+
     def test_en_lang_available(self):
         self.assertTrue(lang_available("en"))
 
@@ -43,16 +58,15 @@ class TestOCRLanguage(unittest.TestCase):
         self.assertEqual(check_language("666"), frappe._("No"))
 
     def test_get_current_language(self):
-        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")
-        frappe.db.sql("""delete from `tabEmail Queue`""")
-        frappe.db.sql("""delete from `tabEmail Queue Recipient`""")
         test_user = frappe.new_doc("User")
         test_user.name = 'test_user'
         test_user.first_name = 'test_user'
         test_user.email = 'test_user@example.com'
         test_user.language = "en"
+
         test_user.insert(ignore_permissions=True)
-        self.assertEqual("eng", get_current_language('test_user@example.com'))
-        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")
-        frappe.db.sql("""delete from `tabEmail Queue`""")
-        frappe.db.sql("""delete from `tabEmail Queue Recipient`""")
+        self.assertEqual("eng", get_current_language(test_user.email))
+
+    def tearDown(self):
+        delete_test_data()
+
