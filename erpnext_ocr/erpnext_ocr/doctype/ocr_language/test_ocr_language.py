@@ -27,6 +27,9 @@ class TestOCRLanguage(unittest.TestCase):
     def setUp(self):
         delete_test_data()
 
+    def tearDown(self):
+        delete_test_data()
+
     def test_en_lang_available(self):
         self.assertTrue(lang_available("en"))
 
@@ -66,7 +69,4 @@ class TestOCRLanguage(unittest.TestCase):
 
         test_user.insert(ignore_permissions=True)
         self.assertEqual("eng", get_current_language(test_user.email))
-
-    def tearDown(self):
-        delete_test_data()
 
