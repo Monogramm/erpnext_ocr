@@ -37,13 +37,30 @@ def get_spellchecked_text(message, language):
 
 class OCRRead(Document):
     def read_image(self):
-        frappe.enqueue("erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.read_document", queue="long",
-                              timeout=1500, **{
-                'path': self.file_to_read, 'lang': self.language, 'spellcheck': self.spell_checker, 'obj': self})
+        return read_ocr(self)
+
+    def read_image_bg(self):
+        return frappe.enqueue("erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.read_ocr", queue="long",
+                              timeout=1500, **{'obj': self})
 
 
 @frappe.whitelist()
-def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar", obj=None):
+def read_ocr(obj):
+    """Call Tesseract OCR to extract the text from a OCR Read object."""
+
+    if obj is None:
+        frappe.msgprint(frappe._("An expected error occurred."),
+                        raise_exception=True)
+
+    text = read_document(obj.file_to_read, obj.language or 'eng', obj.spell_checker)
+    obj.read_result = text
+    obj.save()
+
+    return text
+
+
+@frappe.whitelist()
+def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
@@ -124,8 +141,7 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar", 
 
     frappe.publish_realtime(
         event, {"progress": [100, 100]}, user=frappe.session.user)
-    obj.read_result = text
-    obj.save()
+
     return text
 
 
