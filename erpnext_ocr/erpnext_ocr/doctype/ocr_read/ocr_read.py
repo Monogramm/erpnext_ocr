@@ -17,6 +17,7 @@ import io
 
 from spellchecker import SpellChecker
 
+
 def get_words_from_text(message):
     message = re.sub(r'\W+', " ", message)
     word_list = list(filter(None, message.split()))
@@ -36,14 +37,13 @@ def get_spellchecked_text(message, language):
 
 class OCRRead(Document):
     def read_image(self):
-        text = read_document(self.file_to_read, self.language or 'eng', self.spell_checker)
-        self.read_result = text
-        self.save()
-        return text
+        frappe.enqueue("erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.read_document", queue="long",
+                              timeout=1500, **{
+                'path': self.file_to_read, 'lang': self.language, 'spellcheck': self.spell_checker, 'obj': self})
 
 
 @frappe.whitelist()
-def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
+def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar", obj=None):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
@@ -124,7 +124,8 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
 
     frappe.publish_realtime(
         event, {"progress": [100, 100]}, user=frappe.session.user)
-
+    obj.read_result = text
+    obj.save()
     return text
 
 
