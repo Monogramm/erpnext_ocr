@@ -40,3 +40,10 @@ class TestOCRLanguage(unittest.TestCase):
 
     def test_666_check_language(self):
         self.assertEqual(check_language("666"), frappe._("No"))
+
+    def test_creation_of_ocr_language(self):
+        frappe.set_user("Administrator")
+        frappe.get_doc({
+            "doctype": "OCR Language",
+            "lang": "en"
+        }).insert()
