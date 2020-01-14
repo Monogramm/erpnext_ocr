@@ -63,3 +63,6 @@ class TestOCRLanguage(unittest.TestCase):
 
     def test_get_current_language(self):
         self.assertEqual("eng", get_current_language("test_user@example.com"))
+
+    def test_get_current_language_admin(self):
+        self.assertEqual("eng", get_current_language("admin@example.com"))
