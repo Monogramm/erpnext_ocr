@@ -4,13 +4,8 @@ ADD docker_test.sh /docker_test.sh
 
 RUN set -ex; \
     sudo chmod 755 /docker_test.sh; \
-    sudo pip install PyYAML==5.1.2; \
     sudo pip install coverage==4.5.4; \
-    sudo pip install python-coveralls; \
-    echo 'Ugly, but, force coverage debug...'; \
-    sudo sed -i \
-        -e 's|self._debug.write|print|g' \
-        /usr/local/lib/python*/site-packages/coverage/data.py
+    sudo pip install python-coveralls
 
 EXPOSE 4444
 
