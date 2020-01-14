@@ -44,9 +44,6 @@ def get_spellchecked_text(message, language):
 
 
 class OCRRead(Document):
-    def __init__(self):
-        self.delta_time = None
-        self.read_result = None
     def read_image(self):
         start_time = time.time()
         text = read_document(self.file_to_read, self.language or 'eng',
