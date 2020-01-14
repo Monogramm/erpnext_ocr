@@ -19,12 +19,12 @@ class TestOCRLanguage(unittest.TestCase):
             "lang": "si"
         }).insert()
         frappe.flags.test_ocr_language_created = True
+
     def tearDown(self):
         if frappe.flags.test_ocr_language_created:
             frappe.set_user("Administrator")
             frappe.get_doc("OCR Language", "sin").delete()
         frappe.flags.test_ocr_language_created = False
-
 
     def test_en_lang_available(self):
         self.assertTrue(lang_available("en"))
