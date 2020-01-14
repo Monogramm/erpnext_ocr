@@ -22,8 +22,8 @@ def lang_available(lang):
     list_of_languages = tesserocr.get_languages()[1]
     if len(lang) == 2:
         return frappe.get_doc("OCR Language", {"lang": lang}).code in list_of_languages
-    if len(lang) == 3:
-        return lang in list_of_languages
+
+    return lang in list_of_languages
 
 
 @frappe.whitelist()
