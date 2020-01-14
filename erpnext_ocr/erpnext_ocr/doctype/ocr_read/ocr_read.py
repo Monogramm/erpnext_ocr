@@ -46,7 +46,7 @@ def get_spellchecked_text(message, language):
 class OCRRead(Document):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.time_read = None
+        self.read_time = None
         self.read_result = None
 
     def read_image(self):
@@ -54,10 +54,10 @@ class OCRRead(Document):
         text = read_document(self.file_to_read, self.language or 'eng',
                              self.spell_checker)
         delta_time = time.time() - start_time
-        self.time_read = str(delta_time)
+        self.read_time = str(delta_time)
         self.read_result = text
         self.save()
-        return text
+        return text, delta_time
 
 
 @frappe.whitelist()

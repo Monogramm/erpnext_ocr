@@ -1,7 +1,4 @@
 frappe.ui.form.on('OCR Read', {
-    refresh: function (frm) {
-
-    },
     read_image: function (frm) {
         frappe.hide_msgprint(true);
         frappe.realtime.on("ocr_progress_bar", function (data) {
@@ -17,7 +14,7 @@ frappe.ui.form.on('OCR Read', {
             callback: function (r) {
                 cur_dialog.hide();
                 frappe.msgprint(r.message.message);
-                cur_frm.set_value("read_result", r.message[0]);
+                cur_frm.refresh();
             }
         });
     }
