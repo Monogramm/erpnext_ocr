@@ -27,10 +27,14 @@ def lang_available(lang):
 
 @frappe.whitelist()
 def get_current_language(user):
-    settings = frappe.get_doc("User", user)
-    if not settings.language:
+    """Get Tesseract language matching current user or system settings."""
+    user = frappe.get_doc("User", user)
+    language = user.language
+    if not language:
         settings = frappe.get_doc("System Settings")
-    lang_code = frappe.get_doc("OCR Language", {"lang": settings.language}).name
+        language = settings.language
+
+    lang_code = frappe.get_doc("OCR Language", {"lang": language}).name
     return lang_code if lang_code is not None else "eng"
 
 
