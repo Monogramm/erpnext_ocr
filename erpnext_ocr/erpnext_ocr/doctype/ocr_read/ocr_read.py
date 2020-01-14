@@ -6,6 +6,7 @@
 from __future__ import unicode_literals
 
 import re
+import time
 
 import frappe
 from frappe.model.document import Document
@@ -36,10 +37,13 @@ def get_spellchecked_text(message, language):
 
 class OCRRead(Document):
     def read_image(self):
+        start_time = time.time()
         text = read_document(self.file_to_read, self.language or 'eng', self.spell_checker)
+        delta_time = time.time() - start_time
+        self.time_read = str(delta_time)
         self.read_result = text
         self.save()
-        return text
+        return text, delta_time
 
 
 @frappe.whitelist()
