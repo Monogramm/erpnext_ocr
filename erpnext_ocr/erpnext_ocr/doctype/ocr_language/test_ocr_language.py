@@ -11,6 +11,21 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_avail
 
 
 class TestOCRLanguage(unittest.TestCase):
+    def setUp(self):
+        frappe.set_user("Administrator")
+        frappe.get_doc({
+            "doctype": "OCR Language",
+            "code": "sin",
+            "lang": "si"
+        }).insert()
+        frappe.flags.test_ocr_language_created = True
+    def tearDown(self):
+        if frappe.flags.test_ocr_language_created:
+            frappe.set_user("Administrator")
+            frappe.get_doc("OCR Language", "sin").delete()
+        frappe.flags.test_ocr_language_created = False
+
+
     def test_en_lang_available(self):
         self.assertTrue(lang_available("en"))
 
