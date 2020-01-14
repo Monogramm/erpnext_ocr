@@ -1,4 +1,4 @@
-apps/erpnext_ocr/config/desktop.py,ERPNext OCR,ERPNext ROC
+apps/erpnext_ocr/config/desktop.py,ERPNext OCR,ERPNext OCR
 Doctype: OCR Language,OCR Language,Язык OCR
 Doctype: OCR Language,Code,Код языка
 Doctype: OCR Language,Language,Язык
@@ -9,7 +9,7 @@ Doctype: OCR Read,OCR Read,Чтение OCR
 Doctype: OCR Read,Image or PDF to Read,Изображение или pdf-файл
 Doctype: OCR Read,Language,Язык
 Doctype: OCR Read,Read file,Сканировать файл
-Doctype: OCR Read,Enable Spell Checker, Включить проверку орфографии
+Doctype: OCR Read,Enable Spell Checker,Включить проверку орфографии
 Doctype: OCR Read,Read Result,Текст из файла
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Reading the file,Чтение файла
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,The selected language is not available. Please contact your administrator.,Выбранный язык не поддерживается системой. Обратитесь к администратору
