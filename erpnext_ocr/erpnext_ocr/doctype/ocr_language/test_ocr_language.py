@@ -26,7 +26,6 @@ class TestOCRLanguage(unittest.TestCase):
         test_user.first_name = 'test_user'
         test_user.email = 'test_user@example.com'
         test_user.language = "en"
-
         test_user.insert(ignore_permissions=True)
 
     def tearDown(self):
