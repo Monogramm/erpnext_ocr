@@ -19,12 +19,20 @@ import io
 from spellchecker import SpellChecker
 
 def get_words_from_text(message):
+    '''
+    This function return only list of words from text. Example: Cat in gloves,
+    catches: no mice ->[cat, in, gloves, catches, no, mice]
+    '''
     message = re.sub(r'\W+', " ", message)
     word_list = list(filter(None, message.split()))
     return word_list
 
 
 def get_spellchecked_text(message, language):
+    '''
+    :param message: return text with correction:
+    Example: Cet in glaves cetches no mice -> Cat in gloves catches no mice
+    '''
     lang = frappe.get_doc("OCR Language", language).lang
     spell_checker = SpellChecker(lang)
     only_words = get_words_from_text(message)
@@ -36,9 +44,13 @@ def get_spellchecked_text(message, language):
 
 
 class OCRRead(Document):
+    def __init__(self):
+        self.delta_time = None
+        self.read_result = None
     def read_image(self):
         start_time = time.time()
-        text = read_document(self.file_to_read, self.language or 'eng', self.spell_checker)
+        text = read_document(self.file_to_read, self.language or 'eng',
+                             self.spell_checker)
         delta_time = time.time() - start_time
         self.time_read = str(delta_time)
         self.read_result = text
@@ -57,7 +69,8 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
         return None
 
     if not lang_available(lang):
-        frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
+        frappe.msgprint(
+            frappe._("The selected language is not available. Please contact your administrator."),
                         raise_exception=True)
 
     frappe.publish_realtime(event, {"progress": "0"}, user=frappe.session.user)
