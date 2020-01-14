@@ -21,15 +21,19 @@ def delete_test_data():
 
 class TestOCRLanguage(unittest.TestCase):
     def setUp(self):
-        test_user = frappe.new_doc("User")
-        test_user.name = 'test_user'
-        test_user.first_name = 'test_user'
-        test_user.email = 'test_user@example.com'
-        test_user.language = "en"
-        test_user.insert(ignore_permissions=True)
+        frappe.set_user("Administrator")
+        frappe.get_doc({
+            "doctype": "OCR Language",
+            "code": "sin",
+            "lang": "si"
+        }).insert()
+        frappe.flags.test_ocr_language_created = True
 
     def tearDown(self):
-        delete_test_data()
+        if frappe.flags.test_ocr_language_created:
+            frappe.set_user("Administrator")
+            frappe.get_doc("OCR Language", "sin").delete()
+        frappe.flags.test_ocr_language_created = False
 
     def test_en_lang_available(self):
         self.assertTrue(lang_available("en"))

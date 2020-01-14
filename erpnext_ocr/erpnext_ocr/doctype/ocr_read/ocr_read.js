@@ -19,6 +19,9 @@ frappe.ui.form.on('OCR Read', {
         frappe.call({
             method: "read_image",
             doc: cur_frm.doc,
+            args: {
+                "spell_checker": frm.doc.spell_checker
+            },
             callback: function (r) {
                 cur_dialog.hide();
                 frappe.msgprint(r.message.message);

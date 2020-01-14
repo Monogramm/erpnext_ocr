@@ -9,6 +9,7 @@ Doctype: OCR Read,OCR Read,Lecture ROC
 Doctype: OCR Read,Image or PDF to Read,Image ou PDF à lire
 Doctype: OCR Read,Language,Langue
 Doctype: OCR Read,Read file,Lire le fichier
+Doctype: OCR Read,Enable Spell Checker,Activer la correction orthographique
 Doctype: OCR Read,Read Result,Résultat de la lecture
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Reading the file,Lecture du fichier
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,The selected language is not available. Please contact your administrator.,La langue sélectionnée n'est pas disponible. Veuillez contacter votre administrateur.
