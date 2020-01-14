@@ -57,7 +57,7 @@ class OCRRead(Document):
         self.read_time = str(delta_time)
         self.read_result = text
         self.save()
-        return text, delta_time
+        return text
 
 
 @frappe.whitelist()
