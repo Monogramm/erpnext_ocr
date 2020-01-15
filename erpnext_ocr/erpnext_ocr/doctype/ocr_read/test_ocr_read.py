@@ -151,7 +151,6 @@ class TestOCRRead(unittest.TestCase):
         self.assertEqual(forced_doc.name, doc.name)
         self.assertEqual('/private/files/test.tif', forced_doc.file_to_read)
 
-
     def test_ocr_read_list(self):
         # frappe.set_user("test1@example.com")
         frappe.set_user("Administrator")
