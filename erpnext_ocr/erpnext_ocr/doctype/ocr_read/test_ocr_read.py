@@ -122,7 +122,6 @@ class TestOCRRead(unittest.TestCase):
 
         recognized_text = doc.read_image()
 
-        # FIXME values are HTML encoded on Alpine but not on Debian??!
         self.maxDiff = None
         self.assertEqual(recognized_text, doc.read_result)
 
