@@ -20,14 +20,6 @@ def create_test_data():
         test_user.email = 'test_user@example.com'
         test_user.language = "en"
         test_user.insert(ignore_permissions=True)
-    # Create admin
-    if not frappe.db.exists("User", "admin@example.com"):
-        test_user = frappe.new_doc("User")
-        test_user.name = 'admin'
-        test_user.first_name = 'admin'
-        test_user.email = 'admin@example.com'
-        test_user.language = "en"
-        test_user.insert(ignore_permissions=True)
 
 def delete_test_data():
     if frappe.db.exists("User", "test_user@example.com"):
@@ -48,6 +40,13 @@ class TestOCRLanguage(unittest.TestCase):
             }).insert()
         frappe.flags.test_ocr_language_created = True
         create_test_data()
+        if not frappe.db.exists("User", "admin@example.com"):
+            test_user = frappe.new_doc("User")
+            test_user.name = 'admin'
+            test_user.first_name = 'admin'
+            test_user.email = 'admin@example.com'
+            test_user.language = "en"
+            test_user.insert(ignore_permissions=True)
 
     def tearDown(self):
         if frappe.flags.test_ocr_language_created:
