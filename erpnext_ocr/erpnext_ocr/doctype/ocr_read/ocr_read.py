@@ -70,7 +70,8 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
         return None
 
     if not lang_available(lang):
-        frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
+        frappe.msgprint(frappe._
+                        ("The selected language is not available. Please contact your administrator."),
                         raise_exception=True)
 
     frappe.publish_realtime(event, {"progress": "0"}, user=frappe.session.user)
