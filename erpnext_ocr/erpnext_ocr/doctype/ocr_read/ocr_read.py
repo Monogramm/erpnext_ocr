@@ -163,5 +163,6 @@ def force_attach_file_doc(filename, name):
     })
     attachment_doc.insert()
 
+
     frappe.db.sql(
         """UPDATE `tabOCR Read` SET file_to_read=%s WHERE name=%s""", (file_url, name))
