@@ -5,6 +5,8 @@
 
 from __future__ import unicode_literals
 
+import time
+
 import frappe
 import unittest
 import os
@@ -104,6 +106,8 @@ class TestOCRRead(unittest.TestCase):
 
         worker = doc.read_image_bg()
         # [TODO] Test worker completion before moving on in the tests
+        time.sleep(5)
+        self.assertIsNotNone(worker.ended_at)
 
         self.assertEqual(None, doc.read_result)
 
