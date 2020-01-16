@@ -106,7 +106,7 @@ class TestOCRRead(unittest.TestCase):
 
         worker = doc.read_image_bg()
         # [TODO] Test worker completion before moving on in the tests
-        time.sleep(5)
+        time.sleep(5) # TODO: Will be better if we can understand how realize producer-consumer pattern
         self.assertIsNotNone(worker.ended_at)
 
         self.assertEqual(None, doc.read_result)
