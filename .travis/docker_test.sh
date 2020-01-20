@@ -70,14 +70,12 @@ if [ "${TEST_VERSION}" = "10" ]; then
         --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
 else
   echo "BEFORE RUNNING TESTS ON 10 version"
-    set -e
     bench run-tests \
         --app "${FRAPPE_APP_TO_TEST}" \
         --coverage \
         --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
     # FIXME https://github.com/frappe/frappe/issues/8809
     #    --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}"
-    set +e
     echo "AFTER RUNNING TESTS ON 10 version"
 fi
 
