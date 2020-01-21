@@ -1,6 +1,14 @@
 frappe.ui.form.on('OCR Read', {
-    refresh: function (frm) {
-
+    setup: function (frm) {
+        frappe.call({
+            method: "erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language.get_current_language",
+            args: {
+                'user': frappe.user['name']
+            },
+            callback: function (r) {
+                cur_frm.set_value("language", r.message);
+            }
+        })
     },
     read_image: function (frm) {
         frappe.hide_msgprint(true);
