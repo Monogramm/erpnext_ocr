@@ -5,7 +5,6 @@
 
 from __future__ import unicode_literals
 
-import time
 
 import frappe
 import unittest
@@ -104,12 +103,10 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg()
+        worker = doc.read_image_bg(is_async=False)
         # [TODO] Test worker completion before moving on in the tests
-        time.sleep(5) # TODO: Will be better if we can understand how realize producer-consumer pattern
-        self.assertIsNotNone(worker.ended_at)
+        self.assertEqual(worker._status, "finished")
 
-        self.assertEqual(None, doc.read_result)
 
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
@@ -139,11 +136,10 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg()
+        worker = doc.read_image_bg(is_async=False)
         # [TODO] Test worker completion before moving on in the tests
-        time.sleep(5)  # TODO: Will be better if we can understand how realize producer-consumer pattern
-        self.assertIsNotNone(worker.ended_at)
-
+        # TODO: Will be better if we can understand how realize producer-consumer pattern
+        self.assertEqual(worker._status, "finished")
         self.assertEqual(None, doc.read_result)
 
         new_doc = frappe.get_doc({
