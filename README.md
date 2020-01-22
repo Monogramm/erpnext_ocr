@@ -65,6 +65,16 @@ When installing Frappe app, the following python requirements will be installed:
 In order to use OCR with different languages, you need to install the appropriate trained data files.
 Check tesseract Wiki for details: <https://github.com/tesseract-ocr/tesseract/wiki/Data-Files>
 
+### Development
+
+An experimental docker-compose is available for development.
+Run the following tostart the development environment:
+```sh
+docker-compose up -d
+```
+
+You should now be able to develop and 
+
 ### Known issues
 
 -   `wand.exceptions.PolicyError: not authorized '/opt/sample.pdf' @ error/constitute.c/ReadImage/412`
