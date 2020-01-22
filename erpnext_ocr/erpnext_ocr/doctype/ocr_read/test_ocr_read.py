@@ -9,7 +9,8 @@ import frappe
 import unittest
 import os
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc, read_ocr
+
 
 # TODO Frappe default test records creation
 #def _make_test_records(verbose):
@@ -102,11 +103,9 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg()
+        worker = doc.read_image_bg(is_async=False)
         # [TODO] Test worker completion before moving on in the tests
-
-        self.assertEqual(None, doc.read_result)
-
+        self.assertTrue(worker._status in ["queued", "finished"])
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
@@ -114,9 +113,8 @@ class TestOCRRead(unittest.TestCase):
                                         "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
-
+        read_ocr(doc)
         self.assertNotEqual(new_doc.read_result, doc.read_result)
-
         self.assertIn("The quick brown fox", new_doc.read_result)
         self.assertIn("jumped over the 5", new_doc.read_result)
         self.assertIn("lazy dogs!", new_doc.read_result)
@@ -135,10 +133,10 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg()
+        worker = doc.read_image_bg(is_async=False)
         # [TODO] Test worker completion before moving on in the tests
-
-        self.assertEqual(None, doc.read_result)
+        # TODO: Will be better if we can understand how realize producer-consumer pattern
+        self.assertTrue(worker._status in ["queued", "finished"])
 
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
@@ -151,9 +149,9 @@ class TestOCRRead(unittest.TestCase):
         # FIXME values are not equal on Alpine ??!
         #self.maxDiff = None
         #self.assertEqual(new_doc.read_result, doc.read_result)
-
-        self.assertIn("Python Basics", new_doc.read_result)
-        self.assertNotIn("Java", new_doc.read_result)
+        new_doc.read_image()
+        self.assertIn("Python Basics", doc.read_result)
+        self.assertNotIn("Java", doc.read_result)
 
 
     def test_ocr_read_image(self):

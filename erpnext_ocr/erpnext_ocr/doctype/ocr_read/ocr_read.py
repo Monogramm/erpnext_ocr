@@ -53,9 +53,9 @@ class OCRRead(Document):
     def read_image(self):
         return read_ocr(self)
 
-    def read_image_bg(self):
+    def read_image_bg(self, is_async=True):
         return frappe.enqueue("erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.read_ocr", queue="long",
-                              timeout=1500, **{'obj': self})
+                              timeout=1500, is_async=is_async, **{'obj': self})
 
 
 @frappe.whitelist()
@@ -88,9 +88,9 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
         return None
 
     if not lang_available(lang):
-        frappe.msgprint(
-            frappe._("The selected language is not available. Please contact your administrator."),
-            raise_exception=True)
+        frappe.msgprint(frappe._
+                        ("The selected language is not available. Please contact your administrator."),
+                        raise_exception=True)
 
     frappe.publish_realtime(event, {"progress": "0"}, user=frappe.session.user)
 
