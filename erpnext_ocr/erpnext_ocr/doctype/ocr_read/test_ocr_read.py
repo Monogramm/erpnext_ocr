@@ -11,7 +11,8 @@ import frappe
 import unittest
 import os
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc, read_ocr
+
 
 # TODO Frappe default test records creation
 #def _make_test_records(verbose):
@@ -107,9 +108,6 @@ class TestOCRRead(unittest.TestCase):
         worker = doc.read_image_bg(is_async=False)
         # [TODO] Test worker completion before moving on in the tests
         self.assertTrue(worker._status in ["queued", "finished"])
-        while worker._status != 'finished':
-            time.sleep(1)
-
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
@@ -117,6 +115,7 @@ class TestOCRRead(unittest.TestCase):
                                         "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
+        read_ocr(doc)
         self.assertNotEqual(new_doc.read_result, doc.read_result)
         self.assertIn("The quick brown fox", new_doc.read_result)
         self.assertIn("jumped over the 5", new_doc.read_result)
@@ -140,7 +139,6 @@ class TestOCRRead(unittest.TestCase):
         # [TODO] Test worker completion before moving on in the tests
         # TODO: Will be better if we can understand how realize producer-consumer pattern
         self.assertTrue(worker._status in ["queued", "finished"])
-        self.assertEqual(None, doc.read_result)
 
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
