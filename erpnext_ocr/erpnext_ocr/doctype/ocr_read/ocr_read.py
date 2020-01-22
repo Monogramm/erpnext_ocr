@@ -58,6 +58,9 @@ class OCRRead(Document):
         self.read_result = text
         self.save()
         return text
+    def generate_doctype(self):
+        print("fdsa")
+
 
 
 @frappe.whitelist()

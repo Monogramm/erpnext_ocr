@@ -28,5 +28,11 @@ frappe.ui.form.on('OCR Read', {
                 cur_frm.refresh();
             }
         });
+    },
+    generate: function (frm) {
+        frappe.call({
+            method: "generate_doctype",
+            doc: frm.doc,
+        })
     }
 });
