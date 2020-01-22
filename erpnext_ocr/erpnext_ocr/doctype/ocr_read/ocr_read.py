@@ -5,6 +5,9 @@
 
 from __future__ import unicode_literals
 
+import re
+import time
+
 import frappe
 from frappe.model.document import Document
 
@@ -13,19 +16,52 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_avail
 import os
 import io
 
+from spellchecker import SpellChecker
+
+def get_words_from_text(message):
+    """
+    This function return only list of words from text. Example: Cat in gloves,
+    catches: no mice ->[cat, in, gloves, catches, no, mice]
+    """
+    message = re.sub(r'\W+', " ", message)
+    word_list = list(filter(None, message.split()))
+    return word_list
+
+
+def get_spellchecked_text(message, language):
+    """
+    :param message: return text with correction:
+    Example: Cet in glaves cetches no mice -> Cat in gloves catches no mice
+    """
+    lang = frappe.get_doc("OCR Language", language).lang
+    spell_checker = SpellChecker(lang)
+    only_words = get_words_from_text(message)
+    misspelled = spell_checker.unknown(only_words)
+    for word in misspelled:
+        corrected_word = spell_checker.correction(word)
+        message = message.replace(word, corrected_word)
+    return message
+
 
 class OCRRead(Document):
-    def read_image(self):
-        text = read_document(self.file_to_read, self.language or 'eng')
+    def __init__(self, *args, **kwargs):
+        self.read_result = None
+        self.read_time = None
+        super(OCRRead, self).__init__(*args, **kwargs)
 
+    def read_image(self):
+        start_time = time.time()
+        text = read_document(self.file_to_read, self.language or 'eng',
+                             self.spell_checker)
+        delta_time = time.time() - start_time
+        self.read_time = str(delta_time)
         self.read_result = text
         self.save()
-
         return text
 
 
 @frappe.whitelist()
-def read_document(path, lang='eng', event="ocr_progress_bar"):
+def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
     """Call Tesseract OCR to extract the text from a document."""
     from PIL import Image
     import requests
@@ -35,8 +71,9 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
         return None
 
     if not lang_available(lang):
-        frappe.msgprint(frappe._("The selected language is not available. Please contact your administrator."),
-                        raise_exception=True)
+        frappe.msgprint(
+            frappe._("The selected language is not available. Please contact your administrator."),
+            raise_exception=True)
 
     frappe.publish_realtime(event, {"progress": "0"}, user=frappe.session.user)
 
@@ -101,6 +138,9 @@ def read_document(path, lang='eng', event="ocr_progress_bar"):
             frappe.publish_realtime(
                 event, {"progress": [66, 100]}, user=frappe.session.user)
 
+    if spellcheck:
+        text = get_spellchecked_text(text, lang)
+
     frappe.publish_realtime(
         event, {"progress": [100, 100]}, user=frappe.session.user)
 
@@ -122,6 +162,7 @@ def force_attach_file_doc(filename, name):
         "is_private": 1
     })
     attachment_doc.insert()
+
 
     frappe.db.sql(
         """UPDATE `tabOCR Read` SET file_to_read=%s WHERE name=%s""", (file_url, name))

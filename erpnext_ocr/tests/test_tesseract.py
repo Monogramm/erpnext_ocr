@@ -23,7 +23,7 @@ class TestTesseract(unittest.TestCase):
     def test_read_document_lang_not_supported(self):
         locale.setlocale(locale.LC_ALL, 'C')
         self.assertRaises(frappe.ValidationError, read_document,
-                          os.path.join(os.path.dirname(__file__),"test_data", "sample1.jpg"),
+                          os.path.join(os.path.dirname(__file__), "test_data", "sample1.jpg"),
                           "xxx")
 
     def test_read_document_image_http(self):
