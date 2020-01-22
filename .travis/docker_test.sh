@@ -58,18 +58,21 @@ echo "Preparing Frappe application '${FRAPPE_APP_TO_TEST}' tests..."
 # https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
 
 FRAPPE_APP_UNIT_TEST_REPORT="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+FRAPPE_APP_UNIT_TEST_PROFILE="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.prof"
 
 #bench run-tests --help
 
 echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
 if [ "${TEST_VERSION}" = "10" ]; then
     bench run-tests \
-        --app ${FRAPPE_APP_TO_TEST} \
-        --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}"
+        --app "${FRAPPE_APP_TO_TEST}" \
+        --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}" \
+        --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
 else
     bench run-tests \
-        --app ${FRAPPE_APP_TO_TEST} \
-        --coverage
+        --app "${FRAPPE_APP_TO_TEST}" \
+        --coverage \
+        --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
     # FIXME https://github.com/frappe/frappe/issues/8809
     #    --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}"
 fi
@@ -90,7 +93,16 @@ fi
 
 if [ -f ./sites/.coverage ]; then
     echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
+    set +e
     coveralls -b "$(pwd)/apps/${FRAPPE_APP_TO_TEST}" -d "$(pwd)/sites/.coverage"
+    set -e
+fi
+
+if [ -f "${FRAPPE_APP_UNIT_TEST_PROFILE}" ]; then
+    echo "Checking Frappe application '${FRAPPE_APP_TO_TEST}' unit tests profile..."
+
+    # XXX Are there any online services that could receive and display profiles?
+    #cat "${FRAPPE_APP_UNIT_TEST_PROFILE}"
 fi
 
 
@@ -108,6 +120,27 @@ fi
 #fi
 
 ## TODO Check result of UI tests
+
+
+
+################################################################################
+# TODO Generate docs
+
+#bench build-docs --help
+
+echo "Generating docs for '${FRAPPE_APP_TO_TEST}' app..."
+if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
+    set +e
+    bench build-docs \
+        --target ${FRAPPE_APP_TO_TEST} \
+        --docs-version ${FRAPPE_APP_TO_TEST} \
+        ${FRAPPE_APP_TO_TEST}
+    set -e
+else
+    echo "Building docs is not available for this version of Frappe (${TEST_VERSION})"
+fi
+
+## TODO Check docs generated properly
 
 
 ################################################################################
