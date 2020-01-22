@@ -107,7 +107,8 @@ class TestOCRRead(unittest.TestCase):
         worker = doc.read_image_bg(is_async=False)
         # [TODO] Test worker completion before moving on in the tests
         self.assertTrue(worker._status in ["queued", "finished"])
-
+        while worker._status != 'finished':
+            time.sleep(1)
 
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
@@ -116,10 +117,7 @@ class TestOCRRead(unittest.TestCase):
                                         "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
-
-        time.sleep(5)
         self.assertNotEqual(new_doc.read_result, doc.read_result)
-
         self.assertIn("The quick brown fox", new_doc.read_result)
         self.assertIn("jumped over the 5", new_doc.read_result)
         self.assertIn("lazy dogs!", new_doc.read_result)
@@ -156,8 +154,8 @@ class TestOCRRead(unittest.TestCase):
         #self.maxDiff = None
         #self.assertEqual(new_doc.read_result, doc.read_result)
         new_doc.read_image()
-        self.assertIn("Python Basics", new_doc.read_result)
-        self.assertNotIn("Java", new_doc.read_result)
+        self.assertIn("Python Basics", doc.read_result)
+        self.assertNotIn("Java", doc.read_result)
 
 
     def test_ocr_read_image(self):
