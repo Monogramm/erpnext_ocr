@@ -5,6 +5,7 @@
 
 from __future__ import unicode_literals
 
+import time
 
 import frappe
 import unittest
@@ -116,6 +117,7 @@ class TestOCRRead(unittest.TestCase):
             "language": "eng"
         })
 
+        time.sleep(5)
         self.assertNotEqual(new_doc.read_result, doc.read_result)
 
         self.assertIn("The quick brown fox", new_doc.read_result)
@@ -153,7 +155,7 @@ class TestOCRRead(unittest.TestCase):
         # FIXME values are not equal on Alpine ??!
         #self.maxDiff = None
         #self.assertEqual(new_doc.read_result, doc.read_result)
-
+        new_doc.read_image()
         self.assertIn("Python Basics", new_doc.read_result)
         self.assertNotIn("Java", new_doc.read_result)
 
