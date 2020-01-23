@@ -120,7 +120,6 @@ class TestOCRRead(unittest.TestCase):
                                          "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
-        read_ocr(new_doc)
         if worker._status == "queued":
             self.assertIsNone(new_doc.read_result)
             self.assertIsNone(doc.read_result)
