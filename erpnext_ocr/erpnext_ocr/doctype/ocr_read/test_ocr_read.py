@@ -126,6 +126,7 @@ class TestOCRRead(unittest.TestCase):
         else:
             self.assertEqual(new_doc.read_result, doc.read_result)
             self.assertNotEqual(new_doc_2.read_result, new_doc.read_result)
+        read_ocr(new_doc)
         self.assertIn("The quick brown fox", new_doc.read_result)
         self.assertIn("jumped over the 5", new_doc.read_result)
         self.assertIn("lazy dogs!", new_doc.read_result)
