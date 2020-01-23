@@ -113,8 +113,8 @@ class TestOCRRead(unittest.TestCase):
                                         "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
-        read_ocr(doc)
         self.assertNotEqual(new_doc.read_result, doc.read_result)
+        read_ocr(new_doc)
         self.assertIn("The quick brown fox", new_doc.read_result)
         self.assertIn("jumped over the 5", new_doc.read_result)
         self.assertIn("lazy dogs!", new_doc.read_result)
@@ -149,7 +149,7 @@ class TestOCRRead(unittest.TestCase):
         # FIXME values are not equal on Alpine ??!
         #self.maxDiff = None
         #self.assertEqual(new_doc.read_result, doc.read_result)
-        new_doc.read_image()
+        read_ocr(new_doc)
         self.assertIn("Python Basics", doc.read_result)
         self.assertNotIn("Java", doc.read_result)
 
