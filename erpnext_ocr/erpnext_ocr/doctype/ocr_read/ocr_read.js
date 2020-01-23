@@ -33,6 +33,9 @@ frappe.ui.form.on('OCR Read', {
         frappe.call({
             method: "generate_doctype",
             doc: frm.doc,
+            args: {
+                "doctype_import_link": frm.doc.link_to_doctype
+            }
         })
     }
 });

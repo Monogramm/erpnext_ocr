@@ -58,9 +58,23 @@ class OCRRead(Document):
         self.read_result = text
         self.save()
         return text
-    def generate_doctype(self):
-        print("fdsa")
-
+    def generate_doctype(self, doctype_import_link):
+        doctype_import_doc = frappe.get_doc("OCR Import", doctype_import_link)
+        generated_doc = frappe.get_doc({"doctype": doctype_import_link})
+        list_with_errors = []
+        for field in doctype_import_doc.mappings:
+            try:
+                found_field = re.search(field.regexp, self.read_result)
+                if found_field is not None:
+                    generated_doc.__dict__[field.field] = re.search(field.regexp, self.read_result).group(0)
+                else:
+                    frappe.throw("Cannot find field" + field.field + "in text")
+                print(generated_doc.__dict__)
+            except KeyError:
+                list_with_errors.append("Field" + doctype_import_doc + "doesn't exist in ")
+        if list_with_errors:
+            frappe.throw(list_with_errors)
+        generated_doc.save()
 
 
 @frappe.whitelist()
