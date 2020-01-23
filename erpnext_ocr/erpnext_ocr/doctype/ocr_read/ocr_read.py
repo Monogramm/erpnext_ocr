@@ -58,6 +58,7 @@ class OCRRead(Document):
         self.read_result = text
         self.save()
         return text
+
     def generate_doctype(self, doctype_import_link):
         doctype_import_doc = frappe.get_doc("OCR Import", doctype_import_link)
         generated_doc = frappe.get_doc({"doctype": doctype_import_link})
