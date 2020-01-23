@@ -154,16 +154,20 @@ class TestOCRRead(unittest.TestCase):
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
                                         os.path.pardir, os.path.pardir, os.path.pardir,
-                                        "tests", "test_data", "sample1.jpg"),
+                                        "tests", "test_data", "sample2.pdf"),
             "language": "eng"
         })
 
         # FIXME values are not equal on Alpine ??!
         #self.maxDiff = None
         #self.assertEqual(new_doc.read_result, doc.read_result)
-        read_ocr(doc)
-        self.assertIn("Python Basics", doc.read_result)
-        self.assertNotIn("Java", doc.read_result)
+        if worker._status == "finished":
+            self.assertIn("Python Basics", doc.read_result)
+            self.assertNotIn("Java", doc.read_result)
+        if worker._status == "queued":
+            read_ocr(new_doc)
+            self.assertIn("Python Basics", new_doc.read_result)
+            self.assertNotIn("Java", new_doc.read_result)
 
 
     def test_ocr_read_image(self):
