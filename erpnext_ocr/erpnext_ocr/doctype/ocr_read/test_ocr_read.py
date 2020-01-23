@@ -113,8 +113,20 @@ class TestOCRRead(unittest.TestCase):
                                         "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
-        self.assertNotEqual(new_doc.read_result, doc.read_result)
+        new_doc_2 = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                         os.path.pardir, os.path.pardir, os.path.pardir,
+                                         "tests", "test_data", "sample1.jpg"),
+            "language": "eng"
+        })
         read_ocr(new_doc)
+        if worker._status == "queued":
+            self.assertIsNone(new_doc.read_result)
+            self.assertIsNone(doc.read_result)
+        else:
+            self.assertEqual(new_doc.read_result, doc.read_result)
+            self.assertNotEqual(new_doc_2.read_result, new_doc.read_result)
         self.assertIn("The quick brown fox", new_doc.read_result)
         self.assertIn("jumped over the 5", new_doc.read_result)
         self.assertIn("lazy dogs!", new_doc.read_result)
@@ -149,7 +161,7 @@ class TestOCRRead(unittest.TestCase):
         # FIXME values are not equal on Alpine ??!
         #self.maxDiff = None
         #self.assertEqual(new_doc.read_result, doc.read_result)
-        read_ocr(new_doc)
+        read_ocr(doc)
         self.assertIn("Python Basics", doc.read_result)
         self.assertNotIn("Java", doc.read_result)
 
