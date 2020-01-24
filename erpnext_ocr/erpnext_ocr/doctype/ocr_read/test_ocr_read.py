@@ -106,8 +106,13 @@ class TestOCRRead(unittest.TestCase):
         self.assertEqual(None, doc.read_result)
 
         worker = doc.read_image_bg(is_async=False)
-        # [TODO] Test worker completion before moving on in the tests
-        self.assertTrue(worker._status in ["queued", "finished"])
+
+        # Wait worker completion before moving on in the tests
+        while worker._status == "queued":
+            time.sleep(5)
+
+        # Check worker completion and get "new" document after update by bg job
+        self.assertEqual(worker._status, "finished")
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
@@ -115,14 +120,8 @@ class TestOCRRead(unittest.TestCase):
                                         "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
-        new_worker = new_doc.read_image_bg(is_async=False)
-        while worker._status == "queued":
-            time.sleep(5)
 
-        while new_worker._status == "queued":
-            time.sleep(5)
-
-        self.assertEqual(new_doc.read_result, doc.read_result)
+        self.assertNotEqual(new_doc.read_result, doc.read_result)
         self.assertIn("The quick brown fox", new_doc.read_result)
         self.assertIn("jumped over the 5", new_doc.read_result)
         self.assertIn("lazy dogs!", new_doc.read_result)
@@ -142,11 +141,14 @@ class TestOCRRead(unittest.TestCase):
         self.assertEqual(None, doc.read_result)
 
         worker = doc.read_image_bg(is_async=False)
-        # [TODO] Test worker completion before moving on in the tests
+        
+        # Wait worker completion before moving on in the tests
         # TODO: Will be better if we can understand how realize producer-consumer pattern
-        self.assertTrue(worker._status in ["queued", "finished"])
         while worker._status == "queued":
             time.sleep(5)
+
+        # Check worker completion and get "new" document after update by bg job
+        self.assertEqual(worker._status, "finished")
         new_doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
@@ -154,11 +156,8 @@ class TestOCRRead(unittest.TestCase):
                                         "tests", "test_data", "sample2.pdf"),
             "language": "eng"
         })
-        worker2 = new_doc.read_image_bg(is_async=False)
 
-        # FIXME values are not equal on Alpine ??!
-        while worker2._status == "queued":
-            time.sleep(5)
+        self.assertNotEqual(new_doc.read_result, doc.read_result)
         self.assertIn("Python Basics", new_doc.read_result)
         self.assertNotIn("Java", new_doc.read_result)
 
