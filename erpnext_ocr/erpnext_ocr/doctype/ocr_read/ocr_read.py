@@ -67,12 +67,11 @@ class OCRRead(Document):
             try:
                 found_field = re.search(field.regexp, self.read_result)
                 if found_field is not None:
-                    generated_doc.__dict__[field.field] = re.search(field.regexp, self.read_result).group(0)
+                    generated_doc.__dict__[field.field] = re.findall(field.regexp, self.read_result).pop(0)
                 else:
-                    frappe.throw("Cannot find field" + field.field + "in text")
-                print(generated_doc.__dict__)
+                    frappe.throw(frappe._("Cannot find field {0} in text").format(field.field))
             except KeyError:
-                list_with_errors.append("Field" + doctype_import_doc + "doesn't exist in ")
+                list_with_errors.append("Field {} doesn't exist in doctype".format(doctype_import_doc))
         if list_with_errors:
             frappe.throw(list_with_errors)
         generated_doc.save()

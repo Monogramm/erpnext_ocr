@@ -35,6 +35,9 @@ frappe.ui.form.on('OCR Read', {
             doc: frm.doc,
             args: {
                 "doctype_import_link": frm.doc.link_to_doctype
+            },
+            callback: function (r) {
+                frappe.show_alert({message:__("Your doctype has been generated"), indicator:'green'});
             }
         })
     }

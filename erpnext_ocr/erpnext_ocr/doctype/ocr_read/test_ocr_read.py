@@ -11,8 +11,9 @@ import os
 
 from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
 
+
 # TODO Frappe default test records creation
-#def _make_test_records(verbose):
+# def _make_test_records(verbose):
 #    from frappe.test_runner import make_test_objects
 #
 #    docs = [
@@ -78,7 +79,7 @@ def delete_ocr_reads():
             doc.delete()
 
         # Delete directly in DB to avoid validation errors
-        #frappe.db.sql("""delete from `tabOCR Read`""")
+        # frappe.db.sql("""delete from `tabOCR Read`""")
 
         frappe.flags.test_ocr_reads_created = False
 
@@ -90,14 +91,13 @@ class TestOCRRead(unittest.TestCase):
     def tearDown(self):
         delete_ocr_reads()
 
-
     def test_ocr_read_image(self):
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
-                                        os.path.pardir, os.path.pardir, os.path.pardir,
-                                        "tests", "test_data", "sample1.jpg"),
+                                         os.path.pardir, os.path.pardir, os.path.pardir,
+                                         "tests", "test_data", "sample1.jpg"),
             "language": "eng"
         })
 
@@ -109,14 +109,13 @@ class TestOCRRead(unittest.TestCase):
         self.assertIn("lazy dogs!", recognized_text)
         self.assertNotIn("And an elephant!", recognized_text)
 
-
     def test_ocr_read_pdf(self):
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
-                                        os.path.pardir, os.path.pardir, os.path.pardir,
-                                        "tests", "test_data", "sample2.pdf"),
+                                         os.path.pardir, os.path.pardir, os.path.pardir,
+                                         "tests", "test_data", "sample2.pdf"),
             "language": "eng"
         })
 
@@ -128,13 +127,12 @@ class TestOCRRead(unittest.TestCase):
         self.assertIn("Python Basics", recognized_text)
         self.assertNotIn("Java", recognized_text)
 
-
     def test_force_attach_file_doc(self):
         doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
-                                        os.path.pardir, os.path.pardir, os.path.pardir,
-                                        "tests", "test_data", "Picture_010.png"),
+                                         os.path.pardir, os.path.pardir, os.path.pardir,
+                                         "tests", "test_data", "Picture_010.png"),
             "language": "eng"
         })
 
@@ -142,7 +140,7 @@ class TestOCRRead(unittest.TestCase):
 
         forced_doc = frappe.get_doc({
             "doctype": "OCR Read",
-            #"name": doc.name,
+            # "name": doc.name,
             "file_to_read": "/private/files/test.tif",
             "language": "eng"
         })
@@ -154,7 +152,7 @@ class TestOCRRead(unittest.TestCase):
         # frappe.set_user("test1@example.com")
         frappe.set_user("Administrator")
         res = frappe.get_list("OCR Read", filters=[
-                              ["OCR Read", "file_to_read", "like", "%sample%"]], fields=["name", "file_to_read"])
+            ["OCR Read", "file_to_read", "like", "%sample%"]], fields=["name", "file_to_read"])
         self.assertEqual(len(res), 2)
         files_to_read = [r.file_to_read for r in res]
         self.assertTrue(os.path.join(os.path.dirname(__file__),
@@ -163,3 +161,19 @@ class TestOCRRead(unittest.TestCase):
         self.assertTrue(os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
                                      "tests", "test_data", "sample2.pdf") in files_to_read)
+
+    # def test_generating_doctype(self):
+    #     frappe.set_user("Administrator")
+    #     item_code_mapping = frappe.get_doc(
+    #         {"doctype": "OCR Import Mapping", "field": "item_code", "regexp": "Item Code (\\w+)"})
+    #     item_group_mapping = frappe.get_doc(
+    #         {"doctype": "OCR Import Mapping", "field": "item_group", "regexp": "Item Group (\\w+)"})
+    #     list_with_ocr_import = []
+    #     list_with_ocr_import.append(item_code_mapping).append(item_group_mapping)
+    #     ocr_import = frappe.get_doc({"doctype": "OCR Import", "name": "Item", "mappings": list_with_ocr_import})
+    #     ocr_read_doctype = frappe.get_doc(
+    #         {"doctype": "OCR Import", "file_to_read": os.path.join(os.path.dirname(__file__),
+    #                                                                os.path.pardir, os.path.pardir,
+    #                                                                os.path.pardir,
+    #                                                                "tests", "test_data",
+    #                                                                "item.pdf"), "language": "eng"})
