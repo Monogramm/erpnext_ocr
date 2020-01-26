@@ -29,16 +29,26 @@ frappe.ui.form.on('OCR Read', {
             }
         });
     },
-    generate: function (frm) {
-        frappe.call({
-            method: "generate_doctype",
-            doc: frm.doc,
-            args: {
-                "doctype_import_link": frm.doc.link_to_doctype
-            },
-            callback: function (r) {
-                frappe.show_alert({message:__("Your doctype has been generated"), indicator:'green'});
-            }
-        })
+    import: function (frm) {
+        if (typeof frm.doc.ocr_import != "undefined" && frm.doc.ocr_import !== '') {
+            frappe.call({
+                method: "erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import.generate_doctype",
+                args: {
+                    "doctype_import_link": frm.doc.ocr_import,
+                    "read_result": frm.doc.read_result
+                },
+                callback: function (r) {
+                    console.log(r.message);
+                    frappe.show_alert({
+                        message: __('Doctype {0} generated',
+                            ['<a href="#Form/' + r.message.doctype + '/' + r.message.name + '">' + r.message.name + '</a>']),
+                        indicator: 'green'
+                    });
+                }
+            })
+        }
+        else{
+            frappe.throw("Field Template is None");
+        }
     }
 });
