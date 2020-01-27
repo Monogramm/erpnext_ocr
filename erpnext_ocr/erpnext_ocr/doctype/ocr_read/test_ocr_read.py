@@ -109,6 +109,7 @@ class TestOCRRead(unittest.TestCase):
 
         # Wait worker completion before moving on in the tests
         while worker._status == "queued":
+            print("queue1")
             time.sleep(5)
 
         # Check worker completion and get "new" document after update by bg job
@@ -142,6 +143,7 @@ class TestOCRRead(unittest.TestCase):
         # Wait worker completion before moving on in the tests
         # TODO: Will be better if we can understand how realize producer-consumer pattern
         while worker._status == "queued":
+            print("queue2")
             time.sleep(5)
 
         # Check worker completion and get "new" document after update by bg job
