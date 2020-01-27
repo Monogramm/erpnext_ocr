@@ -47,7 +47,7 @@ frappe.ui.form.on('OCR Read', {
                 }
             })
         }
-        else{
+        else {
             frappe.throw("Field Template is None");
         }
     }
