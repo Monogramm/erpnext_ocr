@@ -27,7 +27,7 @@ def delete_test_data():
         #test_user.remove_roles("System Manager")
         #test_user.delete()
         frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""") # ValidationError without SQL
-
+        frappe.db.sql("""delete from `tabEmail Queue`""")
 
 class TestOCRLanguage(unittest.TestCase):
     def setUp(self):
