@@ -36,8 +36,6 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until sites and apps database installed (9-10 minutes)' && travis_wait 15 sleep 720
-  - docker-compose exec erpnext_app bench doctor
-  - docker-compose exec erpnext_app bench enable-scheduler
   - docker-compose -f docker-compose.${DATABASE}.yml ps
   - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
