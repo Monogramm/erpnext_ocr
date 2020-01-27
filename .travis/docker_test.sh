@@ -62,6 +62,8 @@ FRAPPE_APP_UNIT_TEST_PROFILE="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.pro
 
 #bench run-tests --help
 
+bench enable-scheduler
+
 echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
 if [ "${TEST_VERSION}" = "10" ]; then
     bench run-tests \
