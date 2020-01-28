@@ -62,6 +62,7 @@ FRAPPE_APP_UNIT_TEST_PROFILE="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.pro
 
 #bench run-tests --help
 
+bench doctor
 bench enable-scheduler
 bench doctor
 
