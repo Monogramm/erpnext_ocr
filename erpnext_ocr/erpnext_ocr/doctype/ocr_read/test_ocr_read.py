@@ -38,6 +38,7 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_
 #        } for file_to_read, language in docs])
 #
 #    return test_objects
+from rq import requeue_job
 
 
 def create_ocr_reads():
@@ -110,9 +111,11 @@ class TestOCRRead(unittest.TestCase):
         # Wait worker completion before moving on in the tests
         while worker.get_status() == "queued":
             time.sleep(5)
-            print(worker)
 
         # Check worker completion and get "new" document after update by bg job
+        if worker.get_status() == "failed":
+            requeue_job(worker.get_id())
+        print(worker.__dict__)
         self.assertEqual(worker.get_status(), "finished")
         new_doc = frappe.get_doc("OCR Read",
                                  {"file_to_read": os.path.join(os.path.dirname(__file__),
@@ -144,7 +147,11 @@ class TestOCRRead(unittest.TestCase):
         # TODO: Will be better if we can understand how realize producer-consumer pattern
         while worker.get_status() == "queued":
             time.sleep(5)
-            print(worker.__dict__)
+
+        if worker.get_status() == "failed":
+            requeue_job(worker.get_id())
+            time.sleep(5)
+        print(worker.__dict__)
 
         # Check worker completion and get "new" document after update by bg job
         self.assertEqual(worker.get_status(), "finished")
