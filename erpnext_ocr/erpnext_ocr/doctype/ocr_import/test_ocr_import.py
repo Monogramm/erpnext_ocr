@@ -21,13 +21,16 @@ class TestOCRImport(unittest.TestCase):
         list_with_ocr_import.append(item_code_mapping)
         list_with_ocr_import.append(item_group_mapping)
         ocr_import = frappe.get_doc(
-            {"doctype": "OCR Import", "name": "Item", "mappings": list_with_ocr_import}).insert()
+            {"doctype": "OCR Import", "name": "Item", "mappings": list_with_ocr_import, 'doctype_link': "Item"})
         ocr_read_doctype = frappe.get_doc(
             {"doctype": "OCR Read", "file_to_read": os.path.join(os.path.dirname(__file__),
                                                                  os.path.pardir, os.path.pardir,
                                                                  os.path.pardir,
                                                                  "tests", "test_data",
                                                                  "item.pdf"), "language": "eng"})
+        ocr_import.save()
+        ocr_read_doctype.ocr_import = ocr_import.name
+        ocr_read_doctype.save()
         ocr_read_doctype.read_image()
         generated_item = generate_doctype(ocr_import.name, ocr_read_doctype.read_result)
         self.assertEqual(generated_item.item_code, "fdsa")
