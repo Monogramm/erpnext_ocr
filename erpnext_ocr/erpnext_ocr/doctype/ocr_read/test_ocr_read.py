@@ -94,6 +94,7 @@ class TestOCRRead(unittest.TestCase):
         delete_ocr_reads()
 
     def test_ocr_read_image_bg(self):
+        print("1")
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
             "doctype": "OCR Read",
@@ -126,6 +127,7 @@ class TestOCRRead(unittest.TestCase):
         self.assertNotIn("And an elephant!", new_doc.read_result)
 
     def test_ocr_read_image_bg_pdf(self):
+        print("2")
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
             "doctype": "OCR Read",
@@ -157,6 +159,7 @@ class TestOCRRead(unittest.TestCase):
         self.assertNotIn("Java", new_doc.read_result)
 
     def test_ocr_read_image(self):
+        print("3")
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
             "doctype": "OCR Read",
@@ -175,6 +178,7 @@ class TestOCRRead(unittest.TestCase):
         self.assertNotIn("And an elephant!", recognized_text)
 
     def test_ocr_read_pdf(self):
+        print("4")
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
             "doctype": "OCR Read",
@@ -193,6 +197,7 @@ class TestOCRRead(unittest.TestCase):
         self.assertNotIn("Java", recognized_text)
 
     def test_force_attach_file_doc(self):
+        print("5")
         doc = frappe.get_doc({
             "doctype": "OCR Read",
             "file_to_read": os.path.join(os.path.dirname(__file__),
@@ -214,6 +219,7 @@ class TestOCRRead(unittest.TestCase):
         self.assertEqual('/private/files/test.tif', forced_doc.file_to_read)
 
     def test_ocr_read_list(self):
+        print("6")
         # frappe.set_user("test1@example.com")
         frappe.set_user("Administrator")
         res = frappe.get_list("OCR Read", filters=[
