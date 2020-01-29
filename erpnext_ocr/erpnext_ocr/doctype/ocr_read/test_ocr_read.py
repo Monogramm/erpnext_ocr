@@ -5,7 +5,6 @@
 
 from __future__ import unicode_literals
 
-import time
 
 import frappe
 import unittest
@@ -38,7 +37,6 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_
 #        } for file_to_read, language in docs])
 #
 #    return test_objects
-from rq import requeue_job
 
 
 def create_ocr_reads():
