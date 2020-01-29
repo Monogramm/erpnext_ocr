@@ -114,8 +114,8 @@ class TestOCRRead(unittest.TestCase):
 
         # Check worker completion and get "new" document after update by bg job
         if worker.get_status() == "failed":
-            requeue_job(worker.get_id())
-        print(worker.__dict__)
+            print(worker.__dict__)
+            print(doc.read_result)
         self.assertEqual(worker.get_status(), "finished")
         new_doc = frappe.get_doc("OCR Read",
                                  {"file_to_read": os.path.join(os.path.dirname(__file__),
