@@ -4,10 +4,9 @@ services:
   erpnext_app:
     build:
       context: ./
-      dockerfile: Dockerfile.${VARIANT}
+      dockerfile: Dockerfile
       args:
-          - BUILD_BRANCH=${BUILD_BRANCH}
-          - BUILD_URL=${BUILD_URL}
+        - FRAPPE_APP_TO_TEST=${FRAPPE_APP_TO_TEST}
     image: ${IMAGE_NAME}
     container_name: erpnext_app
     command: app
@@ -23,7 +22,7 @@ services:
       - DOCKER_DB_ALLOWED_HOSTS=
       - DOCKER_APPS_TIMEOUT=900
       # Frappe setup
-      - FRAPPE_APP_INIT=erpnext ${FRAPPE_APP_TO_TEST}
+      - FRAPPE_APP_INIT=frappe erpnext ${FRAPPE_APP_TO_TEST}
       - FRAPPE_DEFAULT_PROTOCOL=http://
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
       - FRAPPE_LOGGING=1
@@ -45,7 +44,7 @@ services:
       - REDIS_QUEUE_HOST=erpnext_redis_queue
       - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
     volumes:
-      - .:/home/frappe/frappe-bench/apps/${FRAPPE_APP_TO_TEST}
+      #- .:/home/frappe/frappe-bench/apps/${FRAPPE_APP_TO_TEST}
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs
       - /etc/localtime:/etc/localtime:ro
@@ -65,9 +64,9 @@ services:
     depends_on:
       - erpnext_app
     ports:
-      - 80:80
+      - 8080:80
       # If you need SSL connection
-      # - '443:443'
+      # - '8443:443'
     links:
       - erpnext_app
       - erpnext_socketio

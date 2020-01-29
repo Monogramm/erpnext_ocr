@@ -50,6 +50,10 @@ When installing Frappe app, the following python requirements will be installed:
 
 -   python binding for imagemagick, [wand](https://pypi.org/project/Wand/)
 
+**Development**
+
+If you wish to develop or just test locally this application, you can use `docker-compose up -d` at the root of the this repository. You can then access your ERPNext OCR dev env at `http://localhost:8080`.
+
 ## :rocket: Usage
 
 **File Being Read**:
