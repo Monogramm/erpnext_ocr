@@ -5,7 +5,6 @@
 
 from __future__ import unicode_literals
 
-import time
 
 import frappe
 import unittest
@@ -105,14 +104,11 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg(is_async=False)
+        doc.read_image_bg(is_async=False, now=True)
 
         # Wait worker completion before moving on in the tests
-        while worker._status == "queued":
-            time.sleep(5)
 
         # Check worker completion and get "new" document after update by bg job
-        self.assertEqual(worker._status, "finished")
         new_doc = frappe.get_doc("OCR Read",
                                  {"file_to_read": os.path.join(os.path.dirname(__file__),
                                                                os.path.pardir, os.path.pardir, os.path.pardir,
@@ -137,15 +133,8 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg(is_async=False)
+        doc.read_image_bg(is_async=False, now=True)
 
-        # Wait worker completion before moving on in the tests
-        # TODO: Will be better if we can understand how realize producer-consumer pattern
-        while worker._status == "queued":
-            time.sleep(5)
-
-        # Check worker completion and get "new" document after update by bg job
-        self.assertEqual(worker._status, "finished")
         new_doc = frappe.get_doc("OCR Read", {
             "file_to_read": os.path.join(os.path.dirname(__file__),
                                          os.path.pardir, os.path.pardir, os.path.pardir,
