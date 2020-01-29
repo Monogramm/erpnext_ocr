@@ -106,17 +106,11 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg(is_async=False)
+        doc.read_image_bg(is_async=False, now=True)
 
         # Wait worker completion before moving on in the tests
-        while worker.get_status() == "queued":
-            time.sleep(5)
 
         # Check worker completion and get "new" document after update by bg job
-        if worker.get_status() == "failed":
-            print(worker.__dict__)
-            print(doc.read_result)
-        self.assertEqual(worker.get_status(), "finished")
         new_doc = frappe.get_doc("OCR Read",
                                  {"file_to_read": os.path.join(os.path.dirname(__file__),
                                                                os.path.pardir, os.path.pardir, os.path.pardir,
@@ -141,20 +135,8 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertEqual(None, doc.read_result)
 
-        worker = doc.read_image_bg(is_async=False)
+        doc.read_image_bg(is_async=False, now=True)
 
-        # Wait worker completion before moving on in the tests
-        # TODO: Will be better if we can understand how realize producer-consumer pattern
-        while worker.get_status() == "queued":
-            time.sleep(5)
-
-        if worker.get_status() == "failed":
-            requeue_job(worker.get_id())
-            time.sleep(5)
-        print(worker.__dict__)
-
-        # Check worker completion and get "new" document after update by bg job
-        self.assertEqual(worker.get_status(), "finished")
         new_doc = frappe.get_doc("OCR Read", {
             "file_to_read": os.path.join(os.path.dirname(__file__),
                                          os.path.pardir, os.path.pardir, os.path.pardir,
