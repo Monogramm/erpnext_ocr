@@ -97,9 +97,9 @@ if [ -f ./sites/.coverage ]; then
     set -e
 
     echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
-    #set +e
+    set +e
     coveralls -b "$(pwd)/apps/${FRAPPE_APP_TO_TEST}" -d "$(pwd)/sites/.coverage"
-    #set -e
+    set -e
 fi
 
 if [ -f "${FRAPPE_APP_UNIT_TEST_PROFILE}" ]; then
