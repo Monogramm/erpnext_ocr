@@ -12,6 +12,13 @@ from frappe.model.document import Document
 class OCRImport(Document):
 	pass
 
+
+def append_parents_fields(table_doc, field, doctype_to_import):
+	table_doc.parentfield = field.field
+	table_doc.parenttype = doctype_to_import.name
+	table_doc.parent = doctype_to_import.name
+
+
 @frappe.whitelist()
 def generate_doctype(doctype_import_link, read_result):
 	doctype_import_doc = frappe.get_doc("OCR Import", doctype_import_link)
@@ -23,14 +30,20 @@ def generate_doctype(doctype_import_link, read_result):
 			found_field = re.search(field.regexp, read_result)
 			if found_field is not None:
 				if field.is_table:
-					table_doc = frappe.get_doc({"doctype": doctype_import_doc})
-					ocr_import_table = frappe.get_doc("OCR Import", field.link_to_child_doc)
+					table_doc = generated_doc.append(field.field)#table_doc - значение из таблицы
+					ocr_import_table = frappe.get_doc("OCR Import", field.link_to_child_doc) # тут получаем значения детей
 					string = re.findall(field.regexp, read_result).pop(0)
 					for mapped_value in ocr_import_table.mappings:
-						table_doc.__dict__[mapped_value.field] = re.findall(mapped_value.regexp, string).pop(0)
+						if mapped_value.is_not_searchable:
+							table_doc.__dict__[mapped_value.field] = mapped_value.constant_data
+						else:
+							table_doc.__dict__[mapped_value.field] = re.findall(mapped_value.regexp, string).pop(0)
+					append_parents_fields(table_doc, field, doctype_import_doc)
 					table_doc.save()
 					list_with_table_values.append(table_doc)
 					generated_doc.__dict__[field.field] = list_with_table_values
+					for l in list_with_table_values:
+						l.parent = generated_doc
 				else:
 					generated_doc.__dict__[field.field] = re.findall(field.regexp, read_result).pop(0)
 			else:
