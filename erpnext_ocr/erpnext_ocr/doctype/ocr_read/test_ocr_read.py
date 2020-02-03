@@ -10,7 +10,7 @@ import frappe
 import unittest
 import os
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc, read_ocr
 
 
 # TODO Frappe default test records creation
@@ -215,3 +215,6 @@ class TestOCRRead(unittest.TestCase):
         self.assertTrue(os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
                                      "tests", "test_data", "sample2.pdf") in files_to_read)
+
+    def test_read_ocr(self):
+        self.assertRaises(frappe.ValidationError, read_ocr, obj=None)
