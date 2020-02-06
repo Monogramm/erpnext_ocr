@@ -8,7 +8,11 @@ import re
 from datetime import datetime
 
 import frappe
+from erpnext_ocr.erpnext_ocr.doctype.ocr_import.constants import python_format
 from frappe.model.document import Document
+from frappe.utils import cint
+
+list_with_errors = []
 
 
 class OCRImport(Document):
@@ -22,41 +26,66 @@ def append_parents_fields(table_doc, field, doctype_to_import):
 
 
 @frappe.whitelist()
+def generate_child_doctype(doctype_import_link, field, string_with_raw_table_value, doctype_import_doc, table_doc):
+    ocr_import_table = frappe.get_doc("OCR Import",
+                                      doctype_import_link)
+    for table_field in ocr_import_table.mappings:
+        found_field = find_field(table_field, string_with_raw_table_value, table_doc)
+        if found_field is not None:
+            table_doc.__dict__[table_field.field] = found_field
+            raw_date = table_doc.__dict__[table_field.field]
+            if table_field.is_date:
+                format_from_settings = frappe.get_doc("System Settings").date_format
+                table_doc.__dict__[table_field.field] = datetime.strptime(raw_date,
+                                                                          python_format[format_from_settings])
+    append_parents_fields(table_doc, field, doctype_import_doc)
+    table_doc.save()
+    return table_doc
+
+
+def find_field(field, read_result, table_doc):
+    if field.value_type == "Python":
+        found_field = eval(field.value)
+    else:
+        if field.value_type == "Regex group":
+            pattern_result = re.findall(field.regexp, read_result)
+        else:
+            pattern_result = re.findall(field.regexp, read_result)
+        found_field = pattern_result.pop(cint(field.value))
+    return found_field
+
+
+def get_list_with_raw_tables(field, read_result):
+    if field.separator == "\\n":
+        field.separator = "\n" # is it possible to make remove_shielding
+    return list(filter(None, re.findall(field.regexp, read_result).pop(0).split(field.separator)))
+
+
+@frappe.whitelist()
 def generate_doctype(doctype_import_link, read_result):
     doctype_import_doc = frappe.get_doc("OCR Import", doctype_import_link)
-    generated_doc = frappe.get_doc({"doctype": doctype_import_link})
+    generated_doc = frappe.new_doc(doctype_import_link)
     list_with_errors = []
     list_with_table_values = []
     for field in doctype_import_doc.mappings:
         try:
-            if field.is_not_searchable:
-                found_field = field.constant_data
-            else:
-                found_field = re.search(field.regexp, read_result).group(0)
+            found_field = find_field(field, read_result, generated_doc)
             if found_field is not None:
-                if field.is_table:
-                    table_doc = generated_doc.append(field.field)  # table_doc - значение из таблицы
-                    ocr_import_table = frappe.get_doc("OCR Import",
-                                                      field.link_to_child_doc)  # тут получаем значения детей
-                    string = re.findall(field.regexp, read_result).pop(0)
-                    for mapped_value in ocr_import_table.mappings:
-                        if mapped_value.is_not_searchable:
-                            table_doc.__dict__[mapped_value.field] = mapped_value.constant_data
-                        else:
-                            table_doc.__dict__[mapped_value.field] = re.findall(mapped_value.regexp, string).pop(0)
-                    append_parents_fields(table_doc, field, doctype_import_doc)
-                    table_doc.save()
-                    list_with_table_values.append(table_doc)
-                    generated_doc.__dict__[field.field] = list_with_table_values
-                    for l in list_with_table_values:
-                        l.parent = generated_doc
+                if field.value_type == "Table":
+                    list_with_raw_tables = get_list_with_raw_tables(field, read_result)
+                    for string_with_raw_table_value in list_with_raw_tables:
+                        raw_table_doc = generated_doc.append(field.field)
+                        table_doc = generate_child_doctype(field.link_to_child_doc, field, string_with_raw_table_value,
+                                                           doctype_import_doc,
+                                                           raw_table_doc)
+                        list_with_table_values.append(table_doc)
+                        generated_doc.__dict__[field.field] = list_with_table_values
+                elif field.value_type == "Date":
+                    format_from_settings = frappe.get_doc("System Settings").date_format
+                    generated_doc.__dict__[field.field] = datetime.strptime(found_field,
+                                                                            python_format[format_from_settings])
                 else:
                     generated_doc.__dict__[field.field] = found_field
-                    if field.is_date:
-                        raw_date = generated_doc.__dict__[field.field]
-                        print("AAAAAAAAAAAAAAAAA" + raw_date)
-                        generated_doc.__dict__[field.field] = datetime.strptime(raw_date,
-                                                                                field.format_str)
             else:
                 frappe.throw(frappe._("Cannot find field {0} in text").format(field.field))
         except KeyError:
@@ -64,7 +93,8 @@ def generate_doctype(doctype_import_link, read_result):
     if list_with_errors:
         frappe.throw(list_with_errors)
     try:
-        generated_doc.save()
+        generated_doc.set_new_name()
+        generated_doc.insert()
     except frappe.exceptions.DuplicateEntryError:
         frappe.throw("Generated doc is already exist")
     return generated_doc

@@ -27,17 +27,17 @@ class TestOCRImport(unittest.TestCase):
         self.item_ocr_read.ocr_import = self.item_ocr_import.name
         self.item_ocr_read.read_image()
 
-        self.sales_invoice_ocr_import = frappe.new_doc("OCR Import")
-        self.sales_invoice_ocr_import.doctype_link = "Sales Invoice"
-        self.sales_invoice_ocr_import.name = "Sales Invoice"
-        self.sales_invoice_ocr_import.save()
+        #self.sales_invoice_ocr_import = frappe.new_doc("OCR Import")
+        #self.sales_invoice_ocr_import.doctype_link = "Sales Invoice"
+        #self.sales_invoice_ocr_import.name = "Sales Invoice"
+        #self.sales_invoice_ocr_import.save()
 
-        self.sales_invoice_ocr_read = frappe.get_doc(
-            {"doctype": "OCR Read", "file_to_read": os.path.join(os.path.dirname(__file__),
-                                                                 os.path.pardir, os.path.pardir,
-                                                                 os.path.pardir,
-                                                                 "tests", "test_data",
-                                                                 "Picture_010.png"), "language": "eng"})
+        #self.sales_invoice_ocr_read = frappe.get_doc(
+            # {"doctype": "OCR Read", "file_to_read": os.path.join(os.path.dirname(__file__),
+            #                                                      os.path.pardir, os.path.pardir,
+            #                                                      os.path.pardir,
+            #                                                      "tests", "test_data",
+            #                                                      "Picture_010.png"), "language": "eng"})
 
     def tearDown(self):
         self.item_ocr_read.delete()
