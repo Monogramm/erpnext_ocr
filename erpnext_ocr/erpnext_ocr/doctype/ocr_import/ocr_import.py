@@ -44,6 +44,7 @@ def generate_child_doctype(doctype_import_link, field, string_with_raw_table_val
 
 
 def find_field(field, read_result, table_doc):
+    print(field.field)
     if field.value_type == "Python":
         found_field = eval(field.value)
     else:
@@ -53,12 +54,6 @@ def find_field(field, read_result, table_doc):
             pattern_result = re.findall(field.regexp, read_result)
         found_field = pattern_result.pop(cint(field.value))
     return found_field
-
-
-def get_list_with_raw_tables(field, read_result):
-    if field.separator == "\\n":
-        field.separator = "\n" # is it possible to make remove_shielding
-    return list(filter(None, re.findall(field.regexp, read_result).pop(0).split(field.separator)))
 
 
 @frappe.whitelist()
@@ -72,10 +67,12 @@ def generate_doctype(doctype_import_link, read_result):
             found_field = find_field(field, read_result, generated_doc)
             if found_field is not None:
                 if field.value_type == "Table":
-                    list_with_raw_tables = get_list_with_raw_tables(field, read_result)
-                    for string_with_raw_table_value in list_with_raw_tables:
+                    iter = re.finditer(field.regexp, read_result)
+                    for item_match in iter:
                         raw_table_doc = generated_doc.append(field.field)
-                        table_doc = generate_child_doctype(field.link_to_child_doc, field, string_with_raw_table_value,
+                        item_str = item_match.group()
+                        print(item_str)
+                        table_doc = generate_child_doctype(field.link_to_child_doc, field, item_str,
                                                            doctype_import_doc,
                                                            raw_table_doc)
                         list_with_table_values.append(table_doc)
