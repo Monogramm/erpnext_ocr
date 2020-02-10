@@ -3,13 +3,31 @@
 # See license.txt
 from __future__ import unicode_literals
 
+import datetime
 import os
 import unittest
 
 import frappe
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_doctype
-from erpnext_ocr.tests.test_data.test_data_for_ocr_import import test_data_for_sales_invoice_items, \
-    test_data_for_sales_invoice
+
+
+def create_items_for_sales_invoices():
+    jo_2 = frappe.get_doc(
+        {"doctype": "Item", "item_name": "JO.2", "item_code": "JO.2", "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    jo_2.save()
+    vi_2 = frappe.get_doc(
+        {"doctype": "Item", "item_name": "Vi.2", "item_code": "Vi.2", "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    vi_2.save()
+    jo_1 = frappe.get_doc(
+        {"doctype": "Item", "item_name": "JO.1", "item_code": "JO.1", "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    jo_1.save()
+    service_d_overhaul = frappe.get_doc(
+        {"doctype": "Item", "item_name": "SERVICE D COMPLETE OVERHAUL", "item_code": "SERVICE D COMPLETE OVERHAUL", "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    service_d_overhaul.save()
 
 
 class TestOCRImport(unittest.TestCase):
@@ -29,11 +47,7 @@ class TestOCRImport(unittest.TestCase):
         self.item_ocr_read.ocr_import = self.item_ocr_import.name
         self.item_ocr_read.read_image()
 
-        self.sales_invoice_ocr_import = frappe.new_doc("OCR Import")
-        self.sales_invoice_ocr_import.doctype_link = "Sales Invoice"
-        self.sales_invoice_ocr_import.name = "Sales Invoice"
-        self.sales_invoice_ocr_import.save()
-
+        # Creating OCR Read doctype
         self.sales_invoice_ocr_read = frappe.get_doc(
             {"doctype": "OCR Read", "file_to_read": os.path.join(os.path.dirname(__file__),
                                                                  os.path.pardir, os.path.pardir,
@@ -42,14 +56,23 @@ class TestOCRImport(unittest.TestCase):
                                                                  "Picture_010.png"), "language": "eng"})
         self.sales_invoice_ocr_read.read_image()
 
+        create_items_for_sales_invoices()
+
+        # Creating Sales Invoice OCR Import
+        test_records = frappe.get_test_records('OCR Import')
+        self.items_ocr_import = frappe.copy_doc(test_records[1])
+        self.sales_invoice_ocr_import = frappe.copy_doc(test_records[0])
+        self.items_ocr_import.insert()
+        self.sales_invoice_ocr_import.insert()
+
     def tearDown(self):
         self.item_ocr_read.delete()
         self.item_ocr_import.delete()
         self.sales_invoice_ocr_read.delete()
         self.sales_invoice_ocr_import.delete()
+        self.items_ocr_import.delete()
         if frappe.db.exists("OCR Import", "Sales Invoice Item"):
             frappe.get_doc("OCR Import", "Sales Invoice Item").delete()
-
 
     def test_generating_item(self):
         item_code_mapping = frappe.get_doc(
@@ -70,24 +93,9 @@ class TestOCRImport(unittest.TestCase):
         generated_item.delete()
 
     def test_generating_sales_invoice(self):
-        sales_invoice_template = frappe.new_doc("OCR Import")
-        sales_invoice_template.doctype_link = "Sales Invoice"
-        create_items(sales_invoice_template)
-        for dict_with_data in test_data_for_sales_invoice:
-            ocr_import_mapping = frappe.get_doc(dict_with_data)
-            if ocr_import_mapping.value_type == "Table":
-                ocr_import_mapping.link_to_child_doc = "Sales Invoice Item"
-            ocr_import_mapping.save()
-        self.sales_invoice = generate_doctype("Sales Invoice", self.sales_invoice_ocr_read.read_result)
-
-def create_items(sales_invoice_template):
-    sales_invoice_item_template = frappe.new_doc("OCR Import")
-    sales_invoice_item_template.doctype_link = "Sales Invoice Item"
-    mappings = []
-    for dict_with_data in test_data_for_sales_invoice_items:
-        item = frappe.get_doc(dict_with_data)
-        item.parent = sales_invoice_template
-        mappings.append(item)
-    sales_invoice_item_template.mappings = mappings
-    sales_invoice_item_template.save()
-    return sales_invoice_item_template
+        self.assertRaises(frappe.ValidationError, generate_doctype, self.sales_invoice_ocr_import.name,
+                          self.sales_invoice_ocr_read.read_result)  # Due date before now
+        read_result = self.sales_invoice_ocr_read.read_result.replace("03/12/2006", "03/12/2026")
+        sales_invoice = generate_doctype(self.sales_invoice_ocr_import.name, read_result)
+        self.assertEqual(sales_invoice.due_date, datetime.datetime(2026, 12, 3, 0, 0))
+        self.assertEqual(sales_invoice.party_account_currency, frappe.get_doc("Company", "fsda").default_currency)

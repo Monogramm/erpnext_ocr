@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 
+import json
 import re
 from datetime import datetime
 
@@ -11,8 +12,6 @@ import frappe
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.constants import python_format
 from frappe.model.document import Document
 from frappe.utils import cint
-
-list_with_errors = []
 
 
 class OCRImport(Document):
@@ -30,7 +29,7 @@ def generate_child_doctype(doctype_import_link, field, string_with_raw_table_val
     ocr_import_table = frappe.get_doc("OCR Import",
                                       doctype_import_link)
     for table_field in ocr_import_table.mappings:
-        found_field = find_field(table_field, string_with_raw_table_value, table_doc)
+        found_field = find_field(table_field, string_with_raw_table_value)  # table_doc can be here
         if found_field is not None:
             table_doc.__dict__[table_field.field] = found_field
             raw_date = table_doc.__dict__[table_field.field]
@@ -43,8 +42,7 @@ def generate_child_doctype(doctype_import_link, field, string_with_raw_table_val
     return table_doc
 
 
-def find_field(field, read_result, table_doc):
-    print(field.field)
+def find_field(field, read_result):
     if field.value_type == "Python":
         found_field = eval(field.value)
     else:
@@ -64,14 +62,14 @@ def generate_doctype(doctype_import_link, read_result):
     list_with_table_values = []
     for field in doctype_import_doc.mappings:
         try:
-            found_field = find_field(field, read_result, generated_doc)
+            found_field = find_field(field, read_result)  # generated_doc can be send to find_field
             if found_field is not None:
                 if field.value_type == "Table":
                     iter = re.finditer(field.regexp, read_result)
                     for item_match in iter:
+                        print(item_match)
                         raw_table_doc = generated_doc.append(field.field)
                         item_str = item_match.group()
-                        print(item_str)
                         table_doc = generate_child_doctype(field.link_to_child_doc, field, item_str,
                                                            doctype_import_doc,
                                                            raw_table_doc)
