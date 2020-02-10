@@ -5,11 +5,13 @@
 
 from __future__ import unicode_literals
 
+
 import frappe
 import unittest
 import os
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc, read_ocr
+
 
 
 # TODO Frappe default test records creation
@@ -91,6 +93,59 @@ class TestOCRRead(unittest.TestCase):
     def tearDown(self):
         delete_ocr_reads()
 
+
+    def test_ocr_read_image_bg(self):
+        frappe.set_user("Administrator")
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                         os.path.pardir, os.path.pardir, os.path.pardir,
+                                         "tests", "test_data", "sample1.jpg"),
+            "language": "eng"
+        })
+
+        self.assertEqual(None, doc.read_result)
+
+        doc.read_image_bg(is_async=False, now=True)
+
+        # Wait worker completion before moving on in the tests
+
+        # Check worker completion and get "new" document after update by bg job
+        new_doc = frappe.get_doc("OCR Read",
+                                 {"file_to_read": os.path.join(os.path.dirname(__file__),
+                                                               os.path.pardir, os.path.pardir, os.path.pardir,
+                                                               "tests", "test_data", "sample1.jpg"),
+                                  "language": "eng"})
+
+        self.assertEqual(new_doc.read_result, doc.read_result)
+        self.assertIn("The quick brown fox", new_doc.read_result)
+        self.assertIn("jumped over the 5", new_doc.read_result)
+        self.assertIn("lazy dogs!", new_doc.read_result)
+        self.assertNotIn("And an elephant!", new_doc.read_result)
+
+    def test_ocr_read_image_bg_pdf(self):
+        frappe.set_user("Administrator")
+        doc = frappe.get_doc({
+            "doctype": "OCR Read",
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                         os.path.pardir, os.path.pardir, os.path.pardir,
+                                         "tests", "test_data", "sample2.pdf"),
+            "language": "eng"
+        })
+
+        self.assertEqual(None, doc.read_result)
+
+        doc.read_image_bg(is_async=False, now=True)
+
+        new_doc = frappe.get_doc("OCR Read", {
+            "file_to_read": os.path.join(os.path.dirname(__file__),
+                                         os.path.pardir, os.path.pardir, os.path.pardir,
+                                         "tests", "test_data", "sample2.pdf"),
+            "language": "eng"})
+
+        self.assertEqual(new_doc.read_result, doc.read_result)
+        self.assertIn("Python Basics", new_doc.read_result)
+        self.assertNotIn("Java", new_doc.read_result)
     def test_ocr_read_image(self):
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
@@ -161,3 +216,6 @@ class TestOCRRead(unittest.TestCase):
         self.assertTrue(os.path.join(os.path.dirname(__file__),
                                      os.path.pardir, os.path.pardir, os.path.pardir,
                                      "tests", "test_data", "sample2.pdf") in files_to_read)
+
+    def test_read_ocr(self):
+        self.assertRaises(frappe.ValidationError, read_ocr, obj=None)

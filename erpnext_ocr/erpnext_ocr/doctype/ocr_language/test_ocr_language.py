@@ -29,6 +29,7 @@ def delete_test_data():
         frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""") # ValidationError without SQL
         frappe.db.sql("""delete from `tabEmail Queue`""")
 
+        
 
 class TestOCRLanguage(unittest.TestCase):
     def setUp(self):
