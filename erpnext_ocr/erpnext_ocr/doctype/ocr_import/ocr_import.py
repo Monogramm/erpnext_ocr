@@ -4,12 +4,11 @@
 
 from __future__ import unicode_literals
 
-import ast
 import re
 from datetime import datetime
 
 import frappe
-from erpnext_ocr.erpnext_ocr.doctype.ocr_import.constants import python_format
+from erpnext_ocr.erpnext_ocr.doctype.ocr_import.constants import PYTHON_FORMAT
 from frappe.model.document import Document
 from frappe.utils import cint
 
@@ -36,7 +35,7 @@ def generate_child_doctype(doctype_import_link, field, string_raw_table_value, d
             if table_field == 'Date':
                 format_from_settings = frappe.get_doc("System Settings").date_format
                 table_doc.__dict__[table_field.field] = datetime.strptime(raw_date,
-                                                                          python_format[format_from_settings])
+                                                                          PYTHON_FORMAT[format_from_settings])
     append_parents_fields(table_doc, field, doctype_import_doc)
     table_doc.save()
     return table_doc

@@ -1,4 +1,4 @@
-python_format = {
+PYTHON_FORMAT = {
     "yyyy-mm-dd": "%Y-%m-%d",
     "dd-mm-yyyy": "%d-%m-%Y",
     "dd.mm.yyyy": "%d-%m-%Y",
