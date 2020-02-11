@@ -11,25 +11,6 @@ import frappe
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_doctype
 
 
-def create_items_for_sales_invoices():
-    jo_2 = frappe.get_doc(
-        {"doctype": "Item", "item_name": "JO.2", "item_code": "JO.2", "item_group": "Consumable", "stock_uom": "Nos",
-         "opening_stock": "123", "standard_rate": "123"})
-    jo_2.save()
-    vi_2 = frappe.get_doc(
-        {"doctype": "Item", "item_name": "Vi.2", "item_code": "Vi.2", "item_group": "Consumable", "stock_uom": "Nos",
-         "opening_stock": "123", "standard_rate": "123"})
-    vi_2.save()
-    jo_1 = frappe.get_doc(
-        {"doctype": "Item", "item_name": "JO.1", "item_code": "JO.1", "item_group": "Consumable", "stock_uom": "Nos",
-         "opening_stock": "123", "standard_rate": "123"})
-    jo_1.save()
-    service_d_overhaul = frappe.get_doc(
-        {"doctype": "Item", "item_name": "SERVICE D COMPLETE OVERHAUL", "item_code": "SERVICE D COMPLETE OVERHAUL", "item_group": "Consumable", "stock_uom": "Nos",
-         "opening_stock": "123", "standard_rate": "123"})
-    service_d_overhaul.save()
-
-
 class TestOCRImport(unittest.TestCase):
     def setUp(self):
         frappe.set_user("Administrator")
@@ -56,8 +37,7 @@ class TestOCRImport(unittest.TestCase):
                                                                  "Picture_010.png"), "language": "eng"})
         self.sales_invoice_ocr_read.read_image()
 
-        create_items_for_sales_invoices()
-
+        self.list_with_items_for_si = create_items_for_sales_invoices()
         # Creating Sales Invoice OCR Import
         test_records = frappe.get_test_records('OCR Import')
         self.items_ocr_import = frappe.copy_doc(test_records[1])
@@ -71,6 +51,11 @@ class TestOCRImport(unittest.TestCase):
         self.sales_invoice_ocr_read.delete()
         self.sales_invoice_ocr_import.delete()
         self.items_ocr_import.delete()
+        stock_entries = frappe.get_all("Stock Entry", filters=[['total_amount', '=', '15129']])
+        for entry in stock_entries:
+            frappe.get_doc(entry).cancel()
+        for item in self.list_with_items_for_si:
+            item.delete()
         if frappe.db.exists("OCR Import", "Sales Invoice Item"):
             frappe.get_doc("OCR Import", "Sales Invoice Item").delete()
 
@@ -98,4 +83,31 @@ class TestOCRImport(unittest.TestCase):
         read_result = self.sales_invoice_ocr_read.read_result.replace("03/12/2006", "03/12/2026")
         sales_invoice = generate_doctype(self.sales_invoice_ocr_import.name, read_result)
         self.assertEqual(sales_invoice.due_date, datetime.datetime(2026, 12, 3, 0, 0))
-        self.assertEqual(sales_invoice.party_account_currency, frappe.get_doc("Company", "fsda").default_currency)
+        self.assertEqual(sales_invoice.party_account_currency,
+                         frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency)
+
+
+def create_items_for_sales_invoices():
+    list_with_items_for_si = []
+    jo_2 = frappe.get_doc(
+        {"doctype": "Item", "item_name": "JO.2", "item_code": "JO.2", "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    jo_2.save()
+    list_with_items_for_si.append(jo_2)
+    vi_2 = frappe.get_doc(
+        {"doctype": "Item", "item_name": "Vi.2", "item_code": "Vi.2", "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    vi_2.save()
+    list_with_items_for_si.append(vi_2)
+    jo_1 = frappe.get_doc(
+        {"doctype": "Item", "item_name": "JO.1", "item_code": "JO.1", "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    jo_1.save()
+    list_with_items_for_si.append(jo_1)
+    service_d_overhaul = frappe.get_doc(
+        {"doctype": "Item", "item_name": "SERVICE D COMPLETE OVERHAUL", "item_code": "SERVICE D COMPLETE OVERHAUL",
+         "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    service_d_overhaul.save()
+    list_with_items_for_si.append(service_d_overhaul)
+    return list_with_items_for_si
