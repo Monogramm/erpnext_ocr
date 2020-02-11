@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 
+import ast
 import re
 from datetime import datetime
 
@@ -24,11 +25,11 @@ def append_parents_fields(table_doc, field, doctype_to_import):
 
 
 @frappe.whitelist()
-def generate_child_doctype(doctype_import_link, field, string_with_raw_table_value, doctype_import_doc, table_doc):
+def generate_child_doctype(doctype_import_link, field, string_raw_table_value, doctype_import_doc, table_doc):
     ocr_import_table = frappe.get_doc("OCR Import",
                                       doctype_import_link)
     for table_field in ocr_import_table.mappings:
-        found_field = find_field(table_field, string_with_raw_table_value)  # table_doc can be here
+        found_field = find_field(table_field, string_raw_table_value)  # table_doc can be here
         if found_field is not None:
             table_doc.__dict__[table_field.field] = found_field
             raw_date = table_doc.__dict__[table_field.field]
@@ -43,7 +44,7 @@ def generate_child_doctype(doctype_import_link, field, string_with_raw_table_val
 
 def find_field(field, read_result):
     if field.value_type == "Python":
-        found_field = eval(field.value)
+        found_field = eval(field.value)  # we can't use ast.literal_eval, because we use strings of code in field.value
     else:
         if field.value_type == "Regex group":
             pattern_result = re.findall(field.regexp, read_result)
