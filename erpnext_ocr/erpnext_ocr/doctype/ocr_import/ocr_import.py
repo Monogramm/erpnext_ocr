@@ -32,7 +32,7 @@ def generate_child_doctype(doctype_import_link, field, string_with_raw_table_val
         if found_field is not None:
             table_doc.__dict__[table_field.field] = found_field
             raw_date = table_doc.__dict__[table_field.field]
-            if table_field.is_date:
+            if table_field == 'Date':
                 format_from_settings = frappe.get_doc("System Settings").date_format
                 table_doc.__dict__[table_field.field] = datetime.strptime(raw_date,
                                                                           python_format[format_from_settings])
@@ -66,7 +66,6 @@ def generate_doctype(doctype_import_link, read_result):
                 if field.value_type == "Table":
                     iter = re.finditer(field.regexp, read_result)
                     for item_match in iter:
-                        print(item_match)
                         raw_table_doc = generated_doc.append(field.field)
                         item_str = item_match.group()
                         table_doc = generate_child_doctype(field.link_to_child_doc, field, item_str,

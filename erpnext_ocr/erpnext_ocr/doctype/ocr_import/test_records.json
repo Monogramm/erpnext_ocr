@@ -321,7 +321,7 @@
         "idx": 11,
         "docstatus": 0,
         "field": "income_account",
-        "value": "'Sales - F'",
+        "value": "frappe.get_doc(\"Company\", frappe.get_all(\"Company\")[0]).default_inventory_account",
         "value_type": "Python",
         "doctype": "OCR Import Mapping"
       },

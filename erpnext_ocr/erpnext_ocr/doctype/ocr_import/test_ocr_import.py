@@ -51,9 +51,9 @@ class TestOCRImport(unittest.TestCase):
         self.sales_invoice_ocr_read.delete()
         self.sales_invoice_ocr_import.delete()
         self.items_ocr_import.delete()
-        stock_entries = frappe.get_all("Stock Entry", filters=[['total_amount', '=', '15129']])
+        stock_entries = frappe.get_all("Stock Entry", filters=[['total_amount', '=', '15129'], ['docstatus', '!=', '2']])
         for entry in stock_entries:
-            frappe.get_doc(entry).cancel()
+            frappe.get_doc("Stock Entry", entry).cancel()
         for item in self.list_with_items_for_si:
             item.delete()
         if frappe.db.exists("OCR Import", "Sales Invoice Item"):
@@ -85,6 +85,7 @@ class TestOCRImport(unittest.TestCase):
         self.assertEqual(sales_invoice.due_date, datetime.datetime(2026, 12, 3, 0, 0))
         self.assertEqual(sales_invoice.party_account_currency,
                          frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency)
+        sales_invoice.delete()
 
 
 def create_items_for_sales_invoices():
@@ -110,4 +111,10 @@ def create_items_for_sales_invoices():
          "opening_stock": "123", "standard_rate": "123"})
     service_d_overhaul.save()
     list_with_items_for_si.append(service_d_overhaul)
+    service_d = frappe.get_doc(
+        {"doctype": "Item", "item_name": "SERVICE D", "item_code": "SERVICE D",
+         "item_group": "Consumable", "stock_uom": "Nos",
+         "opening_stock": "123", "standard_rate": "123"})
+    service_d.save()
+    list_with_items_for_si.append(service_d)
     return list_with_items_for_si
