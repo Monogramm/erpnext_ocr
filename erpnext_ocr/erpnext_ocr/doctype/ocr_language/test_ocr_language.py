@@ -21,15 +21,12 @@ def create_test_data():
         test_user.language = "en"
         test_user.insert(ignore_permissions=True)
 
+
 def delete_test_data():
     if frappe.db.exists("User", "test_user@example.com"):
-        #test_user = frappe.get_doc('User', "test_user@example.com")
-        #test_user.remove_roles("System Manager")
-        #test_user.delete()
-        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""") # ValidationError without SQL
+        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")  # ValidationError without SQL
         frappe.db.sql("""delete from `tabEmail Queue`""")
 
-        
 
 class TestOCRLanguage(unittest.TestCase):
     def setUp(self):

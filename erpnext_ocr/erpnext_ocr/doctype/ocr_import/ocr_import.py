@@ -17,12 +17,6 @@ class OCRImport(Document):
     pass
 
 
-def append_parents_fields(table_doc, field, doctype_to_import):
-    table_doc.parentfield = field.field
-    table_doc.parenttype = doctype_to_import.name
-    table_doc.parent = doctype_to_import.name
-
-
 @frappe.whitelist()
 def generate_child_doctype(doctype_import_link, field, string_raw_table_value, doctype_import_doc, table_doc):
     ocr_import_table = frappe.get_doc("OCR Import",
@@ -36,7 +30,7 @@ def generate_child_doctype(doctype_import_link, field, string_raw_table_value, d
                 format_from_settings = frappe.get_doc("System Settings").date_format
                 table_doc.__dict__[table_field.field] = datetime.strptime(raw_date,
                                                                           PYTHON_FORMAT[format_from_settings])
-    append_parents_fields(table_doc, field, doctype_import_doc)
+    table_doc.parent = doctype_import_doc.name
     table_doc.save()
     return table_doc
 
@@ -64,8 +58,8 @@ def generate_doctype(doctype_import_link, read_result):
             found_field = find_field(field, read_result)  # generated_doc can be send to find_field
             if found_field is not None:
                 if field.value_type == "Table":
-                    iter = re.finditer(field.regexp, read_result)
-                    for item_match in iter:
+                    iter_of_str = re.finditer(field.regexp, read_result)
+                    for item_match in iter_of_str:
                         raw_table_doc = generated_doc.append(field.field)
                         item_str = item_match.group()
                         table_doc = generate_child_doctype(field.link_to_child_doc, field, item_str,
@@ -76,7 +70,7 @@ def generate_doctype(doctype_import_link, read_result):
                 elif field.value_type == "Date":
                     format_from_settings = frappe.get_doc("System Settings").date_format
                     generated_doc.__dict__[field.field] = datetime.strptime(found_field,
-                                                                            python_format[format_from_settings])
+                                                                            PYTHON_FORMAT[format_from_settings])
                 else:
                     generated_doc.__dict__[field.field] = found_field
             else:
