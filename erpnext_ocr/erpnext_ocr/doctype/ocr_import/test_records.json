@@ -354,7 +354,7 @@
         "idx": 6,
         "docstatus": 0,
         "field": "debit_to",
-        "value": "\"Debtors - F\"",
+        "value": "frappe.get_doc(\"Company\", frappe.get_all(\"Company\")[0]).default_bank_account",
         "value_type": "Python",
         "doctype": "OCR Import Mapping"
       },
