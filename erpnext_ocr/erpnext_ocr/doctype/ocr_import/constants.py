@@ -1,14 +1,5 @@
 # -*- coding: utf-8 -*-
 
-PYTHON_FORMAT = {
-    "yyyy-mm-dd": "%Y-%m-%d",
-    "dd-mm-yyyy": "%d-%m-%Y",
-    "dd.mm.yyyy": "%d-%m-%Y",
-    "mm-dd-yyyy": "%m-%d-%Y",
-    "dd/mm/yyyy": "%d/%m/%Y",
-    "mm/dd/yyyy": "%m/%d/%Y",
-}
-
 TEST_RESULT_FOR_SI = '''
  \n\nD. Brawn Manufacture\n\nInvoice no. DVT-AX-345678\n\nPayment date: 03/12/2006\n\n \n\n 
  \n\n \n\n \n\nReference Designation ty Unit price “Total CHF Sales\nWork\nSERVICE D COMPLETE OVERHAUL 1 5500.00 500,00 220\nSERVICE D REFRESHING COMPLETE CASE 1 380,00 380.00 220\nAND RHODIUM BATH\nExterior parts:\nJO.297.085.FP FLAT GASKET. 1 3.00 3.00 220\nJO.197.075.FP FLAT GASKET 1 4.00 4.00 220\nJO.199.059.08 FLAT ROUND GASKET 1 6.00 600 220\nVi.261.036.8C  W.G.FIXATION SCREWS 10 4.00 40.00 220\nAL465.085.BC WHITE GOLD "FOIL" 1 70.00 70.00 220\nPAIR OF HAND\nLENGTH: 10/13.50MM\nCALIBRE 2868\nSPECIAL DISCOUNT -3003.00 — -3003.00\nDiscount “500.00 “800.00\nTotal CHF 2100.00\nRETURN AFTER REPAIR\n\nNO COMMERCIAL VALUE\n'''

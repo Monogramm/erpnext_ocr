@@ -1,5 +1,53 @@
 [
   {
+    "name": "Item",
+    "owner": "Administrator",
+    "creation": "2020-02-12 12:31:08.827979",
+    "modified": "2020-02-12 12:31:25.637464",
+    "modified_by": "Administrator",
+    "idx": 0,
+    "docstatus": 0,
+    "doctype_link": "Item",
+    "doctype": "OCR Import",
+    "mappings": [
+      {
+        "name": "e069f720c4",
+        "owner": "Administrator",
+        "creation": "2020-02-12 12:31:25.584898",
+        "modified": "2020-02-12 12:31:25.637464",
+        "modified_by": "Administrator",
+        "parent": "Item",
+        "parentfield": "mappings",
+        "parenttype": "OCR Import",
+        "idx": 1,
+        "docstatus": 0,
+        "field": "item_code",
+        "regexp": "Item Code (\\w+)",
+        "value": "0",
+        "value_type": "Regex group",
+        "doctype": "OCR Import Mapping"
+      },
+      {
+        "name": "7869fbf9c1",
+        "owner": "Administrator",
+        "creation": "2020-02-12 12:31:25.622633",
+        "modified": "2020-02-12 12:31:25.637464",
+        "modified_by": "Administrator",
+        "parent": "Item",
+        "parentfield": "mappings",
+        "parenttype": "OCR Import",
+        "idx": 2,
+        "docstatus": 0,
+        "field": "item_group",
+        "regexp": "Item Group (\\w+)",
+        "value": "0",
+        "value_type": "Regex group",
+        "doctype": "OCR Import Mapping"
+      }
+    ],
+    "__last_sync_on": "2020-02-12T19:00:00.441Z"
+  },
+  {
     "name": "Sales Invoice Item",
     "owner": "Administrator",
     "creation": "2020-02-07 09:18:06.707242",
