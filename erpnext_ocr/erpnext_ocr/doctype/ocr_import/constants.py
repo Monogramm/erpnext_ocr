@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 PYTHON_FORMAT = {
     "yyyy-mm-dd": "%Y-%m-%d",
     "dd-mm-yyyy": "%d-%m-%Y",
