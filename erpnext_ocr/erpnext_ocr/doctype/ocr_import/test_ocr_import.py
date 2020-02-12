@@ -25,11 +25,12 @@ class TestOCRImport(unittest.TestCase):
                                                                  "tests", "test_data",
                                                                  "item.pdf"), "language": "eng"})
         # Creating OCR Import doc
-        self.item_ocr_import = frappe.new_doc("OCR Import")
-        self.item_ocr_import.name = "Item"
-        self.item_ocr_import.doctype_link = "Item"
-        self.item_ocr_import.insert(ignore_permissions=True)
-        self.item_ocr_import.save()
+        if not frappe.db.exists("OCR Import", "Item"):
+            self.item_ocr_import = frappe.new_doc("OCR Import")
+            self.item_ocr_import.name = "Item"
+            self.item_ocr_import.doctype_link = "Item"
+            self.item_ocr_import.insert(ignore_permissions=True)
+            self.item_ocr_import.save()
         self.item_ocr_read.ocr_import = self.item_ocr_import.name
         self.item_ocr_read.read_image()
         self.item_ocr_read.read_result = TEST_RESULT_FOR_ITEM
