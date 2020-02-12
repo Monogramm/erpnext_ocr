@@ -20,7 +20,7 @@ class OCRImport(Document):
 @frappe.whitelist()
 def generate_child_doctype(doctype_import_link, string_raw_table_value, table_doc):
     """
-    Generate child of some doctype
+    Generate child for some doctype
     :param doctype_import_link: link to OCR Import
     :param string_raw_table_value: String for future child
     :param doctype_import_doc:
@@ -43,6 +43,11 @@ def generate_child_doctype(doctype_import_link, string_raw_table_value, table_do
 
 
 def find_field(field, read_result):
+    """
+    :param field: node from mapping
+    :param read_result: text from document
+    :return: string with value
+    """
     if field.value_type == "Python":
         # we can't use ast.literal_eval, because we use strings of code in field.value
         found_field = eval(field.value)
@@ -57,6 +62,12 @@ def find_field(field, read_result):
 
 @frappe.whitelist()
 def generate_doctype(doctype_import_link, read_result):
+    """
+    generate doctype from raw text
+    :param doctype_import_link:
+    :param read_result: text from document
+    :return: generated doctype
+    """
     doctype_import_doc = frappe.get_doc("OCR Import", doctype_import_link)
     generated_doc = frappe.new_doc(doctype_import_link)
     list_with_errors = []
@@ -70,7 +81,8 @@ def generate_doctype(doctype_import_link, read_result):
                     for item_match in iter_of_str:
                         raw_table_doc = generated_doc.append(field.field)
                         item_str = item_match.group()
-                        table_doc = generate_child_doctype(field.link_to_child_doc, item_str,
+                        table_doc = generate_child_doctype(field.link_to_child_doc,
+                                                           item_str,
                                                            raw_table_doc)
                         list_with_table_values.append(table_doc)
                         generated_doc.__dict__[field.field] = list_with_table_values

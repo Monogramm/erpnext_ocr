@@ -52,7 +52,7 @@ class TestOCRImport(unittest.TestCase):
         for entry in stock_entries:
             frappe.get_doc("Stock Entry", entry).cancel()
         self.sales_invoice_ocr_read.delete()
-        self.item_ocr_import.delete()
+
 
     def test_generating_item(self):
         item_code_mapping = frappe.get_doc(
