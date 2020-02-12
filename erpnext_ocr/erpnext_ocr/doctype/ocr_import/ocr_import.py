@@ -5,7 +5,6 @@
 from __future__ import unicode_literals
 
 import re
-from datetime import datetime
 
 import frappe
 from frappe.model.document import Document
