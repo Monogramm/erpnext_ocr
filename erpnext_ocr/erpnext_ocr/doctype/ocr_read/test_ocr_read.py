@@ -146,6 +146,8 @@ class TestOCRRead(unittest.TestCase):
         self.assertEqual(new_doc.read_result, doc.read_result)
         self.assertIn("Python Basics", new_doc.read_result)
         self.assertNotIn("Java", new_doc.read_result)
+
+
     def test_ocr_read_image(self):
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
