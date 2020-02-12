@@ -36,7 +36,9 @@ def generate_child_doctype(doctype_import_link, string_raw_table_value, table_do
             raw_date = table_doc.__dict__[table_field.field]
             if table_field == 'Date':
                 format_date = frappe.get_doc("System Settings").date_format
-                table_doc.__dict__[table_field.field] = datetime.strptime(raw_date, PYTHON_FORMAT[format_date])
+                table_doc.__dict__[table_field.field] = datetime.strptime(
+                    raw_date,
+                    PYTHON_FORMAT[format_date])
     table_doc.parent = ocr_import_table.name
     table_doc.save()
     return table_doc
@@ -88,8 +90,9 @@ def generate_doctype(doctype_import_link, read_result):
                         generated_doc.__dict__[field.field] = list_with_table_values
                 elif field.value_type == "Date":
                     format_from_settings = frappe.get_doc("System Settings").date_format
+                    python_format = PYTHON_FORMAT[format_from_settings]
                     generated_doc.__dict__[field.field] = datetime.strptime(found_field,
-                                                                            PYTHON_FORMAT[format_from_settings])
+                                                                            python_format)
                 else:
                     generated_doc.__dict__[field.field] = found_field
             else:
