@@ -57,7 +57,7 @@ app_license = "MIT"
 # ------------
 
 # before_install = "erpnext_ocr.install.before_install"
-# after_install = "erpnext_ocr.install.after_install"
+after_install = "erpnext_ocr.install.after_install"
 
 # Desk Notifications
 # ------------------

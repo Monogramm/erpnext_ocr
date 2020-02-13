@@ -63,7 +63,7 @@ class TestOCRImport(unittest.TestCase):
         read_result = self.sales_invoice_ocr_read.read_result.replace("03/12/2006", "03/12/2099")
         sales_invoice = generate_doctype(sales_invoice_ocr_import.name, read_result)
 
-        self.assertEqual(sales_invoice.due_date, datetime.datetime(2099, 12, 3, 0, 0))
+        self.assertEqual(sales_invoice.due_date, datetime.datetime(2099, 3, 12, 0, 0))
         self.assertEqual(sales_invoice.party_account_currency,
                          frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency)
 
