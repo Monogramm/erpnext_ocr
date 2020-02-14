@@ -6,8 +6,12 @@ from __future__ import unicode_literals
 import frappe
 import unittest
 
+from erpnext_ocr.erpnext_ocr.doctype.ocr_import.test_ocr_import import before_tests
+
 
 class TestOCRSettings(unittest.TestCase):
+    def setUp(self):
+        before_tests()
     def test_validate(self):
         ocr = frappe.get_doc("OCR Settings")
         ocr.pdf_resolution = 300
