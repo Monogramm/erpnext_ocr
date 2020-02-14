@@ -8,6 +8,7 @@ import os
 import unittest
 
 import frappe
+from erpnext.setup.utils import enable_all_roles_and_domains
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.constants import TEST_RESULT_FOR_SI, TEST_RESULT_FOR_ITEM
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_doctype
 
@@ -17,7 +18,9 @@ test_data = frappe.get_test_records('OCR Import')
 
 class TestOCRImport(unittest.TestCase):
     def setUp(self):
+        before_tests()
         frappe.set_user("Administrator")
+        # if os.getenv("enable_demo_first_run_wizard", 1) and frappe.local.flags.env_created:
         self.item_ocr_read = frappe.get_doc(
             {"doctype": "OCR Read", "file_to_read": os.path.join(os.path.dirname(__file__),
                                                                  os.path.pardir, os.path.pardir,
@@ -50,7 +53,7 @@ class TestOCRImport(unittest.TestCase):
 
     def test_generate_doctype_item(self):
         item_ocr_import = frappe.get_doc("OCR Import", "Item")
-        generated_item = generate_doctype(item_ocr_import.name, self.item_ocr_read.read_result)
+        generated_item = generate_doctype(item_ocr_import.name, self.item_ocr_read.read_result, ignore_mandatory = True)
         self.assertEqual(generated_item.item_code, "fdsa")
         self.assertEqual(generated_item.item_group, "Consumable")
         generated_item.delete()
@@ -123,3 +126,37 @@ def set_date_format(date_format):
     settings = frappe.get_doc("System Settings")
     settings.date_format = date_format
     settings.save()
+
+
+def before_tests():
+    frappe.clear_cache()
+    # complete setup if missing
+    from frappe.desk.page.setup_wizard.setup_wizard import setup_complete
+    if not frappe.get_list("Company"):
+        setup_complete({
+            "currency" :"USD",
+            "full_name"		:"Test User",
+            "company_name"		:"Wind Power LLC",
+            "timezone"			:"America/New_York",
+            "company_abbr"		:"WP",
+            "industry"			:"Manufacturing",
+            "country"			:"United States",
+            "fy_start_date"		:"2020-01-01",
+            "fy_end_date"		:"2020-12-31",
+            "language"			:"english",
+            "company_tagli"	:"Testing",
+            "email"				:"test@erpnext.com",
+            "password"			:"test",
+            "chart_of_accoun" : "Standard",
+            "domains"			: ["Manufacturing"],
+        })
+
+    frappe.db.sql("delete from `tabLeave Allocation`")
+    frappe.db.sql("delete from `tabLeave Application`")
+    frappe.db.sql("delete from `tabSalary Slip`")
+    frappe.db.sql("delete from `tabItem Price`")
+
+    frappe.db.set_value("Stock Settings", None, "auto_insert_price_list_rate_if_missing", 0)
+    enable_all_roles_and_domains()
+
+    frappe.db.commit()

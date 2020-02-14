@@ -369,7 +369,7 @@
         "docstatus": 0,
         "field": "against_income_account",
         "regexp": "",
-        "value": "frappe.get_doc(\"Company\", frappe.get_all(\"Company\")[0]).default_bank_account",
+        "value": "frappe.get_doc(\"Company\", frappe.get_all(\"Company\")[0]).default_receivable_account",
         "value_type": "Python",
         "doctype": "OCR Import Mapping"
       },
@@ -402,7 +402,7 @@
         "idx": 6,
         "docstatus": 0,
         "field": "debit_to",
-        "value": "frappe.get_doc(\"Company\", frappe.get_all(\"Company\")[0]).default_bank_account",
+        "value": "frappe.get_doc(\"Company\", frappe.get_all(\"Company\")[0]).default_receivable_account",
         "value_type": "Python",
         "doctype": "OCR Import Mapping"
       },

@@ -57,7 +57,7 @@ def find_field(field, read_result):
 
 
 @frappe.whitelist()
-def generate_doctype(doctype_import_link, read_result):
+def generate_doctype(doctype_import_link, read_result, ignore_mandatory = False):
     """
     generate doctype from raw text
     :param doctype_import_link:
@@ -66,6 +66,7 @@ def generate_doctype(doctype_import_link, read_result):
     """
     doctype_import_doc = frappe.get_doc("OCR Import", doctype_import_link)
     generated_doc = frappe.new_doc(doctype_import_link)
+    generated_doc.flags.ignore_mandatory = ignore_mandatory
     list_with_errors = []
     list_with_table_values = []
     for field in doctype_import_doc.mappings:
