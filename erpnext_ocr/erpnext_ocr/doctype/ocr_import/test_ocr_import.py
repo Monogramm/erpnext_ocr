@@ -16,11 +16,28 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_docty
 test_data = frappe.get_test_records('OCR Import')
 
 
+def create_company():
+    company = frappe.new_doc("Company", "_Test Company")
+    company.company_name = "_Test Company_2"
+    company.abbr = "_TC10"
+    company.parent_company = "_Test Company"
+    company.default_currency = "INR"
+    company.country = "Pakistan"
+    company.insert()
+    return company
+
+
+def create_all_item_group():
+    frappe.db.sql(
+        "INSERT INTO `tabItem Group` (`name`, `creation`, `modified`, `modified_by`, `owner`, `docstatus`, `parent`, `parentfield`, `parenttype`, `idx`, `image`, `lft`, `rgt`, `_comments`, `_liked_by`, `description`, `item_group_name`, `_assign`, `is_group`, `slideshow`, `show_in_website`, `_user_tags`, `weightage`, `route`, `parent_item_group`, `old_parent`) VALUES ('All Item Groups', '2019-08-29 15:39:02.542508', '2019-08-29 15:39:02.952698', 'Administrator', 'Administrator', 0, NULL, NULL, NULL, 0, NULL, 1, 12, NULL, NULL, NULL, 'All Item Groups', NULL, 1, NULL, 0, NULL, 0, 'all-item-groups', '', '');")
+
+
 class TestOCRImport(unittest.TestCase):
     def setUp(self):
-        before_tests()
+        self.company = create_company()
+        create_all_item_group()
+
         frappe.set_user("Administrator")
-        # if os.getenv("enable_demo_first_run_wizard", 1) and frappe.local.flags.env_created:
         self.item_ocr_read = frappe.get_doc(
             {"doctype": "OCR Read", "file_to_read": os.path.join(os.path.dirname(__file__),
                                                                  os.path.pardir, os.path.pardir,
@@ -44,6 +61,7 @@ class TestOCRImport(unittest.TestCase):
         self.list_with_items_for_si = create_items_for_sales_invoices()
 
     def tearDown(self):
+        self.company.delete()
         self.item_ocr_read.delete()
         self.sales_invoice_ocr_read.delete()
         stock_entries = frappe.get_all("Stock Entry",
@@ -53,7 +71,7 @@ class TestOCRImport(unittest.TestCase):
 
     def test_generate_doctype_item(self):
         item_ocr_import = frappe.get_doc("OCR Import", "Item")
-        generated_item = generate_doctype(item_ocr_import.name, self.item_ocr_read.read_result, ignore_mandatory = True)
+        generated_item = generate_doctype(item_ocr_import.name, self.item_ocr_read.read_result, ignore_mandatory=True)
         self.assertEqual(generated_item.item_code, "fdsa")
         self.assertEqual(generated_item.item_group, "Consumable")
         generated_item.delete()
@@ -126,37 +144,3 @@ def set_date_format(date_format):
     settings = frappe.get_doc("System Settings")
     settings.date_format = date_format
     settings.save()
-
-
-def before_tests():
-    frappe.clear_cache()
-    # complete setup if missing
-    from frappe.desk.page.setup_wizard.setup_wizard import setup_complete
-    if not frappe.get_list("Company"):
-        setup_complete({
-            "currency" :"USD",
-            "full_name"		:"Test User",
-            "company_name"		:"Wind Power LLC",
-            "timezone"			:"America/New_York",
-            "company_abbr"		:"WP",
-            "industry"			:"Manufacturing",
-            "country"			:"United States",
-            "fy_start_date"		:"2020-01-01",
-            "fy_end_date"		:"2020-12-31",
-            "language"			:"english",
-            "company_tagli"	:"Testing",
-            "email"				:"test@erpnext.com",
-            "password"			:"test",
-            "chart_of_accoun" : "Standard",
-            "domains"			: ["Manufacturing"],
-        })
-
-    frappe.db.sql("delete from `tabLeave Allocation`")
-    frappe.db.sql("delete from `tabLeave Application`")
-    frappe.db.sql("delete from `tabSalary Slip`")
-    frappe.db.sql("delete from `tabItem Price`")
-
-    frappe.db.set_value("Stock Settings", None, "auto_insert_price_list_rate_if_missing", 0)
-    enable_all_roles_and_domains()
-
-    frappe.db.commit()
