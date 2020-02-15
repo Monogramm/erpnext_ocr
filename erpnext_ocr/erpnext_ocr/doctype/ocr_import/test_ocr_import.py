@@ -8,6 +8,7 @@ import os
 import unittest
 
 import frappe
+from erpnext.accounts.doctype.cost_center.test_cost_center import create_cost_center
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.constants import TEST_RESULT_FOR_SI, TEST_RESULT_FOR_ITEM
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_doctype
 
@@ -15,14 +16,9 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_docty
 test_data = frappe.get_test_records('OCR Import')
 
 
-def create_all_item_group():
-    frappe.db.sql(
-        "INSERT INTO `tabItem Group` (`name`, `creation`, `modified`, `modified_by`, `owner`, `docstatus`, `parent`, `parentfield`, `parenttype`, `idx`, `image`, `lft`, `rgt`, `_comments`, `_liked_by`, `description`, `item_group_name`, `_assign`, `is_group`, `slideshow`, `show_in_website`, `_user_tags`, `weightage`, `route`, `parent_item_group`, `old_parent`) VALUES ('All Item Groups', '2019-08-29 15:39:02.542508', '2019-08-29 15:39:02.952698', 'Administrator', 'Administrator', 0, NULL, NULL, NULL, 0, NULL, 1, 12, NULL, NULL, NULL, 'All Item Groups', NULL, 1, NULL, 0, NULL, 0, 'all-item-groups', '', '');")
-
 
 class TestOCRImport(unittest.TestCase):
     def setUp(self):
-        # create_all_item_group()
 
         frappe.set_user("Administrator")
         self.item_ocr_read = frappe.get_doc(
@@ -68,7 +64,7 @@ class TestOCRImport(unittest.TestCase):
         self.assertRaises(frappe.ValidationError, generate_doctype, sales_invoice_ocr_import.name,
                           self.sales_invoice_ocr_read.read_result)  # Due date before now
         read_result = self.sales_invoice_ocr_read.read_result.replace("03/12/2006", "03/12/2099")
-        sales_invoice = generate_doctype(sales_invoice_ocr_import.name, read_result)
+        sales_invoice = generate_doctype(sales_invoice_ocr_import.name, read_result, ignore_mandatory=True)
 
         self.assertEqual(sales_invoice.due_date, datetime.datetime(2099, 3, 12, 0, 0))
         self.assertEqual(sales_invoice.party_account_currency,

@@ -1,5 +1,13 @@
 [
   {
+    "buying": 1,
+    "currency": "INR",
+    "doctype": "Price List",
+    "enabled": 1,
+    "price_list_name": "_Test Price List",
+    "selling": 1
+  },
+  {
     "doctype": "Fiscal Year",
     "year": "_Test Fiscal Year 2012",
     "year_end_date": "2020-12-31",

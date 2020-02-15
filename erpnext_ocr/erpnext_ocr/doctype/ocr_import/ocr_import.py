@@ -56,6 +56,7 @@ def find_field(field, read_result):
     return found_field
 
 
+
 @frappe.whitelist()
 def generate_doctype(doctype_import_link, read_result, ignore_mandatory = False):
     """
@@ -66,6 +67,9 @@ def generate_doctype(doctype_import_link, read_result, ignore_mandatory = False)
     """
     doctype_import_doc = frappe.get_doc("OCR Import", doctype_import_link)
     generated_doc = frappe.new_doc(doctype_import_link)
+    if ignore_mandatory:
+        generated_doc.company = "_Test Company"
+        generated_doc.price_list = "_Test Price List"
     generated_doc.flags.ignore_mandatory = ignore_mandatory
     list_with_errors = []
     list_with_table_values = []
@@ -77,6 +81,7 @@ def generate_doctype(doctype_import_link, read_result, ignore_mandatory = False)
                     iter_of_str = re.finditer(field.regexp, read_result)
                     for item_match in iter_of_str:
                         raw_table_doc = generated_doc.append(field.field)
+                        raw_table_doc.flags.ignore_mandatory = ignore_mandatory
                         item_str = item_match.group()
                         table_doc = generate_child_doctype(field.link_to_child_doc,
                                                            item_str,
