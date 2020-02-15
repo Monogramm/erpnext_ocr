@@ -91,8 +91,8 @@ services:
       - REDIS_QUEUE_HOST=erpnext_redis_queue
       - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
-      - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/logs:/home/frappe/frappe-bench/logs
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -145,7 +145,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -161,7 +161,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -177,7 +177,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -193,7 +193,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -211,7 +211,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
