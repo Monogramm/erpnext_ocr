@@ -1,5 +1,39 @@
 [
   {
+    "doctype": "Fiscal Year",
+    "year": "_Test Fiscal Year 2012",
+    "year_end_date": "2020-12-31",
+    "year_start_date": "2020-01-01"
+  },
+  {
+    "abbr": "_TC",
+    "company_name": "_Test Company",
+    "country": "India",
+    "default_currency": "INR",
+    "doctype": "Company",
+    "chart_of_accounts": "Standard"
+  },
+  {
+    "doctype": "Item Group",
+    "is_group": 0,
+    "item_group_name": "All Item Groups"
+  },
+  {
+    "doctype": "UOM",
+    "uom_name": "Nos"
+  },
+  {
+    "doctype": "Item Group",
+    "is_group": 0,
+    "item_group_name": "Consumable",
+    "parent_item_group": "All Item Groups",
+    "item_group_defaults": [
+      {
+        "company": "_Test Company"
+      }
+    ]
+  },
+  {
     "name": "Item",
     "owner": "Administrator",
     "creation": "2020-02-12 12:31:08.827979",

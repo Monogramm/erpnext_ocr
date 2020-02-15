@@ -114,7 +114,7 @@ app_license = "MIT"
 # Testing
 # -------
 
-# before_tests = "erpnext_ocr.install.before_tests"
+before_tests = "erpnext_ocr.install.before_tests"
 
 # Overriding Whitelisted Methods
 # ------------------------------
