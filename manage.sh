@@ -48,7 +48,7 @@ down() {
 }
 
 console() {
-    dc ${1} exec bench console ${@:2}
+    dc -it ${1} exec erpnext_app bench console ${@:2}
 }
 
 usage() {
