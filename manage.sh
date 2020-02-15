@@ -46,7 +46,7 @@ down() {
 }
 
 console() {
-    dc ${1} exec php bin/console ${@:2}
+    dc ${1} exec bench console ${@:2}
 }
 
 usage() {
@@ -59,14 +59,7 @@ usage() {
         stop        Stop Dev env
         logs        Follow logs of Dev env
         down        Stop and remove Dev env
-        console     Send command to Dev env bin/console
-        build           Build Prod env
-        start           Start Prod env
-        restart         Retart Prod env
-        stop            Stop Prod env
-        logs            Follow logs of Prod env
-        down            Stop and remove Prod env
-        console         Send command to Dev env bin/console
+        console     Send command to Dev env bench console
     "
 }
 

@@ -4,7 +4,7 @@ services:
   # https://docs.docker.com/docker-hub/builds/automated-testing/
   sut:
     build:
-      context: ./.travis
+      context: ./
       dockerfile: Dockerfile_test
     command: sh /docker_test.sh
     # Only for travis-ci, do not name test container in dockerhub
