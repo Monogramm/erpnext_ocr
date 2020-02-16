@@ -8,7 +8,6 @@ import os
 import unittest
 
 import frappe
-from erpnext.accounts.doctype.cost_center.test_cost_center import create_cost_center
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.constants import TEST_RESULT_FOR_SI, TEST_RESULT_FOR_ITEM
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_doctype
 
