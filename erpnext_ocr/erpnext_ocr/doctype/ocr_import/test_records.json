@@ -92,8 +92,8 @@
   {
     "name": "Sales Invoice Item",
     "owner": "Administrator",
-    "creation": "2020-02-07 09:18:06.707242",
-    "modified": "2020-02-07 11:43:51.157922",
+    "creation": "2020-02-15 13:28:43.222135",
+    "modified": "2020-02-15 14:33:36.907480",
     "modified_by": "Administrator",
     "idx": 0,
     "docstatus": 0,
@@ -101,10 +101,10 @@
     "doctype": "OCR Import",
     "mappings": [
       {
-        "name": "6ace0b5f89",
+        "name": "9fdf7803ae",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -113,15 +113,15 @@
         "docstatus": 0,
         "field": "item_code",
         "regexp": "(\\w+.\\w)",
-        "value": "0",
-        "value_type": "Regex group",
+        "value": "frappe.get_doc(\"Item\", pattern_result[0]).save().item_code if frappe.db.exists(\"Item\", pattern_result[0]) else frappe.get_doc({\"doctype\": \"Item\", \"item_code\": pattern_result[0],\"item_group\": \"Consumable\",\"stock_uom\":\"Nos\"}).insert()",
+        "value_type": "Python",
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "61e5619e85",
+        "name": "45b0d218c7",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -135,10 +135,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "603726e72c",
+        "name": "87fa0af790",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -152,10 +152,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "06e591ec67",
+        "name": "8250d8fc0e",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -169,10 +169,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "71fb6700ab",
+        "name": "497dba9553",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -185,10 +185,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "e1d055a76a",
+        "name": "ce0b6da05b",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -202,10 +202,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "98242cf945",
+        "name": "3e1ec628fa",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -218,10 +218,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "8666f10d98",
+        "name": "4a279903fc",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -234,10 +234,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "e74e1d98af",
+        "name": "e760c693f7",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -251,10 +251,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "6b3a70551c",
+        "name": "1c042f5542",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -268,10 +268,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "b3ae226285",
+        "name": "e189de4124",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -284,10 +284,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "f3c07af75c",
+        "name": "3c524e9633",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -300,10 +300,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "5ac3095e94",
+        "name": "dcd6d8dc14",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -317,10 +317,10 @@
         "doctype": "OCR Import Mapping"
       },
       {
-        "name": "0ed333492d",
+        "name": "f64df0f1b8",
         "owner": "Administrator",
-        "creation": "2020-02-07 09:18:06.707242",
-        "modified": "2020-02-07 11:43:51.157922",
+        "creation": "2020-02-15 13:28:43.222135",
+        "modified": "2020-02-15 14:33:36.907480",
         "modified_by": "Administrator",
         "parent": "Sales Invoice Item",
         "parentfield": "mappings",
@@ -332,8 +332,7 @@
         "value_type": "Python",
         "doctype": "OCR Import Mapping"
       }
-    ],
-    "__last_sync_on": "2020-02-10T11:16:33.662Z"
+    ]
   },
   {
     "name": "Sales Invoice",

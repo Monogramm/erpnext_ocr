@@ -16,10 +16,9 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_import.ocr_import import generate_docty
 test_data = frappe.get_test_records('OCR Import')
 
 
-
 class TestOCRImport(unittest.TestCase):
     def setUp(self):
-
+        before_tests()
         frappe.set_user("Administrator")
         self.item_ocr_read = frappe.get_doc(
             {"doctype": "OCR Read", "file_to_read": os.path.join(os.path.dirname(__file__),
@@ -81,42 +80,42 @@ def create_items_for_sales_invoices():
         jo_2 = frappe.get_doc(
             {"doctype": "Item", "item_name": "JO.2", "item_code": "JO.2", "item_group": "Consumable",
              "stock_uom": "Nos",
-             "opening_stock": "123", "standard_rate": "123"})
+             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
         jo_2.save()
         list_with_items_for_si.append(jo_2)
     if not frappe.db.exists("Item", "Vi.2"):
         vi_2 = frappe.get_doc(
             {"doctype": "Item", "item_name": "Vi.2", "item_code": "Vi.2", "item_group": "Consumable",
              "stock_uom": "Nos",
-             "opening_stock": "123", "standard_rate": "123"})
+             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
         vi_2.save()
         list_with_items_for_si.append(vi_2)
     if not frappe.db.exists("Item", "JO.1"):
         jo_1 = frappe.get_doc(
             {"doctype": "Item", "item_name": "JO.1", "item_code": "JO.1", "item_group": "Consumable",
              "stock_uom": "Nos",
-             "opening_stock": "123", "standard_rate": "123"})
+             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
         jo_1.save()
         list_with_items_for_si.append(jo_1)
     if not frappe.db.exists("Item", "SERVICE D COMPLETE OVERHAUL"):
         service_d_overhaul = frappe.get_doc(
             {"doctype": "Item", "item_name": "SERVICE D COMPLETE OVERHAUL", "item_code": "SERVICE D COMPLETE OVERHAUL",
              "item_group": "Consumable", "stock_uom": "Nos",
-             "opening_stock": "123", "standard_rate": "123"})
+             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
         service_d_overhaul.save()
         list_with_items_for_si.append(service_d_overhaul)
     if not frappe.db.exists("Item", "SERVICE D"):
         service_d = frappe.get_doc(
             {"doctype": "Item", "item_name": "SERVICE D", "item_code": "SERVICE D",
              "item_group": "Consumable", "stock_uom": "Nos",
-             "opening_stock": "123", "standard_rate": "123"})
+             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
         service_d.save()
         list_with_items_for_si.append(service_d)
     if not frappe.db.exists("Item", "AL465.0"):
         al_465 = frappe.get_doc(
             {"doctype": "Item", "item_name": "AL465.0", "item_code": "AL465.0",
              "item_group": "Consumable", "stock_uom": "Nos",
-             "opening_stock": "123", "standard_rate": "123"})
+             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
         al_465.save()
         list_with_items_for_si.append(al_465)
     return list_with_items_for_si
@@ -126,3 +125,36 @@ def set_date_format(date_format):
     settings = frappe.get_doc("System Settings")
     settings.date_format = date_format
     settings.save()
+
+
+def before_tests():
+    frappe.clear_cache()
+    # complete setup if missing
+    from frappe.desk.page.setup_wizard.setup_wizard import setup_complete
+    if not frappe.get_list("Company"):
+        setup_complete({
+            "currency": "USD",
+            "full_name": "Test User",
+            "company_name": "Wind Power LLC",
+            "timezone": "America/New_York",
+            "company_abbr": "WP",
+            "industry": "Manufacturing",
+            "country": "United States",
+            "fy_start_date": "2020-01-01",
+            "fy_end_date": "2020-12-31",
+            "language": "english",
+            "company_tagline": "Testing",
+            "email": "test@erpnext.com",
+            "password": "test",
+            "chart_of_accounts": "Standard",
+            "domains": ["Manufacturing"],
+        })
+
+    frappe.db.sql("delete from `tabLeave Allocation`")
+    frappe.db.sql("delete from `tabLeave Application`")
+    frappe.db.sql("delete from `tabSalary Slip`")
+    frappe.db.sql("delete from `tabItem Price`")
+
+    frappe.db.set_value("Stock Settings", None, "auto_insert_price_list_rate_if_missing", 0)
+
+    frappe.db.commit()

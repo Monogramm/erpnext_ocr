@@ -45,13 +45,12 @@ def find_field(field, read_result):
     :param read_result: text from document
     :return: string with value
     """
+    pattern_result = None
+    if field.regexp:
+        pattern_result = re.findall(field.regexp, read_result)
     if field.value_type == "Python":
         found_field = eval(field.value) # skipcq: PYL-W0123
     else:
-        if field.value_type == "Regex group":
-            pattern_result = re.findall(field.regexp, read_result)
-        else:
-            pattern_result = re.findall(field.regexp, read_result)
         found_field = pattern_result.pop(cint(field.value))
     return found_field
 
@@ -106,3 +105,5 @@ def generate_doctype(doctype_import_link, read_result, ignore_mandatory = False)
     except frappe.exceptions.DuplicateEntryError:
         frappe.throw("Generated doc is already exist")
     return generated_doc
+
+
