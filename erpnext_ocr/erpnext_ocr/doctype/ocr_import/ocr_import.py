@@ -57,7 +57,7 @@ def find_field(field, read_result):
 
 
 @frappe.whitelist()
-def generate_doctype(doctype_import_link, read_result, ignore_mandatory = False):
+def generate_doctype(doctype_import_link, read_result, ignore_mandatory=False, ignore_validate=False):
     """
     generate doctype from raw text
     :param doctype_import_link:
@@ -70,6 +70,7 @@ def generate_doctype(doctype_import_link, read_result, ignore_mandatory = False)
         generated_doc.company = "_Test Company"
         generated_doc.price_list = "_Test Price List"
     generated_doc.flags.ignore_mandatory = ignore_mandatory
+    generated_doc.flags.ignore_validate = ignore_validate
     list_with_errors = []
     list_with_table_values = []
     for field in doctype_import_doc.mappings:

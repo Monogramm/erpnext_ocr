@@ -5,7 +5,9 @@ ADD .travis/docker_test.sh /docker_test.sh
 RUN set -ex; \
     sudo chmod 755 /docker_test.sh; \
     sudo pip install coverage==4.5.4; \
-    sudo pip install python-coveralls
+    sudo pip install python-coveralls; \
+    sudo apt-get update; \
+    sudo apt-get install nano iputils-ping;
 
 EXPOSE 4444
 
@@ -18,6 +20,6 @@ ENV DISPLAY=:20.0 \
     CHROMEDRIVER_EXTRA_ARGS=''
 
 # Test environment variables
-ENV TEST_VERSION=11
+ENV TEST_VERSION=10
 
 CMD ["/docker_test.sh"]

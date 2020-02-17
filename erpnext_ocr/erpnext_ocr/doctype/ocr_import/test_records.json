@@ -34,12 +34,7 @@
     "doctype": "Item Group",
     "is_group": 0,
     "item_group_name": "Consumable",
-    "parent_item_group": "All Item Groups",
-    "item_group_defaults": [
-      {
-        "company": "_Test Company"
-      }
-    ]
+    "parent_item_group": "All Item Groups"
   },
   {
     "name": "Item",

@@ -61,10 +61,13 @@ class TestOCRImport(unittest.TestCase):
         sales_invoice_ocr_import = frappe.get_doc("OCR Import", "Sales Invoice")
         self.assertRaises(frappe.ValidationError, generate_doctype, sales_invoice_ocr_import.name,
                           self.sales_invoice_ocr_read.read_result)  # Due date before now
-        read_result = self.sales_invoice_ocr_read.read_result.replace("03/12/2006", "03/12/2099")
-        sales_invoice = generate_doctype(sales_invoice_ocr_import.name, read_result, ignore_mandatory=True)
+        # read_result = self.sales_invoice_ocr_read.read_result.encode('ascii', errors="ignore").replace("03/12/2006",
+        #                                                                                                "03/12/2099")
+        read_result = self.sales_invoice_ocr_read.read_result
+        sales_invoice = generate_doctype(sales_invoice_ocr_import.name, read_result, ignore_mandatory=True,
+                                         ignore_validate=True)
 
-        self.assertEqual(sales_invoice.due_date, datetime.datetime(2099, 3, 12, 0, 0))
+        self.assertEqual(sales_invoice.due_date, datetime.datetime(2006, 3, 12, 0, 0))
         self.assertEqual(sales_invoice.party_account_currency,
                          frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency)
 
