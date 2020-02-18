@@ -57,7 +57,15 @@ class OCRLanguage(Document):
             res = requests.get(os.getenv('TESSDATA_FAST',
                                          "https://github.com/tesseract-ocr/tessdata_fast/blob/master/ara.traineddata?raw"
                                          "=true"))
+        elif self.type_of_ocr == 'Custom':
+            frappe.throw(frappe._("In progress now. Cannot be imported"))
         with open(
-                os.getenv("TESSDATA_PATH", "/usr/share/tesseract-ocr/4.00/tessdata/") + self.name + ".traineddata",
+                os.getenv("TESSDATA_PATH", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata",
                 "wb") as file:
             file.write(res.content)
+        if os.path.exists(
+                os.getenv("TESSDATA_PATH", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata"):
+            self.is_supported = check_language(self.code)
+            self.save()
+        else:
+            frappe.throw(frappe._("File did not download"))
