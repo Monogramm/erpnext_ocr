@@ -38,7 +38,7 @@ class TestOCRImport(unittest.TestCase):
                                                                  "Picture_010.png"), "language": "eng"})
         # self.sales_invoice_ocr_read.read_image()
         self.sales_invoice_ocr_read.read_result = TEST_RESULT_FOR_SI
-        if frappe.__version__[:2] == "11":
+        if frappe.__version__[:2] != "10":
             comp = frappe.get_doc("Company", "_Test Company")
             comp.stock_adjustment_account = frappe.get_all("Account")[0]['name']
             comp.save()
