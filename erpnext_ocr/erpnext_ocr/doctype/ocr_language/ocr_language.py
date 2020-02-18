@@ -4,7 +4,10 @@
 
 from __future__ import unicode_literals
 
+import os
+
 import frappe
+import requests
 from frappe.model.document import Document
 
 import tesserocr
@@ -44,3 +47,17 @@ class OCRLanguage(Document):
         super(OCRLanguage, self).__init__(*args, **kwargs)
         if self.code:
             self.is_supported = check_language(self.code)
+
+    def download_tesseract(self):
+        if self.type_of_ocr == 'Best':
+            res = requests.get(os.getenv('TESSDATA_FAST',
+                                         "https://github.com/tesseract-ocr/tessdata_best/blob/master/ara.traineddata?raw"
+                                         "=true"))
+        elif self.type_of_ocr == 'Fast':
+            res = requests.get(os.getenv('TESSDATA_FAST',
+                                         "https://github.com/tesseract-ocr/tessdata_fast/blob/master/ara.traineddata?raw"
+                                         "=true"))
+        with open(
+                os.getenv("TESSDATA_PATH", "/usr/share/tesseract-ocr/4.00/tessdata/") + self.name + ".traineddata",
+                "wb") as file:
+            file.write(res.content)
