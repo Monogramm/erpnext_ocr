@@ -38,7 +38,14 @@ class TestOCRImport(unittest.TestCase):
                                                                  "Picture_010.png"), "language": "eng"})
         # self.sales_invoice_ocr_read.read_image()
         self.sales_invoice_ocr_read.read_result = TEST_RESULT_FOR_SI
-
+        if frappe.__version__[:2] == "11":
+            comp = frappe.get_doc("Company", "_Test Company")
+            comp.stock_adjustment_account = frappe.get_all("Account")[0]['name']
+            comp.save()
+            global_default = frappe.get_doc("Global Defaults")
+            global_default.default_company = "_Test Company"
+            global_default.current_fiscal_year = '_Test Fiscal Year 2012'
+            global_default.save()
         self.list_with_items_for_si = create_items_for_sales_invoices()
 
     def tearDown(self):
@@ -97,6 +104,7 @@ def create_items_for_sales_invoices():
             {"doctype": "Item", "item_name": "JO.1", "item_code": "JO.1", "item_group": "Consumable",
              "stock_uom": "Nos",
              "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
+        jo_1.flags.ignore_validate = True
         jo_1.save()
         list_with_items_for_si.append(jo_1)
     if not frappe.db.exists("Item", "SERVICE D COMPLETE OVERHAUL"):
@@ -104,6 +112,7 @@ def create_items_for_sales_invoices():
             {"doctype": "Item", "item_name": "SERVICE D COMPLETE OVERHAUL", "item_code": "SERVICE D COMPLETE OVERHAUL",
              "item_group": "Consumable", "stock_uom": "Nos",
              "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
+        service_d_overhaul.flags.ignore_validate = True
         service_d_overhaul.save()
         list_with_items_for_si.append(service_d_overhaul)
     if not frappe.db.exists("Item", "SERVICE D"):
