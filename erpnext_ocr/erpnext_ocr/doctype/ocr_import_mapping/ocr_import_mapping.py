@@ -49,7 +49,7 @@ def find_field(field, read_result):
     if field.regexp:
         pattern_result = re.findall(field.regexp, read_result)
     if field.value_type == "Python":
-        found_field = eval(field.value) # skipcq: PYL-W0123
+        found_field = eval(field.value)  # skipcq: PYL-W0123
     else:
         found_field = pattern_result.pop(cint(field.value))
     return found_field

@@ -9,7 +9,6 @@ import re
 import frappe
 from erpnext_ocr.erpnext_ocr.doctype.ocr_import_mapping.ocr_import_mapping import find_field, generate_child_doctype
 from frappe.model.document import Document
-from frappe.utils import cint
 
 
 class OCRImport(Document):
