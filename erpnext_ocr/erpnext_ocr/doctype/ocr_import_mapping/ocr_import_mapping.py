@@ -4,8 +4,11 @@
 
 from __future__ import unicode_literals
 
+import re
+
 import frappe
 from frappe.model.document import Document
+from frappe.utils import cint
 
 
 class OCRImportMapping(Document):
