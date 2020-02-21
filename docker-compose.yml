@@ -1,6 +1,38 @@
 version: "2"
 
 services:
+  # https://docs.docker.com/docker-hub/builds/automated-testing/
+  sut:
+    build:
+      context: ./
+      dockerfile: Dockerfile.test
+    command: sh /docker_test.sh
+    # Only for travis-ci, do not name test container in dockerhub
+    container_name: sut
+    depends_on:
+      - erpnext_db
+      - erpnext_app
+      - erpnext_web
+      - erpnext_scheduler
+      - erpnext_worker_default
+      - erpnext_worker_long
+      - erpnext_worker_short
+      - erpnext_socketio
+      - erpnext_redis_cache
+      - erpnext_redis_queue
+      - erpnext_redis_socketio
+    environment:
+      # Container setup
+      - NODE_TYPE=test
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
+      - DOCKER_DEBUG=1
+    volumes_from: 
+      - erpnext_app
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
   erpnext_app:
     build:
       context: ./
@@ -46,8 +78,8 @@ services:
       - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
     volumes:
       #- .:/home/frappe/frappe-bench/apps/${FRAPPE_APP_TO_TEST}
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
-      - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/logs:/home/frappe/frappe-bench/logs
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -100,7 +132,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -116,7 +148,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -132,7 +164,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -148,7 +180,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
@@ -166,7 +198,7 @@ services:
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
+      - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 

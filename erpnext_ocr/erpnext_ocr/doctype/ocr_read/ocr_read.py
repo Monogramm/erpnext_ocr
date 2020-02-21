@@ -18,6 +18,7 @@ import io
 
 from spellchecker import SpellChecker
 
+
 def get_words_from_text(message):
     """
     This function return only list of words from text. Example: Cat in gloves,
@@ -50,14 +51,30 @@ class OCRRead(Document):
         super(OCRRead, self).__init__(*args, **kwargs)
 
     def read_image(self):
-        start_time = time.time()
-        text = read_document(self.file_to_read, self.language or 'eng',
-                             self.spell_checker)
-        delta_time = time.time() - start_time
-        self.read_time = str(delta_time)
-        self.read_result = text
-        self.save()
-        return text
+        return read_ocr(self)
+
+    def read_image_bg(self, is_async=True, now=False):
+        return frappe.enqueue("erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.read_ocr", queue="long",
+                              timeout=1500, is_async=is_async, now=now, **{'obj': self})
+
+
+@frappe.whitelist()
+def read_ocr(obj):
+    """Call Tesseract OCR to extract the text from a OCR Read object."""
+
+    if obj is None:
+        frappe.msgprint(frappe._("An expected error occurred."),
+                        raise_exception=True)
+
+    start_time = time.time()
+    text = read_document(obj.file_to_read, obj.language or 'eng', obj.spell_checker)
+    delta_time = time.time() - start_time
+
+    obj.read_time = str(delta_time)
+    obj.read_result = text
+    obj.save()
+
+    return text
 
 
 @frappe.whitelist()
@@ -71,9 +88,9 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
         return None
 
     if not lang_available(lang):
-        frappe.msgprint(
-            frappe._("The selected language is not available. Please contact your administrator."),
-            raise_exception=True)
+        frappe.msgprint(frappe._
+                        ("The selected language is not available. Please contact your administrator."),
+                        raise_exception=True)
 
     frappe.publish_realtime(event, {"progress": "0"}, user=frappe.session.user)
 
