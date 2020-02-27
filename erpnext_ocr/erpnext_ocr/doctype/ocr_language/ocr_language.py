@@ -45,26 +45,25 @@ def get_current_language(user):
 class OCRLanguage(Document):
     def __init__(self, *args, **kwargs):
         super(OCRLanguage, self).__init__(*args, **kwargs)
+        self.TESSDATA_LINK = "https://github.com/tesseract-ocr/tessdata{}/blob/master/{}.traineddata?raw=true"
         if self.code:
             self.is_supported = check_language(self.code)
 
     def download_tesseract(self):
-        raw_path = os.getenv("TESSDATA_LINK",
-                             "https://github.com/tesseract-ocr/tessdata{}/blob/master/{}.traineddata?raw=true")
         if self.type_of_ocr == 'Original':
-            path = raw_path.format("", self.name)
+            path = self.TESSDATA_LINK.format("", self.name)
         else:
-            path = raw_path.format("_" + self.type_of_ocr.lower(), self.name)
+            path = self.TESSDATA_LINK.format("_" + self.type_of_ocr.lower(), self.name)
         res = requests.get(path)
         if self.type_of_ocr == 'Custom':
             frappe.throw(frappe._("In progress now. Cannot be downloaded"))
         with open(
-                os.getenv("TESSDATA_PATH", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata",
+                os.getenv("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata",
                 "wb") as file:
             file.write(res.content)
         if os.path.exists(
-                os.getenv("TESSDATA_PATH", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata"):
+                os.getenv("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata"):
             self.is_supported = check_language(self.code)
             self.save()
         else:
-            frappe.throw(frappe._("File did not download"))
+            frappe.throw(frappe._("File could not be downloaded"))
