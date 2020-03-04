@@ -50,7 +50,7 @@ class OCRLanguage(Document):
             self.is_supported = check_language(self.code)
 
     def download_tesseract(self):
-        if self.type_of_ocr == 'Original':
+        if self.type_of_ocr == 'Default':
             path = self.TESSDATA_LINK.format("", self.name)
         else:
             path = self.TESSDATA_LINK.format("_" + self.type_of_ocr.lower(), self.name)
