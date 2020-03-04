@@ -51,7 +51,6 @@ class OCRRead(Document):
         super(OCRRead, self).__init__(*args, **kwargs)
 
     def read_image(self):
-        print(read_ocr(self))
         return read_ocr(self)
 
     def read_image_bg(self, is_async=True, now=False):

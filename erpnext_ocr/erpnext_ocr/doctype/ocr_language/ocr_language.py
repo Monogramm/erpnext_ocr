@@ -58,11 +58,11 @@ class OCRLanguage(Document):
         if self.type_of_ocr == 'Custom':
             frappe.throw(frappe._("In progress now. Cannot be downloaded"))
         with open(
-                os.getenv("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata",
+                os.getenv("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/tessdata/") + "/" + self.name + ".traineddata",
                 "wb") as file:
             file.write(res.content)
         if os.path.exists(
-                os.getenv("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/tessdata/") + self.name + ".traineddata"):
+                os.getenv("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/tessdata/") + "/"+ self.name + ".traineddata"):
             self.is_supported = check_language(self.code)
             self.save()
         else:

@@ -19,7 +19,8 @@ RUN set -ex; \
 ENV DOCKER_TAG=travis \
     DOCKER_VCS_REF=${TRAVIS_COMMIT} \
     DOCKER_BUILD_DATE=${TRAVIS_BUILD_NUMBER} \
-    TESSDATA_PREFIX=/home/$FRAPPE_USER/tessdata
+    TESSDATA_PREFIX=/home/$FRAPPE_USER/tessdata \
+    LC_ALL=C
 
 # Copy the whole repository to app folder for manual install
 #COPY --chown=frappe:frappe . "/home/$FRAPPE_USER"/frappe-bench/apps/erpnext_ocr
