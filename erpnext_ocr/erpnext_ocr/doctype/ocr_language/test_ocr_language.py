@@ -21,13 +21,15 @@ def create_test_data():
         test_user.language = "en"
         test_user.insert(ignore_permissions=True)
 
+
 def delete_test_data():
     if frappe.db.exists("User", "test_user@example.com"):
-        #test_user = frappe.get_doc('User', "test_user@example.com")
-        #test_user.remove_roles("System Manager")
-        #test_user.delete()
-        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""") # ValidationError without SQL
+        # test_user = frappe.get_doc('User', "test_user@example.com")
+        # test_user.remove_roles("System Manager")
+        # test_user.delete()
+        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")  # ValidationError without SQL
         frappe.db.sql("""delete from `tabEmail Queue`""")
+
 
 class TestOCRLanguage(unittest.TestCase):
     def setUp(self):
@@ -90,3 +92,10 @@ class TestOCRLanguage(unittest.TestCase):
 
     def test_get_current_language_admin(self):
         self.assertEqual("eng", get_current_language("admin@example.com"))
+
+    def test_download_tesseract_sin(self):
+        sin_lang = frappe.get_doc("OCR Language", "sin")
+        if sin_lang.is_supported == 'No':
+            sin_lang.type_of_ocr = "Best"
+            sin_lang.download_tesseract()
+            self.assertEqual(sin_lang.is_supported, "Yes")
