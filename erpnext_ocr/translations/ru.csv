@@ -16,3 +16,4 @@ apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,The selected language 
 Doctype: OCR Settings,OCR Settings,Параметры OCR
 Doctype: OCR Settings,PDF Resolution,Разрешение PDF
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_settings/ocr_settings.py,PDF Resolution must be a positive integer eg 300 (high) or 200 (normal).,Разрешение должно быть числом большим нуля 300(высокое) 200(низкое)
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,File could not be downloaded,Файл не может быть загружен

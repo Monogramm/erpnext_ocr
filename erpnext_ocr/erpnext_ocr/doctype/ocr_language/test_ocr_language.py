@@ -89,3 +89,10 @@ class TestOCRLanguage(unittest.TestCase):
 
     def test_get_current_language_admin(self):
         self.assertEqual("eng", get_current_language("admin@example.com"))
+
+    def test_download_tesseract_sin(self):
+        sin_lang = frappe.get_doc("OCR Language", "sin")
+        if sin_lang.is_supported == 'No':
+            sin_lang.type_of_ocr = "Best"
+            sin_lang.download_tesseract()
+            self.assertEqual(sin_lang.is_supported, "Yes")
