@@ -18,7 +18,7 @@ class OCRImport(Document):
 @frappe.whitelist()
 def generate_doctype(doctype_import_link, read_result, ignore_mandatory=False, ignore_validate=False):
     """
-    generate doctype from raw text
+    Generate doctype from raw text.
     :param ignore_validate: Ignore validation
     :param ignore_mandatory: Ignore mandatory fields
     :param doctype_import_link:

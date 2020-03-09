@@ -18,7 +18,7 @@ class OCRImportMapping(Document):
 @frappe.whitelist()
 def generate_child_doctype(doctype_import_link, string_raw_table_value, table_doc):
     """
-    Generate child for some doctype
+    Generate child for some doctype.
     :param doctype_import_link: link to OCR Import
     :param string_raw_table_value: String for future child
     :param doctype_import_doc:

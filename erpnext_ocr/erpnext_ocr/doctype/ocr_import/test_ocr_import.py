@@ -81,7 +81,7 @@ class TestOCRImport(unittest.TestCase):
 
 def create_items_for_sales_invoices():
     """
-    Create some items for Picture_010.png Sales Invoice
+    Create some items for Picture_010.png Sales Invoice.
     :return:
     """
     list_with_items_for_si = []
