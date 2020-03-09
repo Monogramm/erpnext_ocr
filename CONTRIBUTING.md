@@ -7,7 +7,7 @@ You can report bugs or request new features by creating an [issue](https://githu
 
 Here are a few rules to follow in order to ease code reviews and discussions before maintainers accept and merge your work.
 
-You MUST follow the [The Best of the Best Practices (BOBP) Guide for Python](https://gist.github.com/sloria/7001839). If you don't know about any of them, you should really read the recommendations.
+You MUST follow the [Best of the Best Practices (BOBP) Guide for Python](https://gist.github.com/sloria/7001839). If you don't know about any of them, you should really read the recommendations.
 
 You SHOULD write tests.
 
