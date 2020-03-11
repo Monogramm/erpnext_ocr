@@ -68,5 +68,5 @@ def generate_doctype(doctype_import_link, read_result, ignore_mandatory=False, i
         generated_doc.set_new_name()
         generated_doc.insert()
     except frappe.exceptions.DuplicateEntryError:
-        frappe.throw("Generated doc is already exist")
+        frappe.throw("Generated doc already exists")
     return generated_doc
