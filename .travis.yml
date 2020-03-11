@@ -43,7 +43,7 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
-  - echo 'Wait until test finished (3 minutes)' && sleep 180
+  - echo 'Wait until test finished (3 minutes)' && sleep 300
   - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container restart
@@ -56,7 +56,7 @@ script:
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
   - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
-  - echo 'Wait until test finished (3 minutes)' && sleep 180
+  - echo 'Wait until test finished (3 minutes)' && sleep 300
   - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
   - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
 
