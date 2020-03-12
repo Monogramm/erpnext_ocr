@@ -78,7 +78,6 @@ class TestOCRImport(unittest.TestCase):
                          frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency)
 
 
-
 def set_date_format(date_format):
     settings = frappe.get_doc("System Settings")
     settings.date_format = date_format
@@ -116,3 +115,5 @@ def before_tests():
     frappe.db.set_value("Stock Settings", None, "auto_insert_price_list_rate_if_missing", 0)
 
     frappe.db.commit()
+
+

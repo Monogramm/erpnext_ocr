@@ -108,7 +108,7 @@
         "docstatus": 0,
         "field": "item_code",
         "regexp": "(\\w+.\\w)",
-        "value": "frappe.get_doc(\"Item\", pattern_result[0]).save().item_code if frappe.db.exists(\"Item\", pattern_result[0]) else frappe.get_doc({\"doctype\": \"Item\", \"item_code\": pattern_result[0],\"item_group\": \"Consumable\",\"stock_uom\":\"Nos\"}).insert()",
+        "value": "frappe.get_doc(\"Item\", pattern_result[0]).save().item_code if frappe.db.exists(\"Item\", pattern_result[0]) else frappe.get_doc({\"doctype\": \"Item\", \"item_code\": pattern_result[0],\"item_group\": \"Consumable\",\"stock_uom\":\"Nos\"}).insert().item_code",
         "value_type": "Python",
         "doctype": "OCR Import Mapping"
       },
