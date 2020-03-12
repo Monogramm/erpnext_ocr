@@ -46,7 +46,6 @@ class TestOCRImport(unittest.TestCase):
             global_default.default_company = "_Test Company"
             global_default.current_fiscal_year = '_Test Fiscal Year 2012'
             global_default.save()
-        self.list_with_items_for_si = create_items_for_sales_invoices()
 
     def tearDown(self):
         self.item_ocr_read.delete()
@@ -78,58 +77,6 @@ class TestOCRImport(unittest.TestCase):
         self.assertEqual(sales_invoice.party_account_currency,
                          frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency)
 
-
-def create_items_for_sales_invoices():
-    """
-    Create some items for Picture_010.png Sales Invoice.
-    :return:
-    """
-    list_with_items_for_si = []
-    if not frappe.db.exists("Item", "JO.2"):
-        jo_2 = frappe.get_doc(
-            {"doctype": "Item", "item_name": "JO.2", "item_code": "JO.2", "item_group": "Consumable",
-             "stock_uom": "Nos", "is_stock_item": 0,
-             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
-        jo_2.save()
-        list_with_items_for_si.append(jo_2)
-    if not frappe.db.exists("Item", "Vi.2"):
-        vi_2 = frappe.get_doc(
-            {"doctype": "Item", "item_name": "Vi.2", "item_code": "Vi.2", "item_group": "Consumable",
-             "stock_uom": "Nos", "is_stock_item": 0,
-             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
-        vi_2.save()
-        list_with_items_for_si.append(vi_2)
-    if not frappe.db.exists("Item", "JO.1"):
-        jo_1 = frappe.get_doc(
-            {"doctype": "Item", "item_name": "JO.1", "item_code": "JO.1", "item_group": "Consumable",
-             "stock_uom": "Nos", "is_stock_item": 0,
-             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
-        jo_1.flags.ignore_validate = True
-        jo_1.save()
-        list_with_items_for_si.append(jo_1)
-    if not frappe.db.exists("Item", "SERVICE D COMPLETE OVERHAUL"):
-        service_d_overhaul = frappe.get_doc(
-            {"doctype": "Item", "item_name": "SERVICE D COMPLETE OVERHAUL", "item_code": "SERVICE D COMPLETE OVERHAUL",
-             "item_group": "Consumable", "stock_uom": "Nos", "is_stock_item": 0,
-             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
-        service_d_overhaul.flags.ignore_validate = True
-        service_d_overhaul.save()
-        list_with_items_for_si.append(service_d_overhaul)
-    if not frappe.db.exists("Item", "SERVICE D"):
-        service_d = frappe.get_doc(
-            {"doctype": "Item", "item_name": "SERVICE D", "item_code": "SERVICE D",
-             "item_group": "Consumable", "stock_uom": "Nos", "is_stock_item": 0,
-             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
-        service_d.save()
-        list_with_items_for_si.append(service_d)
-    if not frappe.db.exists("Item", "AL465.0"):
-        al_465 = frappe.get_doc(
-            {"doctype": "Item", "item_name": "AL465.0", "item_code": "AL465.0",
-             "item_group": "Consumable", "stock_uom": "Nos", "is_stock_item": 0,
-             "opening_stock": "123", "standard_rate": "123", "expense_account": frappe.get_all("Account")[0]['name']})
-        al_465.save()
-        list_with_items_for_si.append(al_465)
-    return list_with_items_for_si
 
 
 def set_date_format(date_format):
