@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018, John Vincent Fiel and contributors
-# Copyright (c) 2019, Monogramm and Contributors
+# Copyright (c) 2020, Monogramm and Contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
@@ -162,24 +162,3 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
         event, {"progress": [100, 100]}, user=frappe.session.user)
 
     return text
-
-
-def force_attach_file_doc(filename, name):
-    """Alternative to 'File Upload Disconnected. Please try again.'"""
-    file_url = "/private/files/" + filename
-
-    attachment_doc = frappe.get_doc({
-        "doctype": "File",
-        "file_name": filename,
-        "file_url": file_url,
-        "attached_to_name": name,
-        "attached_to_doctype": "OCR Read",
-        "old_parent": "Home/Attachments",
-        "folder": "Home/Attachments",
-        "is_private": 1
-    })
-    attachment_doc.insert()
-
-
-    frappe.db.sql(
-        """UPDATE `tabOCR Read` SET file_to_read=%s WHERE name=%s""", (file_url, name))

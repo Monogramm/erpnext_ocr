@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2019, Monogramm and Contributors
+# Copyright (c) 2020, Monogramm and Contributors
 # See license.txt
 
 from __future__ import unicode_literals
@@ -24,9 +24,6 @@ def create_test_data():
 
 def delete_test_data():
     if frappe.db.exists("User", "test_user@example.com"):
-        # test_user = frappe.get_doc('User', "test_user@example.com")
-        # test_user.remove_roles("System Manager")
-        # test_user.delete()
         frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")  # ValidationError without SQL
         frappe.db.sql("""delete from `tabEmail Queue`""")
 
