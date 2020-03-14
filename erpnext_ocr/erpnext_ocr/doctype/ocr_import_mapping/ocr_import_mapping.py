@@ -33,9 +33,12 @@ def generate_child_doctype(doctype_import_link, string_raw_table_value, table_do
             table_doc.__dict__[table_field.field] = found_field
             raw_date = table_doc.__dict__[table_field.field]
             if table_field == 'Date':
-                table_doc.__dict__[table_field.field] = frappe.utils.get_datetime(raw_date)
+                table_doc.__dict__[
+                    table_field.field] = frappe.utils.get_datetime(raw_date)
+
     table_doc.parent = ocr_import_table.name
     table_doc.save()
+
     return table_doc
 
 
@@ -48,8 +51,10 @@ def find_field(field, read_result):
     pattern_result = None
     if field.regexp:
         pattern_result = re.findall(field.regexp, read_result)
+
     if field.value_type == "Python":
         found_field = eval(field.value)  # skipcq: PYL-W0123
     else:
         found_field = pattern_result.pop(cint(field.value))
+
     return found_field

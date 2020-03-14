@@ -5,18 +5,18 @@
 
 from __future__ import unicode_literals
 
+import io
+import os
 import re
 import time
+
+
+from spellchecker import SpellChecker
 
 import frappe
 from frappe.model.document import Document
 
 from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available
-
-import os
-import io
-
-from spellchecker import SpellChecker
 
 
 def get_words_from_text(message):
@@ -63,11 +63,12 @@ def read_ocr(obj):
     """Call Tesseract OCR to extract the text from a OCR Read object."""
 
     if obj is None:
-        frappe.msgprint(frappe._("An expected error occurred."),
+        frappe.msgprint(frappe._("OCR read requires OCR Read doctype."),
                         raise_exception=True)
 
     start_time = time.time()
-    text = read_document(obj.file_to_read, obj.language or 'eng', obj.spell_checker)
+    text = read_document(
+        obj.file_to_read, obj.language or 'eng', obj.spell_checker)
     delta_time = time.time() - start_time
 
     obj.read_time = str(delta_time)

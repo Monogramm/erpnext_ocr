@@ -11,9 +11,14 @@ Doctype: OCR Read,Language,Язык
 Doctype: OCR Read,Read file,Сканировать файл
 Doctype: OCR Read,Enable Spell Checker,Включить проверку орфографии
 Doctype: OCR Read,Read Result,Текст из файла
+Doctype: OCR Read,Read Time,TODO_RUSSIAN
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Reading the file,Чтение файла
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Doctype {0} generated,TODO_RUSSIAN
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,The selected language is not available. Please contact your administrator.,Выбранный язык не поддерживается системой. Обратитесь к администратору
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,OCR read requires OCR Read doctype.,TODO_RUSSIAN
 Doctype: OCR Settings,OCR Settings,Параметры OCR
 Doctype: OCR Settings,PDF Resolution,Разрешение PDF
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_settings/ocr_settings.py,PDF Resolution must be a positive integer eg 300 (high) or 200 (normal).,Разрешение должно быть числом большим нуля 300(высокое) 200(низкое)
-apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,File could not be downloaded,Файл не может быть загружен
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,Download is not available for custom OCR data.,TODO_RUSSIAN.
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,File could not be downloaded.,Файл не может быть загружен.
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_import/ocr_import.py,Cannot find field '{0}' in text,TODO_RUSSIAN
