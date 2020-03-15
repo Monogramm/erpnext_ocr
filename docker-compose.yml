@@ -77,6 +77,7 @@ services:
       - REDIS_QUEUE_HOST=erpnext_redis_queue
       - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
     volumes:
+      # Mount the whole repository to app folder for live developments (untested)
       #- .:/home/frappe/frappe-bench/apps/${FRAPPE_APP_TO_TEST}
       - ${ERPNEXT_HOME}/sites:/home/frappe/frappe-bench/sites
       - ${ERPNEXT_HOME}/logs:/home/frappe/frappe-bench/logs

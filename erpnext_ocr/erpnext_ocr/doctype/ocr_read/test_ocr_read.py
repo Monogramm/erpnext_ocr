@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018, John Vincent Fiel and Contributors
-# Copyright (c) 2019, Monogramm and Contributors
+# Copyright (c) 2020, Monogramm and Contributors
 # See license.txt
 
 from __future__ import unicode_literals
@@ -10,8 +10,7 @@ import frappe
 import unittest
 import os
 
-from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import force_attach_file_doc, read_ocr
-
+from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import read_ocr
 
 # TODO Frappe default test records creation
 # def _make_test_records(verbose):
@@ -92,6 +91,7 @@ class TestOCRRead(unittest.TestCase):
     def tearDown(self):
         delete_ocr_reads()
 
+
     def test_ocr_read_image_bg(self):
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
@@ -145,6 +145,7 @@ class TestOCRRead(unittest.TestCase):
         self.assertIn("Python Basics", new_doc.read_result)
         self.assertNotIn("Java", new_doc.read_result)
 
+
     def test_ocr_read_image(self):
         frappe.set_user("Administrator")
         doc = frappe.get_doc({
@@ -180,27 +181,6 @@ class TestOCRRead(unittest.TestCase):
 
         self.assertIn("Python Basics", recognized_text)
         self.assertNotIn("Java", recognized_text)
-
-    def test_force_attach_file_doc(self):
-        doc = frappe.get_doc({
-            "doctype": "OCR Read",
-            "file_to_read": os.path.join(os.path.dirname(__file__),
-                                         os.path.pardir, os.path.pardir, os.path.pardir,
-                                         "tests", "test_data", "Picture_010.png"),
-            "language": "eng"
-        })
-
-        force_attach_file_doc('test.tif', doc.name)
-
-        forced_doc = frappe.get_doc({
-            "doctype": "OCR Read",
-            # "name": doc.name,
-            "file_to_read": "/private/files/test.tif",
-            "language": "eng"
-        })
-        self.assertIsNotNone(forced_doc)
-        self.assertEqual(forced_doc.name, doc.name)
-        self.assertEqual('/private/files/test.tif', forced_doc.file_to_read)
 
     def test_ocr_read_list(self):
         # frappe.set_user("test1@example.com")

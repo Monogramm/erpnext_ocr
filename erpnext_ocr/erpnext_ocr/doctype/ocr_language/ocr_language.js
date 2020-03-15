@@ -1,17 +1,15 @@
-// Copyright (c) 2019, Monogramm and contributors
+// Copyright (c) 2020, Monogramm and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('OCR Language', "lang", function (frm) {
-        if (typeof frm.doc.lang != "undefined") {
+frappe.ui.form.on('OCR Language',
+    {
+        download: function (frm) {
             frappe.call({
-                args: {
-                    "lang": frm.doc.lang
-                },
-                method: "erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language.check_language",
-                callback: function (r) {
-                    frm.set_value("is_supported", r.message);
+                method: "download_tesseract",
+                doc: frm.doc,
+                success: function (r) {
+                    cur_frm.set_value("is_supported", "Yes");
                 }
-            });
+            })
         }
-    }
-);
+    });

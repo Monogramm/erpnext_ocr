@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018, John Vincent Fiel and contributors
-# Copyright (c) 2019, Monogramm and Contributors
+# Copyright (c) 2020, Monogramm and Contributors
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
 
+import io
+import os
 import re
 import time
+
+
+from spellchecker import SpellChecker
 
 import frappe
 from frappe.model.document import Document
 
 from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_available
-
-import os
-import io
-
-from spellchecker import SpellChecker
 
 
 def get_words_from_text(message):
@@ -63,11 +63,12 @@ def read_ocr(obj):
     """Call Tesseract OCR to extract the text from a OCR Read object."""
 
     if obj is None:
-        frappe.msgprint(frappe._("An expected error occurred."),
+        frappe.msgprint(frappe._("OCR read requires OCR Read doctype."),
                         raise_exception=True)
 
     start_time = time.time()
-    text = read_document(obj.file_to_read, obj.language or 'eng', obj.spell_checker)
+    text = read_document(
+        obj.file_to_read, obj.language or 'eng', obj.spell_checker)
     delta_time = time.time() - start_time
 
     obj.read_time = str(delta_time)
@@ -162,24 +163,3 @@ def read_document(path, lang='eng', spellcheck=False, event="ocr_progress_bar"):
         event, {"progress": [100, 100]}, user=frappe.session.user)
 
     return text
-
-
-def force_attach_file_doc(filename, name):
-    """Alternative to 'File Upload Disconnected. Please try again.'"""
-    file_url = "/private/files/" + filename
-
-    attachment_doc = frappe.get_doc({
-        "doctype": "File",
-        "file_name": filename,
-        "file_url": file_url,
-        "attached_to_name": name,
-        "attached_to_doctype": "OCR Read",
-        "old_parent": "Home/Attachments",
-        "folder": "Home/Attachments",
-        "is_private": 1
-    })
-    attachment_doc.insert()
-
-
-    frappe.db.sql(
-        """UPDATE `tabOCR Read` SET file_to_read=%s WHERE name=%s""", (file_url, name))
