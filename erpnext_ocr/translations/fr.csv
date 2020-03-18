@@ -3,6 +3,8 @@ Doctype: OCR Language,OCR Language,Langue ROC
 Doctype: OCR Language,Code,Code
 Doctype: OCR Language,Language,Langue
 Doctype: OCR Language,Is supported,Est supporté
+Doctype: OCR Language,Type of OCR,Type de ROC
+Doctype: OCR Language,Download OCR,Télécharger ROC
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,Yes,Oui
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,No,Non
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,Download is not available for custom OCR data.,Le fichier n'a pas pu être téléchargé.
