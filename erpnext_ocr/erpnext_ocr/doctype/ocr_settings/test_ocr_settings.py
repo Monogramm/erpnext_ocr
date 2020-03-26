@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2020, Monogramm and Contributors
-# See license.txt
-from __future__ import unicode_literals
+# For license information, please see license.txt
 
 import frappe
 import unittest

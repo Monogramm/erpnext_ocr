@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018, John Vincent Fiel and Contributors
 # Copyright (c) 2020, Monogramm and Contributors
-# See license.txt
+# For license information, please see license.txt
 
 from __future__ import unicode_literals
 
