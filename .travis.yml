@@ -74,7 +74,7 @@ script:
 after_script:
   - echo "Changing to project directory ($home)"
   - cd "$home"
-  - sudo pip install coverage==4.5.4
+  - sudo pip install coverage
   - sudo pip install python-coveralls
   # Create same directory path as docker test execution
   - sudo mkdir -p '/home/frappe/frappe-bench/apps'
