@@ -53,6 +53,12 @@ FRAPPE_APP_TO_TEST=erpnext_ocr
 
 echo "Preparing Frappe application '${FRAPPE_APP_TO_TEST}' tests..."
 
+bench set-config allow_tests true
+
+bench doctor
+bench enable-scheduler
+bench doctor
+
 ################################################################################
 # Frappe Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
@@ -61,10 +67,6 @@ FRAPPE_APP_UNIT_TEST_REPORT="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 FRAPPE_APP_UNIT_TEST_PROFILE="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.prof"
 
 #bench run-tests --help
-
-bench doctor
-bench enable-scheduler
-bench doctor
 
 echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
 if [ "${TEST_VERSION}" = "10" ]; then
