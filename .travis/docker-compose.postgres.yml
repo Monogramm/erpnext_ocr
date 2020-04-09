@@ -72,7 +72,7 @@ services:
       - FRAPPE_LOGGING=1
       - DEVELOPER_MODE=0
       - ALLOW_TESTS=1
-      #- Amin user setup
+      # Admin user setup
       - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
       - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
       # Database setup
