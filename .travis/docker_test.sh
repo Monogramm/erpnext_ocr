@@ -103,13 +103,14 @@ if [ -f ./sites/.coverage ]; then
     echo "Unit Tests coverage report of '${FRAPPE_APP_TO_TEST}' app:"
     coverage report -m
 
-    #echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
-    #coveralls -b "$(pwd)/apps/${FRAPPE_APP_TO_TEST}" -d "$(pwd)/sites/.coverage"
+    echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
+    coveralls -b "$(pwd)/apps/${FRAPPE_APP_TO_TEST}" -d "$(pwd)/sites/.coverage"
 
     # TODO When frappe supports coverage report in XML format
     # https://github.com/frappe/frappe/issues/9696
-    #echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Codacy..."
-    #wget -qO - https://coverage.codacy.com/get.sh | sh -s report -l Python -r "$(pwd)/sites/coverage.xml"
+    echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Codacy..."
+    coverage xml
+    wget -qO - https://coverage.codacy.com/get.sh | sh -s report -l Python -r "$(pwd)/coverage.xml"
 
     rm ./.coverage
     set -e
