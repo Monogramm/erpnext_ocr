@@ -12,7 +12,7 @@ import os
 
 from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import read_ocr
 
-# TODO Frappe default test records creation
+# Frappe default test records creation
 # def _make_test_records(verbose):
 #    from frappe.test_runner import make_test_objects
 #
