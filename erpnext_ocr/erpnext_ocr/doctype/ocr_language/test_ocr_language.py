@@ -12,46 +12,76 @@ from erpnext_ocr.erpnext_ocr.doctype.ocr_language.ocr_language import lang_avail
 
 
 def create_test_data():
-    # Create usual user
-    if not frappe.db.exists("User", "test_user@example.com"):
+    # Create test user
+    if not frappe.db.exists("User", "test_user_ocr@example.com"):
         test_user = frappe.new_doc("User")
-        test_user.name = 'test_user'
-        test_user.first_name = 'test_user'
-        test_user.email = 'test_user@example.com'
+        test_user.name = 'test_user_ocr'
+        test_user.first_name = 'test_user_ocr'
+        test_user.email = 'test_user_ocr@example.com'
         test_user.language = "en"
         test_user.insert(ignore_permissions=True)
 
+    if not frappe.db.exists("User", "test_admin_ocr@example.com"):
+        test_user = frappe.new_doc("User")
+        test_user.name = 'test_admin_ocr'
+        test_user.first_name = 'test_admin_ocr'
+        test_user.email = 'test_admin_ocr@example.com'
+        test_user.insert(ignore_permissions=True)
+
+    if not frappe.db.exists("OCR Language", "sin_def"):
+        frappe.get_doc({
+            "doctype": "OCR Language",
+            "code": "sin_def",
+            "lang": "si"
+        }).insert()
+
+    if not frappe.db.exists("OCR Language", "sin_best"):
+        frappe.get_doc({
+            "doctype": "OCR Language",
+            "code": "sin_best",
+            "lang": "si"
+        }).insert()
+
+    if not frappe.db.exists("OCR Language", "sin_custom"):
+        frappe.get_doc({
+            "doctype": "OCR Language",
+            "code": "sin_custom",
+            "lang": "si"
+        }).insert()
+
+    frappe.flags.test_ocr_language_created = True
+
 
 def delete_test_data():
-    if frappe.db.exists("User", "test_user@example.com"):
-        frappe.db.sql("""delete from `tabUser` where email='test_user@example.com'""")  # ValidationError without SQL
+    if frappe.db.exists("User", "test_user_ocr@example.com"):
+        frappe.db.sql("""delete from `tabUser` where email='test_user_ocr@example.com'""")  # ValidationError without SQL
         frappe.db.sql("""delete from `tabEmail Queue`""")
 
+    if frappe.db.exists("User", "test_admin_ocr@example.com"):
+        frappe.db.sql("""delete from `tabUser` where email='test_admin_ocr@example.com'""")  # ValidationError without SQL
+        frappe.db.sql("""delete from `tabEmail Queue`""")
+
+    if frappe.flags.test_ocr_language_created:
+        frappe.get_doc("OCR Language", "sin_def").delete()
+        #frappe.db.sql("""delete from `tabOCR Language` where code='sin_def'""")
+
+    if frappe.flags.test_ocr_language_created:
+        frappe.get_doc("OCR Language", "sin_best").delete()
+        #frappe.db.sql("""delete from `tabOCR Language` where code='sin_best'""")
+
+    if frappe.flags.test_ocr_language_created:
+        frappe.get_doc("OCR Language", "sin_custom").delete()
+        #frappe.db.sql("""delete from `tabOCR Language` where code='sin_custom'""")
+
+    frappe.flags.test_ocr_language_created = False
 
 class TestOCRLanguage(unittest.TestCase):
     def setUp(self):
         frappe.set_user("Administrator")
-        if not frappe.db.exists("OCR Language", "sin"):
-            frappe.get_doc({
-                "doctype": "OCR Language",
-                "code": "sin",
-                "lang": "si"
-            }).insert()
-        frappe.flags.test_ocr_language_created = True
         create_test_data()
-        if not frappe.db.exists("User", "admin@example.com"):
-            test_user = frappe.new_doc("User")
-            test_user.name = 'admin'
-            test_user.first_name = 'admin'
-            test_user.email = 'admin@example.com'
-            test_user.language = "en"
-            test_user.insert(ignore_permissions=True)
 
     def tearDown(self):
-        if frappe.flags.test_ocr_language_created:
-            frappe.set_user("Administrator")
-            frappe.get_doc("OCR Language", "sin").delete()
-        frappe.flags.test_ocr_language_created = False
+        frappe.set_user("Administrator")
         delete_test_data()
 
     def test_en_lang_available(self):
@@ -85,14 +115,27 @@ class TestOCRLanguage(unittest.TestCase):
         self.assertEqual(check_language("666"), frappe._("No"))
 
     def test_get_current_language(self):
-        self.assertEqual("eng", get_current_language("test_user@example.com"))
+        self.assertEqual("eng", get_current_language("test_user_ocr@example.com"))
 
     def test_get_current_language_admin(self):
-        self.assertEqual("eng", get_current_language("admin@example.com"))
+        self.assertEqual("eng", get_current_language("test_admin_ocr@example.com"))
 
-    def test_download_tesseract_sin(self):
-        sin_lang = frappe.get_doc("OCR Language", "sin")
+    def test_download_tesseract_sin_default(self):
+        sin_lang = frappe.get_doc("OCR Language", "sin_def")
+        if sin_lang.is_supported == 'No':
+            sin_lang.type_of_ocr = "Default"
+            sin_lang.download_tesseract()
+            self.assertEqual(sin_lang.is_supported, "Yes")
+
+    def test_download_tesseract_sin_best(self):
+        sin_lang = frappe.get_doc("OCR Language", "sin_best")
         if sin_lang.is_supported == 'No':
             sin_lang.type_of_ocr = "Best"
             sin_lang.download_tesseract()
             self.assertEqual(sin_lang.is_supported, "Yes")
+
+    def test_download_tesseract_sin_custom(self):
+        sin_lang = frappe.get_doc("OCR Language", "sin_custom")
+        if sin_lang.is_supported == 'No':
+            sin_lang.type_of_ocr = "Custom"
+            self.assertRaises(frappe.ValidationError, sin_lang.download_tesseract)
