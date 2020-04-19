@@ -14,6 +14,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
+<a name="1.1.0"></a>
+
+## 1.1.0 - 2020-04-19
+
+### Added
+
+-   ✨ Add Read OCR to desktop 
+-   ✨ Implemented pyspellchecker on OCR results
+-   🌐 Add russian translation (#22)
+-   ✨ Add default language in OCR Read (#20)
+-   ✨ Add read time field (#25)
+-   ⚡️ Add background job (#23)
+-   ✨ Download new languages (#27)
+-   ✨ Text based Doctype import (#26) for #15
+
+### Fixed
+
+-   🔒 Upgrade minimist
+
 <a name="1.0.1"></a>
 
 ## 1.0.1 - 2019-11-29
