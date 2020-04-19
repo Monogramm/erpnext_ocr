@@ -32,21 +32,21 @@ def create_test_data():
         frappe.get_doc({
             "doctype": "OCR Language",
             "code": "sin_def",
-            "lang": "si"
+            "lang": "sid"
         }).insert()
 
     if not frappe.db.exists("OCR Language", "sin_best"):
         frappe.get_doc({
             "doctype": "OCR Language",
             "code": "sin_best",
-            "lang": "si"
+            "lang": "sib"
         }).insert()
 
     if not frappe.db.exists("OCR Language", "sin_custom"):
         frappe.get_doc({
             "doctype": "OCR Language",
             "code": "sin_custom",
-            "lang": "si"
+            "lang": "sic"
         }).insert()
 
     frappe.flags.test_ocr_language_created = True
