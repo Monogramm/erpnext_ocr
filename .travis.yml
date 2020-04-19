@@ -78,7 +78,7 @@ after_script:
   - curl https://deepsource.io/cli | sudo sh
   # Create same directory path as docker test execution
   - sudo mkdir -p '/home/frappe/frappe-bench/apps'
-  - sudo ln -sf "$home" '/home/frappe/frappe-bench/apps/erpnext_template'
+  - sudo ln -sf "$home" '/home/frappe/frappe-bench/apps/erpnext_ocr'
   # Copy and convert coverage to XML format
   - cp '/srv/erpnext/frappe/sites/.coverage' .coverage
   - coverage xml
