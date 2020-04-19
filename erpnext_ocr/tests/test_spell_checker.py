@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Copyright (c) 2020, Monogramm and Contributors
+# For license information, please see license.txt
+
 import unittest
 
 from erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read import get_spellchecked_text, get_words_from_text
