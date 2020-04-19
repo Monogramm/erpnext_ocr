@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2019, Monogramm and Contributors
-# See license.txt
-
-from __future__ import unicode_literals
+# Copyright (c) 2020, Monogramm and Contributors
+# For license information, please see license.txt
 
 import unittest
 

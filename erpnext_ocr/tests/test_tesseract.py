@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2019, Monogramm and Contributors
-# See license.txt
-
-from __future__ import unicode_literals
+# Copyright (c) 2020, Monogramm and Contributors
+# For license information, please see license.txt
 
 import locale
 import unittest
@@ -23,7 +21,7 @@ class TestTesseract(unittest.TestCase):
     def test_read_document_lang_not_supported(self):
         locale.setlocale(locale.LC_ALL, 'C')
         self.assertRaises(frappe.ValidationError, read_document,
-                          os.path.join(os.path.dirname(__file__),"test_data", "sample1.jpg"),
+                          os.path.join(os.path.dirname(__file__), "test_data", "sample1.jpg"),
                           "xxx")
 
     def test_read_document_image_http(self):

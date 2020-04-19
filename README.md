@@ -1,10 +1,7 @@
-[uri_license]: https://opensource.org/licenses/MIT
-
-[uri_license_image]: https://img.shields.io/badge/license-MIT-blue
-
 [![License: MIT][uri_license_image]][uri_license]
 [![Managed with Taiga.io](https://img.shields.io/badge/managed%20with-TAIGA.io-709f14.svg)](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ "Managed with Taiga.io")
 [![Build Status](https://travis-ci.org/Monogramm/erpnext_ocr.svg)](https://travis-ci.org/Monogramm/erpnext_ocr)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e154ec72926346d4ba4951c25d906d33)](https://www.codacy.com/gh/Monogramm/erpnext_ocr?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Monogramm/erpnext_ocr&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/Monogramm/erpnext_ocr/badge.svg?branch=master)](https://coveralls.io/github/Monogramm/erpnext_ocr?branch=master)
 
 ## ERPNext OCR
@@ -25,7 +22,7 @@ See [Taiga.io](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ 
 
 ## :construction: Install
 
-**Pre-requisites: tesseract-python and imagemagick**
+### Pre-requisites: tesseract-python and imagemagick
 
 Install tesseract-ocr, plus imagemagick and ghostscript (to work with pdf files) using this command on Debian:
 
@@ -33,7 +30,7 @@ Install tesseract-ocr, plus imagemagick and ghostscript (to work with pdf files)
 sudo apt-get install tesseract-ocr imagemagick libmagickwand-dev ghostscript
 ```
 
-**Install Frappe application**
+### Install Frappe application
 
 ```sh
 bench get-app --branch develop erpnext_ocr https://github.com/Monogramm/erpnext_ocr
@@ -65,6 +62,11 @@ When installing Frappe app, the following python requirements will be installed:
 In order to use OCR with different languages, you need to install the appropriate trained data files.
 Check tesseract Wiki for details: <https://github.com/tesseract-ocr/tesseract/wiki/Data-Files>
 
+### Development
+
+If you wish to develop or just test locally this application, you can use `docker-compose up -d` at the root of the this repository.
+You can then access your ERPNext OCR dev env at `http://localhost:8080`.
+
 ### Known issues
 
 -   `wand.exceptions.PolicyError: not authorized '/opt/sample.pdf' @ error/constitute.c/ReadImage/412`
@@ -90,7 +92,7 @@ Check tesseract Wiki for details: <https://github.com/tesseract-ocr/tesseract/wi
 ## :white_check_mark: Run tests
 
 ```sh
-bench bench run-tests --profile --app erpnext_ocr
+bench run-tests --app erpnext_ocr
 ```
 
 ## :bust_in_silhouette: Authors
@@ -121,3 +123,7 @@ This project is [MIT](uri_license) licensed.
 * * *
 
 _This README was generated with :heart: by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+
+[uri_license]: https://opensource.org/licenses/MIT
+
+[uri_license_image]: https://img.shields.io/badge/license-MIT-blue

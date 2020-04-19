@@ -1,12 +1,3 @@
----
-name: Pull Request
-about: Create a Pull Request to help us improve
-title: 'type: Subject'
-labels: 
-assignees: madmath03
-
----
-
 <!--
 
 Some key notes before you open a PR:

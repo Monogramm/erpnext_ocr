@@ -1,17 +1,37 @@
-apps/erpnext_ocr/config/desktop.py,ERPNext OCR,Reconnaissance optique de caractères
-Doctype: OCR Language,OCR Language,Langue RCO
+apps/erpnext_ocr/config/desktop.py,ERPNext OCR,ERPNext ROC
+Doctype: OCR Language,OCR Language,Langue ROC
 Doctype: OCR Language,Code,Code
 Doctype: OCR Language,Language,Langue
 Doctype: OCR Language,Is supported,Est supporté
+Doctype: OCR Language,Type of OCR,Type de ROC
+Doctype: OCR Language,Download OCR,Télécharger ROC
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,Yes,Oui
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,No,Non
-Doctype: OCR Read,OCR Read,Lecture RCO
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,Download is not available for custom OCR data.,Le fichier n'a pas pu être téléchargé.
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_language/ocr_language.py,File could not be downloaded.,Le fichier n'a pas pu être téléchargé.
+Doctype: OCR Read,OCR Read,Lecture ROC
 Doctype: OCR Read,Image or PDF to Read,Image ou PDF à lire
 Doctype: OCR Read,Language,Langue
 Doctype: OCR Read,Read file,Lire le fichier
+Doctype: OCR Read,Enable Spell Checker,Activer la correction orthographique
 Doctype: OCR Read,Read Result,Résultat de la lecture
+Doctype: OCR Read,Read Time,Temps de lecture
+Doctype: OCR Read,Template,Modèle
+Doctype: OCR Read,Generate,Générer
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Reading the file,Lecture du fichier
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.js,Doctype {0} generated,Document {0} généré
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,The selected language is not available. Please contact your administrator.,La langue sélectionnée n'est pas disponible. Veuillez contacter votre administrateur.
-Doctype: OCR Settings,OCR Settings,Paramètres RCO
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_read/ocr_read.py,OCR read requires OCR Read doctype.,Une lecture ROC nécessite un document ROC.
+Doctype: OCR Settings,OCR Settings,Paramètres ROC
 Doctype: OCR Settings,PDF Resolution,Résolution PDF
 apps/erpnext_ocr/erpnext_ocr/doctype/ocr_settings/ocr_settings.py,PDF Resolution must be a positive integer eg 300 (high) or 200 (normal).,La résolution PDF doit être un entier positif comme 300 (haute) ou 200 (normale).
+Doctype: OCR Import,OCR Import,Import ROC
+Doctype: OCR Import,Doctype,Document
+Doctype: OCR Import,Mappings,Associations
+apps/erpnext_ocr/erpnext_ocr/doctype/ocr_import/ocr_import.py,Cannot find field '{0}' in text,Impossible de trouver le champ '{0}' dans le texte
+Doctype: OCR Import Mapping,OCR Import Mapping,Association d'import ROC
+Doctype: OCR Import Mapping,Field,Champ
+Doctype: OCR Import Mapping,Regexp,Expression régulière
+Doctype: OCR Import Mapping,Value,Valeur
+Doctype: OCR Import Mapping,Value type,Type de valeur
+Doctype: OCR Import Mapping,Link to Import Mapping,Lien vers association d'import ROC
