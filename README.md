@@ -22,7 +22,7 @@ See [Taiga.io](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ 
 
 ## :construction: Install
 
-**Pre-requisites: tesseract-python and imagemagick**
+### Pre-requisites: tesseract-python and imagemagick
 
 Install tesseract-ocr, plus imagemagick and ghostscript (to work with pdf files) using this command on Debian:
 
@@ -30,7 +30,7 @@ Install tesseract-ocr, plus imagemagick and ghostscript (to work with pdf files)
 sudo apt-get install tesseract-ocr imagemagick libmagickwand-dev ghostscript
 ```
 
-**Install Frappe application**
+### Install Frappe application
 
 ```sh
 bench get-app --branch develop erpnext_ocr https://github.com/Monogramm/erpnext_ocr
@@ -46,10 +46,6 @@ When installing Frappe app, the following python requirements will be installed:
 -   HTTP library in python, [requests](https://pypi.org/project/requests/)
 
 -   python binding for imagemagick, [wand](https://pypi.org/project/Wand/)
-
-**Development**
-
-If you wish to develop or just test locally this application, you can use `docker-compose up -d` at the root of the this repository. You can then access your ERPNext OCR dev env at `http://localhost:8080`.
 
 ## :rocket: Usage
 
@@ -68,13 +64,8 @@ Check tesseract Wiki for details: <https://github.com/tesseract-ocr/tesseract/wi
 
 ### Development
 
-An experimental docker-compose is available for development.
-Run the following tostart the development environment:
-```sh
-docker-compose up -d
-```
-
-You should now be able to develop and 
+If you wish to develop or just test locally this application, you can use `docker-compose up -d` at the root of the this repository.
+You can then access your ERPNext OCR dev env at `http://localhost:8080`.
 
 ### Known issues
 

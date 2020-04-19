@@ -18,37 +18,37 @@ dc() {
 
 build() {
     log 'Building container(s)...'
-    dc ${1} build ${@:2}
+    dc "${1}" build ${@:2}
 }
 
 start() {
     log 'Starting container(s)...'
-    dc ${1} up -d ${@:2}
+    dc "${1}" up -d ${@:2}
 }
 
 stop() {
     log 'Stopping container(s)...'
-    dc ${1} stop ${@:2}
+    dc "${1}" stop ${@:2}
 }
 
 restart() {
     log 'Restarting container(s)...'
-    dc ${1} restart ${@:2}
+    dc "${1}" restart ${@:2}
 }
 
 logs() {
     log 'Following container(s) logs (Ctrl + C to stop)...'
-    dc ${1} logs -f ${@:2}
+    dc "${1}" logs -f ${@:2}
 }
 
 down() {
     log 'Stopping and removing container(s) and data...'
-    dc ${1} down ${@:2}
-    rm -rf ${ERPNEXT_HOME:/srv/erpnext/frappe}/*
+    dc "${1}" down ${@:2}
+    rm -rf "${ERPNEXT_HOME:/srv/erpnext/frappe}"/*
 }
 
 console() {
-    dc -it ${1} exec erpnext_app bench console ${@:2}
+    dc -it "${1}" exec erpnext_app bench console ${@:2}
 }
 
 usage() {
@@ -68,7 +68,7 @@ usage() {
 ###########################################################
 # Runtime
 
-case ${1} in
+case "${1}" in
     # DEV env
     build) build docker-compose.yml ${@:2};;
     start) start docker-compose.yml ${@:2};;
