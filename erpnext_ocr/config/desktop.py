@@ -7,7 +7,9 @@ from __future__ import unicode_literals
 
 from frappe import _
 
+
 def get_data():
+    """Returns the application desktop icons configuration."""
     return [
         {
             "module_name": "OCR Read",

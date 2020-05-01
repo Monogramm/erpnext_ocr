@@ -13,6 +13,9 @@ sub_heading = "Optical Character Recognition using tesseract within ERPNext"
 
 
 def get_context(context):
+    """Returns the application documentation context.
+
+     :param context: application documentation context"""
     context.brand_html = "ERPNext OCR"
     context.source_link = source_link
     context.docs_base_url = docs_base_url
