@@ -14,6 +14,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
+<a name="1.1.1"></a>
+
+## 1.1.1 - 2020-05-02
+
+### Fixed
+
+-   🚑 Fixed setup.py install format
+
+### Changed
+
+-   🎨 Improve format and quality warnings
+
 <a name="1.1.0"></a>
 
 ## 1.1.0 - 2020-04-19
