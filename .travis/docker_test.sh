@@ -113,8 +113,8 @@ if [ -f ./sites/.coverage ]; then
     echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Codacy..."
     wget -qO - https://coverage.codacy.com/get.sh | sh -s report -l Python -r "$(pwd)/coverage.xml"
 
-    echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to CodeCov..."
-    bash <(curl -s https://codecov.io/bash)
+    #echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to CodeCov..."
+    #bash <(curl -s https://codecov.io/bash)
 
     rm ./.coverage
     set -e
