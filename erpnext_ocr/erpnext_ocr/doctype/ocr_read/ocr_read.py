@@ -54,8 +54,9 @@ class OCRRead(Document):
         return read_ocr(self)
 
     def read_image_bg(self, is_async=True, now=False):
-        return frappe.enqueue("erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.read_ocr", queue="long",
-                              timeout=1500, is_async=is_async, now=now, **{'obj': self})
+        return frappe.enqueue("erpnext_ocr.erpnext_ocr.doctype.ocr_read.ocr_read.read_ocr",
+                              queue="long", timeout=1500, is_async=is_async,
+                              now=now, **{'obj': self})
 
 
 @frappe.whitelist()

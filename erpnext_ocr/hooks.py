@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
+# Copyright (c) 2020, Monogramm and Contributors
+# See license.txt
+
 from __future__ import unicode_literals
 from . import __version__ as app_version
 
 app_name = "erpnext_ocr"
 app_title = "ERPNext OCR"
 app_publisher = "Monogramm"
-app_description = "Optical Character Recognition using tesseract within ERPNext"
+app_description = "Optical Character Recognition using tesseract within Frappe."
 app_icon = "octicon octicon-eye"
 app_color = "#00bcd4"
 app_email = "opensource@monogramm.io"

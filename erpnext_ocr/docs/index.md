@@ -1,4 +1,4 @@
-# **erpnext_ocr** Documentation
+# **ERPNext OCR** Documentation
 
 This is the Documentation for **ERPNext OCR**.
 
