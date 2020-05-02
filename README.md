@@ -1,7 +1,7 @@
 [![License: MIT][uri_license_image]][uri_license]
 [![Managed with Taiga.io](https://img.shields.io/badge/managed%20with-TAIGA.io-709f14.svg)](https://tree.taiga.io/project/monogrammbot-monogrammerpnext_ocr/ "Managed with Taiga.io")
 [![Build Status](https://travis-ci.org/Monogramm/erpnext_ocr.svg)](https://travis-ci.org/Monogramm/erpnext_ocr)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e154ec72926346d4ba4951c25d906d33)](https://www.codacy.com/gh/Monogramm/erpnext_ocr?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Monogramm/erpnext_ocr&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e154ec72926346d4ba4951c25d906d33)](https://www.codacy.com/gh/Monogramm/erpnext_ocr?utm_source=github.com&utm_medium=referral&utm_content=Monogramm/erpnext_ocr&utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/Monogramm/erpnext_ocr/badge.svg?branch=master)](https://coveralls.io/github/Monogramm/erpnext_ocr?branch=master)
 
 ## ERPNext OCR
