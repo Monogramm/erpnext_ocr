@@ -3,7 +3,8 @@
 # See license.txt
 
 from setuptools import setup, find_packages
-import re, ast
+import re
+import ast
 
 with open('requirements.txt') as f:
     install_requires = f.read().strip().split('\n')
