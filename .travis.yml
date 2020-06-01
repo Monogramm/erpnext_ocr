@@ -1,5 +1,5 @@
 os: linux
-dist: trusty
+dist: bionic
 
 services: docker
 
@@ -103,6 +103,12 @@ jobs:
     - env: VERSION=develop VARIANT=debian DATABASE=postgres
     - env: VERSION=develop VARIANT=debian-slim DATABASE=mariadb
     - env: VERSION=develop VARIANT=debian-slim DATABASE=postgres
+    - env: VERSION=13 VARIANT=alpine DATABASE=mariadb
+    - env: VERSION=13 VARIANT=alpine DATABASE=postgres
+    - env: VERSION=13 VARIANT=debian DATABASE=mariadb
+    - env: VERSION=13 VARIANT=debian DATABASE=postgres
+    - env: VERSION=13 VARIANT=debian-slim DATABASE=mariadb
+    - env: VERSION=13 VARIANT=debian-slim DATABASE=postgres
     - env: VERSION=12 VARIANT=alpine DATABASE=postgres
     - env: VERSION=12 VARIANT=debian DATABASE=postgres
     - env: VERSION=12 VARIANT=debian-slim DATABASE=postgres
@@ -128,3 +134,9 @@ env: # Environments
   - VERSION=12 VARIANT=debian DATABASE=postgres
   - VERSION=12 VARIANT=debian-slim DATABASE=mariadb
   - VERSION=12 VARIANT=debian-slim DATABASE=postgres
+  - VERSION=13 VARIANT=alpine DATABASE=mariadb
+  - VERSION=13 VARIANT=alpine DATABASE=postgres
+  - VERSION=13 VARIANT=debian DATABASE=mariadb
+  - VERSION=13 VARIANT=debian DATABASE=postgres
+  - VERSION=13 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=13 VARIANT=debian-slim DATABASE=postgres
