@@ -51,14 +51,6 @@ echo 'Docker tests successful'
 
 FRAPPE_APP_TO_TEST=erpnext_ocr
 
-echo "Preparing Frappe application '${FRAPPE_APP_TO_TEST}' tests..."
-
-bench set-config allow_tests true
-
-bench doctor
-bench enable-scheduler
-bench doctor
-
 ################################################################################
 # Frappe Unit tests
 # https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
@@ -66,20 +58,32 @@ bench doctor
 FRAPPE_APP_UNIT_TEST_REPORT="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
 FRAPPE_APP_UNIT_TEST_PROFILE="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.prof"
 
-#bench run-tests --help
+if [ -n "${FRAPPE_APP_TO_TEST}" ]; then
 
-echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
-if [ "${TEST_VERSION}" = "10" ]; then
-    bench run-tests \
-        --app "${FRAPPE_APP_TO_TEST}" \
-        --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}" \
-        --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
-else
-    bench run-tests \
-        --app "${FRAPPE_APP_TO_TEST}" \
-        --coverage \
-        --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}" \
-        --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
+    echo "Preparing Frappe application '${FRAPPE_APP_TO_TEST}' tests..."
+
+    bench set-config allow_tests true -g
+
+    bench doctor
+    bench enable-scheduler
+    bench doctor
+
+    #bench run-tests --help
+
+    echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
+    if [ "${TEST_VERSION}" = "10" ]; then
+        bench run-tests \
+            --app "${FRAPPE_APP_TO_TEST}" \
+            --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}" \
+            --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
+    else
+        bench run-tests \
+            --app "${FRAPPE_APP_TO_TEST}" \
+            --coverage \
+            --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}" \
+            --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
+    fi
+
 fi
 
 ## Check result of tests
