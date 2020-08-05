@@ -9,9 +9,7 @@ Application works on regular expression. It takes necessary text from processed 
 ## Display text from image
 
 1.  Create New `OCR Read` doctype
-
 2.  Choose language and image and save document
-
 3.  After that you can press on `Read file` button and took text from image.
 
 ## OCR Import Explanation
@@ -30,7 +28,7 @@ And you will see this window:
 
 ![OCR Import 2](./assets/ocr_import_1.png "OCR Import 2")
 
-|Fields      |Description                                                             |
+| Fields     | Description                                                            |
 |------------|------------------------------------------------------------------------|
 | Field      | This a name of field in Doctype. For example: `item_code`, `item_name` |
 | Regexp     | Regular expression for text in image.                                  |
