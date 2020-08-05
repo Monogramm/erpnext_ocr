@@ -1,6 +1,6 @@
-# **ERPNext Maileva** User Guide
+# **ERPNext OCR** User Guide
 
-This is the User Guide for **ERPNext Maileva**.
+This is the User Guide for **ERPNext OCR**.
 
 ## Summary
 ERPNext OCR provide ability to read documents from images and convert image documents to a Doctype's objects.
