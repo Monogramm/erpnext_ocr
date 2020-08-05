@@ -32,7 +32,7 @@ And you will see this window:
 
 
 
-|Fields      |Description|
+|Fields      |Description                                                             |
 |------------|------------------------------------------------------------------------|
 | Field      | This a name of field in Doctype. For example: `item_code`, `item_name` |
 | Regexp     | Regular expression for text in image.                                  |
@@ -49,7 +49,6 @@ field your regular expression that will find date in document
 ( you can configure date format in `System Settings`)
 
 *   `Table` - You should configure another `OCR Import` for tables.
-
 
 ### Example of usage
 
@@ -69,22 +68,21 @@ field your regular expression that will find date in document
 | debit_to               |                                                     | `frappe.get_doc("Company", frappe.get_all("Company")[0]).default_receivable_account` |            |                        |
 | conversion_factor      |                                                     | '1'                                                                                  | Python     |                        |
 
-
 #### OCR Import "Sales Invoice Item"
 
 | Field                  | Regexp             | Value                                                                                                                                                                                                                                              | Value Type  | Link To Import Mapping |
 |------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|------------------------|
-| item_code              | `(\w+.\w)`         | `frappe.get_doc("Item", pattern_result[0]).save().item_code if frappe.db.exists("Item", pattern_result[0]) else frappe.get_doc({"doctype": "Item", "item_code": pattern_result[0],"item_group": "Consumable","stock_uom":"Nos"}).insert().item_code` | Python      |                        |
+| item_code              | `(\w+.\w)`         | `frappe.get_doc("Item", pattern_result[0]).save().item_code if frappe.db.exists("Item", pattern_result[0]) else frappe.get_doc({"doctype": "Item", "item_code": pattern_result[0],"item_group": "Consumable","stock_uom":"Nos"}).insert().item_code` | Python    |                        |
 | item_name              | `(\w+.\w)`         |                                                                                                                                                                                                                                                    | Regex Group |                        |
 | rate                   | `[0-9]+`           | '0'                                                                                                                                                                                                                                                | Regex Group |                        |
 |                        |                    |                                                                                                                                                                                                                                                    |             |                        |
-| description            |                    | `frappe.get_doc("Item", "SERVICE D").description`                                                                                                                                                                                                    | Python      |                        |
+| description            |                    | `frappe.get_doc("Item", "SERVICE D").description`                                                                                                                                                                                                  | Python      |                        |
 | margin_rate_or_amount  | `[0-9]+\.[0-9]{2}` | '0'                                                                                                                                                                                                                                                | Regex Group |                        |
-| uom                    |                    | `frappe.get_doc("Item", "SERVICE D").uoms[0].uom`                                                                                                                                                                                                    | Python      |                        |
-| currency               |                    | `frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency`                                                                                                                                                                           | Python      |                        |
+| uom                    |                    | `frappe.get_doc("Item", "SERVICE D").uoms[0].uom`                                                                                                                                                                                                  | Python      |                        |
+| currency               |                    | `frappe.get_doc("Company", frappe.get_all("Company")[0]).default_currency`                                                                                                                                                                         | Python      |                        |
 | amount                 | `[0-9]+\.[0-9]{2}` | '0'                                                                                                                                                                                                                                                | Regex Group |                        |
 | base_rate              | `[0-9]+`           | '0'                                                                                                                                                                                                                                                | Regex Group |                        |
-| income_account         |                    | `frappe.get_doc("Company", frappe.get_all("Company")[0]).default_inventory_account`                                                                                                                                                                  | Python      |                        |
+| income_account         |                    | `frappe.get_doc("Company", frappe.get_all("Company")[0]).default_inventory_account`                                                                                                                                                                | Python      |                        |
 | against_income_account |                    | '0'                                                                                                                                                                                                                                                | Python      |                        |
 | conversion_factor      |                    | '1'                                                                                                                                                                                                                                                | Python      |                        |
 | base_amount            | `[0-9]+\.[0-9]{2}` | 0                                                                                                                                                                                                                                                  | Regexp      |                        |
