@@ -6,7 +6,7 @@ This is the User Guide for **ERPNext OCR**.
 ERPNext OCR provide ability to read documents from images and convert image documents to a Doctype's objects.
 Application works on regular expression. It takes necessary text from processed images and generate doctype. 
 
-## Display text from image
+## Extract text from image
 
 1.  Create New `OCR Read` doctype
 2.  Choose language and image and save document
@@ -42,7 +42,7 @@ field your regular expression
 
 *   `Date` - If you choose this type, you should write write inside `Regexp` 
 field your regular expression that will find date in document 
-( you can configure date format in `System Settings`)
+(you can configure date format in `System Settings`)
 
 *   `Table` - You should configure another `OCR Import` for tables.
 
@@ -86,4 +86,4 @@ field your regular expression that will find date in document
 ## License
 
 Copyright © 2020 [Monogramm](https://www.monogramm.io).<br />
-This project is **proprietary** licensed.
+This project is [MIT](uri_license) licensed.
