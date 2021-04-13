@@ -9,7 +9,7 @@
     "minimist": "^1.2.5",
     "npm-registry-fetch": "^8.1.5",
     "remark-cli": "^9.0.0",
-    "remark-lint": "^6.0.5",
+    "remark-lint": "^6.0.6",
     "remark-preset-lint-recommended": "^3.0.3"
   },
   "scripts": {
