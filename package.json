@@ -10,7 +10,7 @@
     "npm-registry-fetch": "^8.1.5",
     "remark-cli": "^9.0.0",
     "remark-lint": "^6.0.6",
-    "remark-preset-lint-recommended": "^3.0.3"
+    "remark-preset-lint-recommended": "^3.0.4"
   },
   "scripts": {
     "lint-md": "remark ."
