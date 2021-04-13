@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "cypress": "^4.12.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "minimist": "^1.2.5",
     "npm-registry-fetch": "^8.1.5",
     "remark-cli": "^9.0.0",
