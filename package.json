@@ -4,7 +4,7 @@
   "author": "Monogramm",
   "license": "MIT",
   "dependencies": {
-    "cypress": "^3.1.4",
+    "cypress": "^4.12.0",
     "lodash": "^4.17.19",
     "minimist": "^1.2.5",
     "npm-registry-fetch": "^8.1.3",
